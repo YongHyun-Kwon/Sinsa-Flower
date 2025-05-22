@@ -1,0 +1,57 @@
+# 일반적인 무시 파일
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 노드 모듈 및 로그
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+.pnpm-debug.log
+
+# 환경 변수 파일
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# 빌드 디렉토리
+/build
+/dist
+/out
+/.next
+/.nuxt
+
+# IDE 및 에디터
+/.idea
+/.vscode
+*.sublime-project
+*.sublime-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 테스트 및 커버리지
+/coverage
+.nyc_output
+
+# 클라이언트 빌드 파일
+/sinsaflower-client/build
+/sinsaflower-client/dist
+/sinsaflower-client/node_modules
+
+# 서버 빌드 파일
+/sinsaflower-server/build
+/sinsaflower-server/dist
+
+# 로그 파일
+*.log
+logs/
+
+# 설정 파일
+*.yml
+*.yaml 
