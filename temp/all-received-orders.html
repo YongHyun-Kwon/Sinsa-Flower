@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>신사 플라워 - 전체수주리스트</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .label { font-weight: bold; margin-right: 6px; }
+    th, td { white-space: nowrap; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Header -->
+  <header class="bg-white shadow p-2 flex justify-between items-center">
+    <div class="flex items-center">
+      <a href="index.html"><img src="sinsa-flower-logo-nobg.png" alt="신사 플라워 로고" class="h-12 mr-2"><span style="color: rgb(251,229,187);" class="text-xl font-bold">신사 플라워</span></a></div>
+    <nav class="space-x-4">
+      <a href="order-form.html" class="text-sm hover:underline">발주</a>
+      <a href="orders.html" class="text-sm hover:underline">주문확인</a>
+    </nav>
+    <div class="text-sm space-x-2">
+      <a href="edit-profile.html" class="hover:underline">회원 정보 수정</a>
+      <a href="login.html" class="hover:underline text-red-500">로그아웃</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto mt-6 px-4 sm:px-6 grid grid-cols-1 md:grid-cols-12 gap-6">
+    <!-- Sidebar -->
+    <aside class="md:col-span-3 space-y-6">
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="font-bold text-lg">화환앤플라워님</h2>
+        <p class="text-sm text-gray-600">잔금총액: <strong>805,500원</strong></p>
+        <div class="mt-2">
+          <p>신사 포인트: <strong>11,110P</strong></p>
+          <p>등급 포인트: <strong>0P</strong></p>
+        </div>
+        <div class="mt-2 border-t pt-2">
+          <p class="text-sm mb-1">수주미확인: <strong>2건</strong></p>
+          <p class="text-sm">수주미배송: <strong>3건</strong></p>
+        </div>
+        <a href="settlement.html" class="block mt-4 w-full bg-amber-200 text-white py-1 rounded text-center">충전/정산</a>
+        <button class="mt-2 w-full bg-gray-100 py-1 rounded">신사멤버십 혜택보기</button>
+      </div>
+
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-semibold text-md mb-2">주문관리</h3>
+        <ul class="space-y-1 text-sm">
+          <li><a href="member-search.html" class="hover:underline">회원검색</a></li>
+          <li><a href="order-form.html" class="hover:underline">발주</a></li>
+          <li><a href="all-orders.html" class="hover:underline">전체발주리스트</a></li>
+          <li><a href="all-received-orders.html" class="hover:underline font-semibold text-amber-200">전체수주리스트</a></li>
+          <li><a href="unconfirmed-orders.html" class="hover:underline">미확인주문리스트</a></li>
+          <li><a href="canceled-orders.html" class="hover:underline">취소주문리스트</a></li>
+        </ul>
+      </div>
+      
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-semibold text-md mb-2">게시판</h3>
+        <ul class="space-y-1 text-sm">
+          <li><a href="notice.html" class="hover:underline">공지사항</a></li>
+          <li><a href="board.html" class="hover:underline">자유게시판</a></li>
+        </ul>
+      </div>
+      
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-semibold text-md mb-2">정산관리</h3>
+        <ul class="space-y-1 text-sm">
+          <li><a href="settlement-detail.html" class="hover:underline">정산내역</a></li>
+          <li><a href="#" class="hover:underline">충전하기</a></li>
+          <li><a href="#" class="hover:underline">출금요청</a></li>
+          <li><a href="#" class="hover:underline">계산서 발행내역</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Panel -->
+    <section class="md:col-span-9 space-y-4">
+      <div class="flex justify-between items-center">
+        <h1 class="text-xl font-bold">전체수주리스트</h1>
+      </div>
+      
+      <div class="bg-white p-4 rounded shadow">
+        <!-- 필터 옵션 -->
+        <div class="mb-4 bg-gray-50 p-4 rounded border">
+          <div class="flex flex-wrap items-center gap-2 mb-3">
+            <select class="border border-gray-300 px-2 py-1 rounded">
+              <option>배송일</option>
+              <option>주문일</option>
+              <option>배송요구일</option>
+            </select>
+            <input type="date" class="border border-gray-300 px-2 py-1 rounded" value="2026-06-01" />
+            <span>~</span>
+            <input type="date" class="border border-gray-300 px-2 py-1 rounded" value="2026-06-31" />
+            
+            <select class="border border-gray-300 px-2 py-1 rounded ml-2">
+              <option>미확인</option>
+              <option>주문접수</option>
+              <option>배송준비</option>
+              <option>배송완료</option>
+              <option>주문거절</option>
+            </select>
+          </div>
+          
+          <div class="flex flex-wrap items-center gap-2">
+            <select class="border border-gray-300 px-2 py-1 rounded">
+              <option>1. 발주화원명</option>
+              <option>2. 수주화원명</option>
+              <option>3. 주문자</option>
+              <option>4. 받는분</option>
+              <option>5. 배달장소</option>
+              <option>6. 보내는분</option>
+              <option>7. 인수자</option>
+              <option>8. 주문번호</option>
+              <option>9. 상품명</option>
+            </select>
+            <input type="text" placeholder="검색어 입력" class="border border-gray-300 px-2 py-1 rounded flex-grow" />
+            <button class="bg-blue-500 text-white px-4 py-1 rounded">검색</button>
+            <button class="bg-gray-300 px-3 py-1 rounded">초기화</button>
+            <button class="bg-green-500 text-white px-3 py-1 rounded flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              엑셀다운로드
+            </button>
+          </div>
+        </div>
+
+        <!-- 수주 리스트 테이블 -->
+        <div class="overflow-x-auto">
+          <table class="table-auto w-full border text-sm bg-white shadow-sm">
+            <thead class="bg-gray-200 text-gray-700 text-center">
+              <tr>
+                <th class="border px-2 py-1">순번</th>
+                <th class="border px-2 py-1">주문번호<br>배송요구일</th>
+                <th class="border px-2 py-1">주문접수일<br>배송요구일</th>
+                <th class="border px-2 py-1">받는분</th>
+                <th class="border px-2 py-1">발주화원<br>지역/호점</th>
+                <th class="border px-2 py-1">상품명<br>배송지</th>
+                <th class="border px-2 py-1">원청액<br>결제액</th>
+                <th class="border px-2 py-1">팩스전송</th>
+                <th class="border px-2 py-1">배송상태<br>인수자</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <!-- 샘플 데이터 -->
+              <tr class="hover:bg-gray-50">
+                <td class="border px-2 py-1">49</td>
+                <td class="border px-2 py-1">
+                  <a href="#" class="text-blue-600 underline">REC-2025-0001</a><br>
+                  25-05-12
+                </td>
+                <td class="border px-2 py-1">25-05-10<br><span class="text-red-600">25-05-12 14:20</span></td>
+                <td class="border px-2 py-1">김영희<br>서울 강남구</td>
+                <td class="border px-2 py-1">꽃마을<br>서울/강남</td>
+                <td class="border px-2 py-1 text-left">축하3단화환<br>서울 강남구 테헤란로 152</td>
+                <td class="border px-2 py-1">80,000<br>75,000</td>
+                <td class="border px-2 py-1">
+                  <button class="bg-blue-500 text-white px-2 py-1 rounded text-xs">전송</button>
+                </td>
+                <td class="border px-2 py-1">
+                  <span class="bg-blue-50 px-2 py-1 rounded text-xs">미확인</span><br>
+                  -
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="border px-2 py-1">48</td>
+                <td class="border px-2 py-1">
+                  <a href="#" class="text-blue-600 underline">REC-2025-0002</a><br>
+                  25-05-11
+                </td>
+                <td class="border px-2 py-1">25-05-09<br><span class="text-red-600">25-05-11 11:30</span></td>
+                <td class="border px-2 py-1">박지현<br>서울 강동구</td>
+                <td class="border px-2 py-1">꽃사랑<br>서울/송파</td>
+                <td class="border px-2 py-1 text-left">근조3단화환<br>서울 강동구 올림픽로 123</td>
+                <td class="border px-2 py-1">70,000<br>65,000</td>
+                <td class="border px-2 py-1">
+                  <button class="bg-blue-500 text-white px-2 py-1 rounded text-xs">전송</button>
+                </td>
+                <td class="border px-2 py-1">
+                  <span class="bg-green-100 px-2 py-1 rounded text-xs">주문접수</span><br>
+                  -
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="border px-2 py-1">47</td>
+                <td class="border px-2 py-1">
+                  <a href="#" class="text-blue-600 underline">REC-2025-0003</a><br>
+                  25-05-10
+                </td>
+                <td class="border px-2 py-1">25-05-08<br><span class="text-red-600">25-05-10 09:45</span></td>
+                <td class="border px-2 py-1">이철수<br>서울 서초구</td>
+                <td class="border px-2 py-1">꽃이좋아<br>서울/서초</td>
+                <td class="border px-2 py-1 text-left">꽃바구니<br>서울 서초구 서초대로 300</td>
+                <td class="border px-2 py-1">60,000<br>55,000</td>
+                <td class="border px-2 py-1">
+                  <button class="bg-blue-500 text-white px-2 py-1 rounded text-xs">전송</button>
+                </td>
+                <td class="border px-2 py-1">
+                  <span class="bg-indigo-100 px-2 py-1 rounded text-xs">배송준비</span><br>
+                  -
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="border px-2 py-1">46</td>
+                <td class="border px-2 py-1">
+                  <a href="#" class="text-blue-600 underline">REC-2025-0004</a><br>
+                  25-05-09
+                </td>
+                <td class="border px-2 py-1">25-05-07<br><span class="text-red-600">25-05-09 13:15</span></td>
+                <td class="border px-2 py-1">정준호<br>경기 성남시</td>
+                <td class="border px-2 py-1">화원마을<br>경기/분당</td>
+                <td class="border px-2 py-1 text-left">동양란<br>경기도 성남시 분당구 판교로 256</td>
+                <td class="border px-2 py-1">85,000<br>80,000</td>
+                <td class="border px-2 py-1">
+                  <button class="bg-blue-500 text-white px-2 py-1 rounded text-xs">전송</button>
+                </td>
+                <td class="border px-2 py-1">
+                  <span class="bg-green-500 text-white px-2 py-1 rounded text-xs">배송완료</span><br>
+                  김수신
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 페이지네이션 -->
+        <div class="flex justify-center items-center mt-4 gap-2">
+          <button class="px-2 py-1 text-gray-600">&lt;</button>
+          <button class="px-3 py-1 bg-blue-500 text-white rounded">1</button>
+          <button class="px-3 py-1 border rounded">2</button>
+          <button class="px-3 py-1 border rounded">3</button>
+          <button class="px-3 py-1 border rounded">4</button>
+          <button class="px-2 py-1 text-gray-600">&gt;</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-6 text-center text-xs text-gray-500 p-2">
+    &copy; 2025 꽃비파트너스. All rights reserved.
+  </footer>
+</body>
+</html>

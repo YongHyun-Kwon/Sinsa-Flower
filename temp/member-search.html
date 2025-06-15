@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>신사 플라워 - 회원검색</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .label { font-weight: bold; margin-right: 6px; }
+    
+    /* 지도 관련 스타일 */
+    .map-container {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      border: 1px solid #ddd;
+      overflow: hidden;
+    }
+    
+    .region-container {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      border: 1px solid #ddd;
+      display: none;
+    }
+    
+    #korea-map .region {
+      fill: #f5f5f5;
+      stroke: #cccccc;
+      stroke-width: 1.5;
+      transition: fill 0.3s;
+    }
+    
+    #korea-map .region:hover {
+      fill: rgb(251,229,187);
+      cursor: pointer;
+    }
+    
+    #korea-map .region-selected {
+      fill: rgb(251,229,187);
+    }
+    
+    #region-map .subregion {
+      fill: #f5f5f5;
+      stroke: #cccccc;
+      stroke-width: 1;
+      transition: fill 0.3s;
+    }
+    
+    #region-map .subregion:hover {
+      fill: rgb(251,229,187);
+      cursor: pointer;
+    }
+    
+    #region-map .subregion-selected {
+      fill: rgb(251,229,187);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Header -->
+  <header class="bg-white shadow p-2 flex justify-between items-center">
+    <div class="flex items-center">
+      <a href="index.html"><img src="images/flower-bear-logo.png" alt="신사 플라워 로고" class="h-12 mr-2"><span style="color: rgb(251,229,187);" class="text-xl font-bold">신사 플라워</span></a></div>
+    <nav class="space-x-4">
+      <a href="order-form.html" class="text-sm hover:underline">발주</a>
+      <a href="orders.html" class="text-sm hover:underline">주문확인</a>
+    </nav>
+    <div class="text-sm space-x-2">
+      <a href="login.html" class="hover:underline text-red-500">로그아웃</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto mt-6 px-4 sm:px-6 grid grid-cols-1 md:grid-cols-12 gap-6">
+    <!-- Sidebar -->
+    <aside class="md:col-span-3 space-y-6">
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="font-bold text-lg">화환앤플라워님</h2>
+        <p class="text-sm text-gray-600">잔금총액: <strong>805,500원</strong></p>
+        <div class="mt-2">
+          <p>신사 포인트: <strong>11,110P</strong></p>
+          <p>등급 포인트: <strong>0P</strong></p>
+        </div>
+        <div class="mt-2 border-t pt-2">
+          <p class="text-sm mb-1">수주미확인: <strong>2건</strong></p>
+          <p class="text-sm">수주미배송: <strong>3건</strong></p>
+        </div>
+        <a href="settlement.html" class="block mt-4 w-full bg-amber-200 text-white py-1 rounded text-center">충전/정산</a>
+        <button class="mt-2 w-full bg-gray-100 py-1 rounded">신사멤버십 혜택보기</button>
+      </div>
+
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-semibold text-md mb-2">주문관리</h3>
+        <ul class="space-y-1 text-sm">
+          <li><a href="member-search.html" class="hover:underline font-semibold text-amber-200">회원검색</a></li>
+          <li><a href="order-form.html" class="hover:underline">발주</a></li>
+          <li><a href="all-orders.html" class="hover:underline">전체발주리스트</a></li>
+          <li><a href="all-received-orders.html" class="hover:underline">전체수주리스트</a></li>
+          <li><a href="unconfirmed-orders.html" class="hover:underline">미확인주문리스트</a></li>
+          <li><a href="canceled-orders.html" class="hover:underline">취소주문리스트</a></li>
+        </ul>
+      </div>
+      
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-semibold text-md mb-2">게시판</h3>
+        <ul class="space-y-1 text-sm">
+          <li><a href="notice.html" class="hover:underline">공지사항</a></li>
+          <li><a href="board.html" class="hover:underline">자유게시판</a></li>
+        </ul>
+      </div>
+      
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-semibold text-md mb-2">정산관리</h3>
+        <ul class="space-y-1 text-sm">
+          <li><a href="settlement-detail.html" class="hover:underline">정산내역</a></li>
+          <li><a href="#" class="hover:underline">충전하기</a></li>
+          <li><a href="#" class="hover:underline">출금요청</a></li>
+          <li><a href="#" class="hover:underline">계산서 발행내역</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Panel -->
+    <section class="md:col-span-9 space-y-4">
+      <div class="flex justify-between items-center">
+        <h1 class="text-xl font-bold">회원검색</h1>
+      </div>
+      
+      <div class="bg-white p-4 rounded shadow">
+        <!-- 지역 선택 1:2 비율 화면 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- 왼쪽 패널: 지역 선택 (1/3) -->
+          <div class="area_place border rounded p-2">
+            <h3 class="font-medium mb-2 text-amber-200 border-b pb-1">지역선택</h3>
+            
+            <div class="flex justify-between mb-2">
+              <div class="view_mode_button space-x-1">
+                <a href="#" class="bg-amber-200 text-white px-2 py-1 rounded text-xs" id="view-map">지도보기</a>
+                <a href="#" class="bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs" id="view-list">목록보기</a>
+              </div>
+            </div>
+            
+            <!-- 대한민국 지도 -->
+            <div class="map-container h-[400px]">
+              <object id="korea-map-obj" data="images/map/korea_map.svg" type="image/svg+xml" width="100%" height="100%" class="map-svg"></object>
+              
+              <div class="absolute right-2 bottom-2">
+                <a href="#" class="font-bold text-xs bg-amber-100 px-2 py-1 rounded shadow border border-amber-200">전체지역</a>
+              </div>
+            </div>
+            
+            <!-- 세부 지역 목록 (초기에는 숨김) -->
+            <div id="region-list" class="mt-2 hidden">
+              <div class="grid grid-cols-2 gap-1">
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">강릉시</a>
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">고성군</a>
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">동해시</a>
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">삼척시</a>
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">속초시</a>
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">양구군</a>
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">양양군</a>
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">영월군</a>
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">원주시</a>
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">인제군</a>
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">정선군</a>
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">철원군</a>
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">춘천시</a>
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">태백시</a>
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">평창군</a>
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">홍천군</a>
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">화천군</a>
+                <a href="#" class="text-center py-1 border hover:bg-amber-50 text-xs">횡성군</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 오른쪽 패널: 화원 목록 및 가격 리스트 (2/3) -->
+          <div class="border rounded p-2 md:col-span-2">
+            <div class="flex justify-between items-center">
+              <h3 class="font-medium text-amber-200" id="selected-region-title">강원도</h3>
+              <span class="text-xs text-gray-500" id="current-region">현재: 강원도 > 강릉시</span>
+              <button id="back-to-main" class="text-gray-500 text-xs hover:underline flex items-center">
+                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                돌아가기
+              </button>
+            </div>
+
+            <!-- 화원 및 가격 리스트 -->
+            <div id="shop-price-list" class="mt-3 overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200 text-xs">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th class="px-1 py-1 text-left font-medium text-gray-500 w-[10%]">화원명</th>
+                    <th class="px-1 py-1 text-center font-medium text-gray-500 w-[8%]">지역</th>
+                    <th class="px-1 py-1 text-center font-medium text-gray-500 w-[8%]">축하</th>
+                    <th class="px-1 py-1 text-center font-medium text-gray-500 w-[8%]">근조</th>
+                    <th class="px-1 py-1 text-center font-medium text-gray-500 w-[8%]">오브제</th>
+                    <th class="px-1 py-1 text-center font-medium text-gray-500 w-[8%]">동양</th>
+                    <th class="px-1 py-1 text-center font-medium text-gray-500 w-[8%]">서양</th>
+                    <th class="px-1 py-1 text-center font-medium text-gray-500 w-[8%]">꽃</th>
+                    <th class="px-1 py-1 text-center font-medium text-gray-500 w-[8%]">관엽</th>
+                    <th class="px-1 py-1 text-center font-medium text-gray-500 w-[8%]">쌀</th>
+                    <th class="px-1 py-1 text-center font-medium text-gray-500 w-[8%]">기타</th>
+                    <th class="px-1 py-1 text-center font-medium text-gray-500 w-[10%]">액션</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <!-- 예시 데이터 -->
+                  <tr>
+                    <td class="px-1 py-1 font-semibold">행복꽃집</td>
+                    <td class="px-1 py-1 text-center">강릉본점</td>
+                    <td class="px-1 py-1 text-center">50,000</td>
+                    <td class="px-1 py-1 text-center">55,000</td>
+                    <td class="px-1 py-1 text-center">70,000</td>
+                    <td class="px-1 py-1 text-center">80,000</td>
+                    <td class="px-1 py-1 text-center">85,000</td>
+                    <td class="px-1 py-1 text-center">30,000</td>
+                    <td class="px-1 py-1 text-center">45,000</td>
+                    <td class="px-1 py-1 text-center">35,000</td>
+                    <td class="px-1 py-1 text-center">25,000</td>
+                    <td class="px-1 py-1 text-center">
+                      <a href="order-form.html" class="bg-amber-200 text-white px-2 py-1 rounded text-xs">발주하기</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-1 py-1 font-semibold">웰빙플라워</td>
+                    <td class="px-1 py-1 text-center">강릉점</td>
+                    <td class="px-1 py-1 text-center">52,000</td>
+                    <td class="px-1 py-1 text-center">57,000</td>
+                    <td class="px-1 py-1 text-center">72,000</td>
+                    <td class="px-1 py-1 text-center">82,000</td>
+                    <td class="px-1 py-1 text-center">87,000</td>
+                    <td class="px-1 py-1 text-center">32,000</td>
+                    <td class="px-1 py-1 text-center">47,000</td>
+                    <td class="px-1 py-1 text-center">37,000</td>
+                    <td class="px-1 py-1 text-center">27,000</td>
+                    <td class="px-1 py-1 text-center">
+                      <a href="order-form.html" class="bg-amber-200 text-white px-2 py-1 rounded text-xs">발주하기</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-1 py-1 font-semibold">꽃마을</td>
+                    <td class="px-1 py-1 text-center">강릉시</td>
+                    <td class="px-1 py-1 text-center">48,000</td>
+                    <td class="px-1 py-1 text-center">53,000</td>
+                    <td class="px-1 py-1 text-center">68,000</td>
+                    <td class="px-1 py-1 text-center">78,000</td>
+                    <td class="px-1 py-1 text-center">83,000</td>
+                    <td class="px-1 py-1 text-center">28,000</td>
+                    <td class="px-1 py-1 text-center">43,000</td>
+                    <td class="px-1 py-1 text-center">33,000</td>
+                    <td class="px-1 py-1 text-center">23,000</td>
+                    <td class="px-1 py-1 text-center">
+                      <a href="order-form.html" class="bg-amber-200 text-white px-2 py-1 rounded text-xs">발주하기</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-1 py-1 font-semibold">꽃사랑</td>
+                    <td class="px-1 py-1 text-center">강릉점</td>
+                    <td class="px-1 py-1 text-center">51,000</td>
+                    <td class="px-1 py-1 text-center">56,000</td>
+                    <td class="px-1 py-1 text-center">71,000</td>
+                    <td class="px-1 py-1 text-center">81,000</td>
+                    <td class="px-1 py-1 text-center">86,000</td>
+                    <td class="px-1 py-1 text-center">31,000</td>
+                    <td class="px-1 py-1 text-center">46,000</td>
+                    <td class="px-1 py-1 text-center">36,000</td>
+                    <td class="px-1 py-1 text-center">26,000</td>
+                    <td class="px-1 py-1 text-center">
+                      <a href="order-form.html" class="bg-amber-200 text-white px-2 py-1 rounded text-xs">발주하기</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-1 py-1 font-semibold">푸른화원</td>
+                    <td class="px-1 py-1 text-center">강릉시</td>
+                    <td class="px-1 py-1 text-center">49,000</td>
+                    <td class="px-1 py-1 text-center">54,000</td>
+                    <td class="px-1 py-1 text-center">69,000</td>
+                    <td class="px-1 py-1 text-center">79,000</td>
+                    <td class="px-1 py-1 text-center">84,000</td>
+                    <td class="px-1 py-1 text-center">29,000</td>
+                    <td class="px-1 py-1 text-center">44,000</td>
+                    <td class="px-1 py-1 text-center">34,000</td>
+                    <td class="px-1 py-1 text-center">24,000</td>
+                    <td class="px-1 py-1 text-center">
+                      <a href="order-form.html" class="bg-amber-200 text-white px-2 py-1 rounded text-xs">발주하기</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-6 text-center text-xs text-gray-500 p-2">
+    &copy; 2025 꽃비파트너스. All rights reserved.
+  </footer>
+
+  <script>
+    // 회원 데이터 (예시)
+    const memberData = {
+      'seoul': {
+        'gangnam': [
+          { id: 10001, name: '꽃마을', owner: '김영희', region: '서울', branch: '강남15호점' },
+          { id: 10002, name: '행복꽃집', owner: '이철수', region: '서울', branch: '강남3호점' }
+        ],
+        'gangdong': [
+          { id: 10003, name: '꽃누리', owner: '박지현', region: '서울', branch: '강동5호점' }
+        ],
+        'seocho': [
+          { id: 10004, name: '꽃사랑', owner: '정민호', region: '서울', branch: '서초3호점' }
+        ]
+      },
+      'busan': {
+        'haeundae': [
+          { id: 10005, name: '바다꽃집', owner: '이상민', region: '부산', branch: '해운대2호점' }
+        ],
+        'nam': [
+          { id: 10006, name: '꽃길만걷자', owner: '김미영', region: '부산', branch: '남구점' }
+        ]
+      },
+      'incheon': {
+        'bupyeong': [
+          { id: 10007, name: '인천꽃집', owner: '최영수', region: '인천', branch: '부평2호점' }
+        ]
+      },
+      'daegu': {
+        'suseong': [
+          { id: 10008, name: '꽃향기', owner: '장미란', region: '대구', branch: '수성구점' }
+        ]
+      },
+      'gwangju': {
+        'seo': [
+          { id: 10009, name: '광주꽃집', owner: '김광주', region: '광주', branch: '서구점' }
+        ]
+      },
+      'gyeonggi': {
+        'suwon': [
+          { id: 10010, name: '꽃잔치', owner: '최수원', region: '경기', branch: '수원1호점' }
+        ],
+        'yongin': [
+          { id: 10011, name: '용인꽃집', owner: '이용인', region: '경기', branch: '용인점' }
+        ],
+        'seongnam': [
+          { id: 10012, name: '화원마을', owner: '박성남', region: '경기', branch: '분당8호점' }
+        ]
+      },
+      'jeonnam': {
+        'mokpo': [
+          { id: 10013, name: '목포꽃집', owner: '김목포', region: '전남', branch: '목포점' }
+        ],
+        'yeosu': [
+          { id: 10014, name: '여수꽃집', owner: '박여수', region: '전남', branch: '여수점' }
+        ]
+      },
+      'chungnam': {
+        'cheonan': [
+          { id: 10015, name: '천안꽃집', owner: '이천안', region: '충남', branch: '천안점' }
+        ],
+        'asan': [
+          { id: 10016, name: '아산꽃집', owner: '정아산', region: '충남', branch: '아산점' }
+        ]
+      }
+    };
+    
+    // 지역 데이터
+    const regions = {
+      'seoul': { name: '서울특별시', svgPath: 'images/map/regions/seoul.svg' },
+      'busan': { name: '부산광역시', svgPath: 'images/map/regions/busan.svg' },
+      'daegu': { name: '대구광역시', svgPath: 'images/map/regions/daegu.svg' },
+      'incheon': { name: '인천광역시', svgPath: 'images/map/regions/incheon.svg' },
+      'gwangju': { name: '광주광역시', svgPath: 'images/map/regions/gwangju.svg' },
+      'daejeon': { name: '대전광역시', svgPath: 'images/map/regions/daejeon.svg' },
+      'ulsan': { name: '울산광역시', svgPath: 'images/map/regions/ulsan.svg' },
+      'sejong': { name: '세종특별자치시', svgPath: 'images/map/regions/sejong.svg' },
+      'gyeonggi': { name: '경기도', svgPath: 'images/map/regions/gyeonggi.svg' },
+      'gangwon': { name: '강원도', svgPath: 'images/map/regions/gangwon.svg' },
+      'chungbuk': { name: '충청북도', svgPath: 'images/map/regions/chungbuk.svg' },
+      'chungnam': { name: '충청남도', svgPath: 'images/map/regions/chungnam.svg' },
+      'jeonbuk': { name: '전라북도', svgPath: 'images/map/regions/jeonbuk.svg' },
+      'jeonnam': { name: '전라남도', svgPath: 'images/map/regions/jeonnam.svg' },
+      'gyeongbuk': { name: '경상북도', svgPath: 'images/map/regions/gyeongbuk.svg' },
+      'gyeongnam': { name: '경상남도', svgPath: 'images/map/regions/gyeongnam.svg' },
+      'jeju': { name: '제주특별자치도', svgPath: 'images/map/regions/jeju.svg' }
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // 화면 모드 전환 (지도/목록)
+      const viewMap = document.getElementById('view-map');
+      const viewList = document.getElementById('view-list');
+      const mapContainer = document.querySelector('.map-container');
+      const regionList = document.getElementById('region-list');
+      
+      viewMap.addEventListener('click', (e) => {
+        e.preventDefault();
+        viewMap.classList.remove('bg-gray-200', 'text-gray-700');
+        viewMap.classList.add('bg-amber-200', 'text-white');
+        viewList.classList.remove('bg-amber-200', 'text-white');
+        viewList.classList.add('bg-gray-200', 'text-gray-700');
+        mapContainer.style.display = 'block';
+        regionList.style.display = 'none';
+      });
+      
+      viewList.addEventListener('click', (e) => {
+        e.preventDefault();
+        viewList.classList.remove('bg-gray-200', 'text-gray-700');
+        viewList.classList.add('bg-amber-200', 'text-white');
+        viewMap.classList.remove('bg-amber-200', 'text-white');
+        viewMap.classList.add('bg-gray-200', 'text-gray-700');
+        mapContainer.style.display = 'none';
+        regionList.style.display = 'block';
+      });
+
+      // 회원 목록 및 지역 관련 설정
+      const memberResults = document.getElementById('member-results');
+      const backToMain = document.getElementById('back-to-main');
+      let currentRegion = 'gangwon'; // 기본값으로 강원도 설정
+      let currentSubregion = null;
+      
+      // 지역 정보 초기화 (현재 강원도로 설정)
+      document.getElementById('selected-region-title').textContent = regions[currentRegion].name;
+      document.getElementById('current-region').textContent = `현재: ${regions[currentRegion].name}`;
+      
+      // SVG 맵 이벤트 처리
+      const koreaMapObj = document.getElementById('korea-map-obj');
+      const regionMapObj = document.getElementById('region-map-obj');
+      
+      koreaMapObj.addEventListener('load', function() {
+        const svgDocument = koreaMapObj.contentDocument;
+        const paths = svgDocument.querySelectorAll('path');
+        
+        paths.forEach(path => {
+          path.addEventListener('click', function() {
+            const regionId = this.id;
+            if (regions[regionId]) {
+              selectRegion(regionId);
+            }
+          });
+          
+          path.addEventListener('mouseover', function() {
+            document.getElementById('main-map-info').textContent = this.nextElementSibling?.textContent || '원하는 지역을 클릭하세요';
+          });
+          
+          path.addEventListener('mouseout', function() {
+            document.getElementById('main-map-info').textContent = '원하는 지역을 클릭하세요';
+          });
+          
+          // 스타일 설정
+          path.style.fill = '#f5f5f5';
+          path.style.stroke = '#cccccc';
+          path.style.strokeWidth = '1.5';
+          
+          // 호버 효과
+          path.addEventListener('mouseover', function() {
+            this.style.fill = 'rgb(251,229,187)';
+            this.style.cursor = 'pointer';
+          });
+          
+          path.addEventListener('mouseout', function() {
+            this.style.fill = '#f5f5f5';
+          });
+        });
+      });
+      
+      backToMain.addEventListener('click', function() {
+        step1.style.display = 'block';
+        step2.style.display = 'none';
+        step3.style.display = 'none';
+        currentRegion = null;
+      });
+      
+      backToRegion.addEventListener('click', function() {
+        step1.style.display = 'none';
+        step2.style.display = 'block';
+        step3.style.display = 'none';
+        currentSubregion = null;
+      });
+      
+      // 지역 선택 함수
+      function selectRegion(regionId) {
+        if (!regions[regionId]) {
+          console.error('존재하지 않는 지역입니다:', regionId);
+          return;
+        }
+        
+        currentRegion = regionId;
+        const region = regions[regionId];
+        
+        // 스텝 전환
+        step1.style.display = 'none';
+        step2.style.display = 'block';
+        step3.style.display = 'none';
+        
+        // 세부 지역 SVG 로드
+        regionMapObj.setAttribute('data', region.svgPath);
+        
+        // 세부 지역 컨테이너 표시
+        document.querySelector('.region-container').style.display = 'block';
+        
+        // 선택된 지역 정보 표시
+        document.getElementById('region-map-info').textContent = `${region.name}의 세부 지역을 클릭하세요`;
+        
+        // 세부 지역 SVG 로드 이벤트
+        regionMapObj.addEventListener('load', function() {
+          const svgDocument = regionMapObj.contentDocument;
+          const paths = svgDocument.querySelectorAll('path');
+          
+          paths.forEach(path => {
+            // 이벤트 리스너 추가 전에 기존 이벤트 제거
+            const newPath = path.cloneNode(true);
+            path.parentNode.replaceChild(newPath, path);
+            
+            // 세부 지역 클릭 이벤트
+            newPath.addEventListener('click', function() {
+              const subregionId = this.id;
+              selectSubregion(regionId, subregionId);
+            });
+            
+            // 세부 지역 hover 이벤트
+            newPath.addEventListener('mouseover', function() {
+              document.getElementById('region-map-info').textContent = this.nextElementSibling?.textContent || `${region.name}의 세부 지역`;
+              this.style.fill = 'rgb(251,229,187)';
+              this.style.cursor = 'pointer';
+            });
+            
+            newPath.addEventListener('mouseout', function() {
+              document.getElementById('region-map-info').textContent = `${region.name}의 세부 지역을 클릭하세요`;
+              this.style.fill = '#f5f5f5';
+            });
+            
+            // 스타일 설정
+            newPath.style.fill = '#f5f5f5';
+            newPath.style.stroke = '#cccccc';
+            newPath.style.strokeWidth = '1';
+          });
+        });
+      }
+      
+      // 세부 지역 선택 함수
+      function selectSubregion(regionId, subregionId) {
+        currentSubregion = subregionId;
+        const region = regions[regionId];
+        
+        // 스텝 전환
+        step1.style.display = 'none';
+        step2.style.display = 'none';
+        step3.style.display = 'block';
+        
+        // 선택된 세부 지역 이름 (SVG에서 가져오기 어려울 수 있으므로 임시로 처리)
+        let subregionName = subregionId;
+        
+        try {
+          const svgDocument = regionMapObj.contentDocument;
+          const textElement = svgDocument.querySelector(`#${subregionId} + text`) || 
+                              svgDocument.querySelector(`text[x="${document.querySelector(`#${subregionId}`).getAttribute('cx')}"]`);
+          
+          if (textElement) {
+            subregionName = textElement.textContent;
+          }
+        } catch (e) {
+          console.error('세부 지역 이름을 가져오는 중 오류 발생:', e);
+        }
+        
+        // 회원 목록 타이틀 업데이트
+        document.getElementById('member-list-title').textContent = `${region.name} ${subregionName} 회원 목록`;
+        
+        // 회원 목록 생성
+        const memberList = document.getElementById('member-list');
+        const noMembersMessage = document.getElementById('no-members-message');
+        memberList.innerHTML = '';
+        
+        // 선택한 지역의 회원 데이터 확인
+        const members = memberData[regionId] && memberData[regionId][subregionId];
+        
+        if (members && members.length > 0) {
+          // 회원이 있는 경우
+          memberList.style.display = 'table-row-group';
+          noMembersMessage.style.display = 'none';
+          
+          members.forEach((member, index) => {
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-gray-50';
+            
+            row.innerHTML = `
+              <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">${member.id}</td>
+              <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">${member.name}</td>
+              <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">${member.owner}</td>
+              <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">${member.region}<br>${member.branch}</td>
+              <td class="px-4 py-2 whitespace-nowrap text-sm font-medium">
+                <a href="order-form.html" class="text-amber-200 hover:text-teal-900">발주하기</a>
+              </td>
+            `;
+            
+            memberList.appendChild(row);
+          });
+        } else {
+          // 회원이 없는 경우
+          memberList.style.display = 'none';
+          noMembersMessage.style.display = 'block';
+        }
+      }
+    });
+  </script>
+  
+  <!-- 2분할 화면용 추가 스크립트 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 2분할 화면용 변수들
+      const viewMap = document.getElementById('view-map');
+      const viewList = document.getElementById('view-list');
+      const mapContainer = document.querySelector('.map-container');
+      const regionList = document.getElementById('region-list');
+      const memberResults = document.getElementById('member-results');
+      const backToMain = document.getElementById('back-to-main');
+      
+      // 초기 화면 설정
+      regionList.style.display = 'block';
+      memberResults.style.display = 'none';
+      
+      // 지역 정보 설정 (강원도 기본값)
+      document.getElementById('selected-region-title').textContent = '강원도';
+      document.getElementById('current-region').textContent = '현재: 강원도';
+      
+      // 지도/목록 보기 전환
+      if (viewMap) {
+        viewMap.addEventListener('click', function(e) {
+          e.preventDefault();
+          viewMap.classList.remove('bg-gray-200', 'text-gray-700');
+          viewMap.classList.add('bg-amber-200', 'text-white');
+          viewList.classList.remove('bg-amber-200', 'text-white');
+          viewList.classList.add('bg-gray-200', 'text-gray-700');
+          mapContainer.style.display = 'block';
+          regionList.style.display = 'none';
+        });
+      }
+      
+      if (viewList) {
+        viewList.addEventListener('click', function(e) {
+          e.preventDefault();
+          viewList.classList.remove('bg-gray-200', 'text-gray-700');
+          viewList.classList.add('bg-amber-200', 'text-white');
+          viewMap.classList.remove('bg-amber-200', 'text-white');
+          viewMap.classList.add('bg-gray-200', 'text-gray-700');
+          mapContainer.style.display = 'none';
+          regionList.style.display = 'block';
+        });
+      }
+      
+      // 세부 지역 클릭 시 회원 목록 표시
+      const regionLinks = document.querySelectorAll('#region-list a');
+      regionLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          regionList.style.display = 'none';
+          memberResults.style.display = 'block';
+        });
+      });
+      
+      // 전체지도로 돌아가기 버튼
+      if (backToMain) {
+        backToMain.addEventListener('click', function(e) {
+          e.preventDefault();
+          memberResults.style.display = 'none';
+          regionList.style.display = 'block';
+        });
+      }
+    });
+  </script>
+</body>
+</html>

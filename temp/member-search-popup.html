@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>회원검색</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .label { font-weight: bold; margin-right: 6px; }
+  </style>
+</head>
+<body class="bg-gray-100 p-4">
+  <div class="bg-white rounded shadow p-4">
+    <!-- 팝업 헤더 -->
+    <div class="flex justify-between items-center mb-4 border-b pb-2">
+      <h1 class="text-lg font-bold">회원검색</h1>
+      <button onclick="window.close()" class="text-gray-500 hover:text-gray-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- 검색 부분 -->
+    <div class="mb-4">
+      <div class="flex gap-2 mb-2">
+        <select class="border rounded p-2">
+          <option>상호명</option>
+          <option>회원코드</option>
+          <option>대표자명</option>
+          <option>전화번호</option>
+        </select>
+        <input type="text" placeholder="검색어를 입력하세요" class="border rounded p-2 flex-grow" />
+        <button class="bg-amber-200 text-white px-4 py-2 rounded">검색</button>
+      </div>
+
+      <!-- 검색 필터 -->
+      <div class="flex flex-wrap gap-2 text-sm">
+        <label class="flex items-center">
+          <input type="checkbox" class="mr-1" />
+          <span>전체</span>
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" class="mr-1" />
+          <span>서울</span>
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" class="mr-1" />
+          <span>경기도</span>
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" class="mr-1" />
+          <span>인천</span>
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" class="mr-1" />
+          <span>강원도</span>
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" class="mr-1" />
+          <span>충청도</span>
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" class="mr-1" />
+          <span>경상도</span>
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" class="mr-1" />
+          <span>전라도</span>
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" class="mr-1" />
+          <span>제주도</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- 검색 결과 -->
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">선택</th>
+            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">회원코드</th>
+            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">상호명</th>
+            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">대표자명</th>
+            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">전화번호</th>
+            <th scope="col" class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">지역<br>호점</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr class="hover:bg-gray-50 cursor-pointer">
+            <td class="px-3 py-2 whitespace-nowrap">
+              <input type="radio" name="selectedMember" />
+            </td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">M10001</td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">꽃마을</td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">김영희</td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">010-1234-5678</td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">서울<br>강남15호점</td>
+          </tr>
+          <tr class="hover:bg-gray-50 cursor-pointer">
+            <td class="px-3 py-2 whitespace-nowrap">
+              <input type="radio" name="selectedMember" />
+            </td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">M10002</td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">꽃사랑</td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">이철수</td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">010-9876-5432</td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">서울<br>서초3호점</td>
+          </tr>
+          <tr class="hover:bg-gray-50 cursor-pointer">
+            <td class="px-3 py-2 whitespace-nowrap">
+              <input type="radio" name="selectedMember" />
+            </td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">M10003</td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">행복한꽃집</td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">박민지</td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">010-5555-6666</td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">경기<br>분당8호점</td>
+          </tr>
+          <tr class="hover:bg-gray-50 cursor-pointer">
+            <td class="px-3 py-2 whitespace-nowrap">
+              <input type="radio" name="selectedMember" />
+            </td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">M10004</td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">봄꽃식물원</td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">정준호</td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">010-2222-3333</td>
+            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">인천<br>부평2호점</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 페이지네이션 -->
+    <div class="flex justify-center items-center mt-4 gap-2 text-sm">
+      <button class="px-2 py-1 text-gray-600">&lt;</button>
+      <button class="px-3 py-1 bg-blue-500 text-white rounded">1</button>
+      <button class="px-3 py-1 border rounded">2</button>
+      <button class="px-3 py-1 border rounded">3</button>
+      <button class="px-2 py-1 text-gray-600">&gt;</button>
+    </div>
+
+    <!-- 버튼 영역 -->
+    <div class="flex justify-end mt-4 pt-2 border-t">
+      <button id="select-complete-btn" class="bg-amber-200 text-white px-4 py-2 rounded mr-2">선택완료</button>
+      <button id="cancel-btn" class="bg-gray-300 px-4 py-2 rounded">취소</button>
+    </div>
+  </div>
+
+  <script>
+    // 팝업에서 회원 선택 시 부모 창으로 데이터 전달하는 스크립트
+    document.querySelectorAll('input[name="selectedMember"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        selectMember(this.closest('tr'));
+      });
+    });
+
+    // 행 클릭 시 라디오 버튼 선택 및 데이터 전달
+    document.querySelectorAll('tbody tr').forEach(row => {
+      row.addEventListener('click', function(e) {
+        // 라디오 버튼 자체를 클릭한 경우 이벤트 중복 방지
+        if (e.target.type !== 'radio') {
+          const radio = this.querySelector('input[type="radio"]');
+          radio.checked = true;
+          selectMember(this);
+        }
+      });
+    });
+    
+    // 선택완료 버튼 클릭 시 선택한 회원 정보 전달
+    document.getElementById('select-complete-btn').addEventListener('click', function() {
+      const selectedRadio = document.querySelector('input[name="selectedMember"]:checked');
+      if (selectedRadio) {
+        const row = selectedRadio.closest('tr');
+        const memberData = getMemberData(row);
+        
+        // 부모 창에 데이터 전달
+        if (window.opener && !window.opener.closed) {
+          window.opener.setSelectedMember(memberData);
+          window.close();
+        }
+      } else {
+        alert('회원을 선택해주세요.');
+      }
+    });
+    
+    // 취소 버튼 클릭 시 선택 리셋 및 창 닫기
+    document.getElementById('cancel-btn').addEventListener('click', function() {
+      if (window.opener && !window.opener.closed) {
+        window.opener.resetMemberSelection();
+      }
+      window.close();
+    });
+    
+    // 선택한 회원 데이터 가져오기
+    function selectMember(row) {
+      if (!row) return;
+      const memberData = getMemberData(row);
+      console.log("Selected member:", memberData);
+    }
+    
+    // 행에서 회원 데이터 추출
+    function getMemberData(row) {
+      return {
+        memberCode: row.cells[1].textContent,
+        shopName: row.cells[2].textContent,
+        ownerName: row.cells[3].textContent,
+        phoneNumber: row.cells[4].textContent,
+        region: row.cells[5].textContent.split('\n')[0],
+        branch: row.cells[5].textContent.split('\n')[1]
+      };
+    }
+  </script>
+</body>
+</html>

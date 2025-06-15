@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>신사 플라워 - 정산/충전</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Header -->
+  <header class="bg-white shadow p-2 flex justify-between items-center">
+    <div class="flex items-center">
+      <a href="index.html"><img src="sinsa-flower-logo-nobg.png" alt="신사 플라워 로고" class="h-12 mr-2"><span style="color: rgb(251,229,187);" class="text-xl font-bold">신사 플라워</span></a></div>
+    <nav class="space-x-4">
+      <a href="order-form.html" class="text-sm hover:underline">발주</a>
+      <a href="orders.html" class="text-sm hover:underline">주문확인</a>
+    </nav>
+    <div class="text-sm space-x-2">
+      <a href="edit-profile.html" class="hover:underline">회원 정보 수정</a>
+      <a href="login.html" class="hover:underline text-red-500">로그아웃</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto mt-6 px-4 sm:px-6 grid grid-cols-1 md:grid-cols-12 gap-6">
+    <!-- Sidebar -->
+    <aside class="md:col-span-3 space-y-6">
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="font-bold text-lg">화환앤플라워님</h2>
+        <p class="text-sm text-gray-600">잔금총액: <strong>805,500원</strong></p>
+        <div class="mt-2">
+          <p>신사 포인트: <strong>11,110P</strong></p>
+          <p>등급 포인트: <strong>0P</strong></p>
+        </div>
+        <button class="mt-4 w-full bg-amber-200 text-white py-1 rounded">충전/정산</button>
+        <button class="mt-2 w-full bg-gray-100 py-1 rounded">신사멤버십 혜택보기</button>
+      </div>
+
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-semibold text-md mb-2">주문관리</h3>
+        <ul class="space-y-1 text-sm">
+          <li><a href="member-search.html" class="hover:underline">회원검색</a></li>
+          <li><a href="order-form.html" class="hover:underline">발주</a></li>
+          <li><a href="all-orders.html" class="hover:underline">전체발주리스트</a></li>
+          <li><a href="all-received-orders.html" class="hover:underline">전체수주리스트</a></li>
+          <li><a href="unconfirmed-orders.html" class="hover:underline">미확인주문리스트</a></li>
+          <li><a href="canceled-orders.html" class="hover:underline">취소주문리스트</a></li>
+        </ul>
+      </div>
+      
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-semibold text-md mb-2">게시판</h3>
+        <ul class="space-y-1 text-sm">
+          <li><a href="notice.html" class="hover:underline">공지사항</a></li>
+          <li><a href="board.html" class="hover:underline">자유게시판</a></li>
+        </ul>
+      </div>
+      
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-semibold text-md mb-2">정산관리</h3>
+        <ul class="space-y-1 text-sm">
+          <li><a href="settlement-detail.html" class="hover:underline">정산내역</a></li>
+          <li><a href="#" class="hover:underline text-amber-200 font-semibold">충전하기</a></li>
+          <li><a href="#" class="hover:underline">출금요청</a></li>
+          <li><a href="#" class="hover:underline">계산서 발행내역</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Panel -->
+    <section class="md:col-span-9 space-y-6">
+      <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold">정산 / 충전</h1>
+      </div>
+      
+      <div class="bg-white p-4 rounded shadow">
+        <div class="border-b border-gray-200">
+          <nav class="-mb-px flex space-x-8">
+            <button
+              onclick="showTab('summary')"
+              class="whitespace-nowrap py-4 px-1 border-b-2 border-teal-500 text-amber-200 font-medium text-sm"
+              id="summaryTab"
+            >
+              정산 요약
+            </button>
+            <button
+              onclick="showTab('history')"
+              class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm"
+              id="historyTab"
+            >
+              정산 내역
+            </button>
+          </nav>
+        </div>
+      </div>
+      
+      <!-- Summary Tab Content -->
+      <div id="summaryContent" class="bg-white p-6 rounded shadow">
+        <h2 class="text-xl font-semibold mb-4">정산 요약</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-gray-50 p-4 rounded">
+            <h3 class="text-lg font-medium text-gray-900">계정 잔액</h3>
+            <p class="text-3xl font-bold text-amber-200">805,500원</p>
+            <p class="text-sm text-gray-500 mt-1">현재 계정 총 잔액</p>
+          </div>
+          
+          <div class="bg-gray-50 p-4 rounded">
+            <h3 class="text-lg font-medium text-gray-900">미결제 금액</h3>
+            <p class="text-3xl font-bold text-orange-500">235,000원</p>
+            <p class="text-sm text-gray-500 mt-1">미지급된 정산 금액</p>
+          </div>
+        </div>
+        
+        <div class="mt-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-3">포인트 현황</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="border border-gray-200 rounded p-3">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-600">신사 포인트</span>
+                <span class="font-bold">11,110 P</span>
+              </div>
+            </div>
+            <div class="border border-gray-200 rounded p-3">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-600">토큰 포인트</span>
+                <span class="font-bold">0 P</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <button class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-200 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+            포인트 충전
+          </button>
+          <button class="w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+            정산 신청
+          </button>
+        </div>
+      </div>
+      
+      <!-- History Tab Content (hidden by default) -->
+      <div id="historyContent" class="bg-white p-6 rounded shadow hidden">
+        <h2 class="text-xl font-semibold mb-4">정산 내역</h2>
+        
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  정산 기간
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  총 판매액
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  총 구매액
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  플랫폼 수수료
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  정산액
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  상태
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  액션
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900">
+                    2025년 4월
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">1,358,000원</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">643,500원</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">35,875원</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900">678,625원</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                    미지급
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <button class="text-amber-200 hover:text-teal-900">
+                    지급하기
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900">
+                    2025년 3월
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">1,124,000원</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">532,000원</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">29,600원</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900">562,400원</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    지급완료
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900">
+                    2025년 2월
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">943,500원</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">421,800원</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">26,085원</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900">495,615원</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    지급완료
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-10 text-center text-xs text-gray-500 p-4">
+    &copy; 2025 꽃비파트너스. All rights reserved.
+  </footer>
+
+  <script>
+    function showTab(tabName) {
+      // Hide all content
+      document.getElementById('summaryContent').classList.add('hidden');
+      document.getElementById('historyContent').classList.add('hidden');
+      
+      // Remove active class from all tabs
+      document.getElementById('summaryTab').classList.remove('border-teal-500', 'text-amber-200');
+      document.getElementById('summaryTab').classList.add('border-transparent', 'text-gray-500');
+      document.getElementById('historyTab').classList.remove('border-teal-500', 'text-amber-200');
+      document.getElementById('historyTab').classList.add('border-transparent', 'text-gray-500');
+      
+      // Show selected content and activate tab
+      if (tabName === 'summary') {
+        document.getElementById('summaryContent').classList.remove('hidden');
+        document.getElementById('summaryTab').classList.remove('border-transparent', 'text-gray-500');
+        document.getElementById('summaryTab').classList.add('border-teal-500', 'text-amber-200');
+      } else if (tabName === 'history') {
+        document.getElementById('historyContent').classList.remove('hidden');
+        document.getElementById('historyTab').classList.remove('border-transparent', 'text-gray-500');
+        document.getElementById('historyTab').classList.add('border-teal-500', 'text-amber-200');
+      }
+    }
+  </script>
+</body>
+</html>

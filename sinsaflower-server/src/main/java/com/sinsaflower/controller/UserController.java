@@ -13,12 +13,15 @@ import com.sinsaflower.service.UserService;
 import com.sinsaflower.service.JwtService;
 import com.sinsaflower.util.IpUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -40,6 +43,21 @@ public class UserController {
             return ResponseEntity.ok(new SuccessResponse("회원가입이 완료되었습니다. 관리자 승인 후 로그인이 가능합니다."));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new ErrorResponse("잘못된 요청입니다.", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(new ErrorResponse("서버 오류가 발생했습니다.", e.getMessage()));
+        }
+    }
+
+    /**
+     * 아이디 중복 확인 API
+     * @param userId 확인할 아이디
+     * @return 사용 가능 여부
+     */
+    @GetMapping("/check-userid")
+    public ResponseEntity<?> checkUserId(@RequestParam("userId") String userId) {
+        try {
+            boolean available = !userRepository.existsByUserId(userId);
+            return ResponseEntity.ok(Map.of("available", available));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(new ErrorResponse("서버 오류가 발생했습니다.", e.getMessage()));
         }
@@ -86,7 +104,7 @@ public class UserController {
      * @return 성공 메시지 또는 에러
      */
     @PostMapping("/admin/approve/{userId}")
-    public ResponseEntity<?> approveUser(@PathVariable String userId) {
+    public ResponseEntity<?> approveUser(@PathVariable("userId") String userId) {
         try {
             userService.approveUser(userId);
             return ResponseEntity.ok(new SuccessResponse("회원가입이 승인되었습니다."));
@@ -104,7 +122,7 @@ public class UserController {
      * @return 성공 메시지 또는 에러
      */
     @PostMapping("/admin/reject/{userId}")
-    public ResponseEntity<?> rejectUser(@PathVariable String userId, @RequestParam String reason) {
+    public ResponseEntity<?> rejectUser(@PathVariable("userId") String userId, @RequestParam("reason") String reason) {
         try {
             userService.rejectUser(userId, reason);
             return ResponseEntity.ok(new SuccessResponse("회원가입이 거절되었습니다."));

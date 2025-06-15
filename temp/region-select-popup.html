@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>지역선택11</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Noto Sans KR", sans-serif;
+        background-color: #f5f7f9;
+      }
+
+      .region-tab {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 4px 4px 0 0;
+        cursor: pointer;
+        margin-right: 2px;
+        font-size: 14px;
+      }
+
+      .region-tab.active {
+        background-color: rgb(251, 229, 187);
+        border-bottom: none;
+        font-weight: bold;
+      }
+
+      .district-btn {
+        display: inline-block;
+        padding: 8px 12px;
+        margin: 4px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        background-color: white;
+        cursor: pointer;
+        font-size: 13px;
+        text-align: center;
+        width: calc(20% - 8px);
+      }
+
+      .district-btn:hover {
+        background-color: #f5f5f5;
+      }
+
+      .district-btn.active {
+        background-color: rgb(251, 229, 187);
+        border-color: rgb(251, 191, 87);
+        font-weight: bold;
+      }
+
+      /* 가격 표시 스타일 */
+      .price-tag {
+        font-size: 11px;
+        color: #ff6b00;
+        font-weight: bold;
+        margin-left: 3px;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background-color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .close-btn:hover {
+        background-color: #e0e0e0;
+      }
+    </style>
+  </head>
+  <body class="bg-white p-0 m-0">
+    <div class="max-w-3xl mx-auto bg-white shadow relative">
+      <!-- 팝업 헤더 -->
+      <div class="p-4 border-b flex items-center">
+        <h1 class="text-lg font-bold">지역선택</h1>
+        <div class="ml-auto">
+          <button
+            id="complete-btn"
+            class="bg-amber-200 text-white px-4 py-1 rounded text-sm"
+          >
+            선택 완료
+          </button>
+        </div>
+        <div class="close-btn" onclick="window.close()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <!-- 시/도 탭 메뉴 -->
+      <div class="px-4 pt-3 flex flex-wrap border-b">
+        <div
+          class="region-tab active js-area-sido-click"
+          data-sido="서울특별시"
+          data-gugun="강남구"
+        >
+          서울
+        </div>
+        <div
+          class="region-tab js-area-sido-click"
+          data-sido="경기도"
+          data-gugun="가평군"
+        >
+          경기/인천
+        </div>
+        <div
+          class="region-tab js-area-sido-click"
+          data-sido="충청북도"
+          data-gugun="괴산군"
+        >
+          충청/대전
+        </div>
+        <div
+          class="region-tab js-area-sido-click"
+          data-sido="광주광역시"
+          data-gugun="광산구"
+        >
+          호남/광주
+        </div>
+        <div
+          class="region-tab js-area-sido-click"
+          data-sido="경상북도"
+          data-gugun="경산시"
+        >
+          영남
+        </div>
+        <div
+          class="region-tab js-area-sido-click"
+          data-sido="부산광역시"
+          data-gugun="강서구"
+        >
+          부산/경남
+        </div>
+        <div
+          class="region-tab js-area-sido-click"
+          data-sido="강원도"
+          data-gugun="강릉시"
+        >
+          강원/제주
+        </div>
+      </div>
+
+      <!-- 구/군 선택 영역 -->
+      <div class="p-4">
+        <div id="gugun-container" class="flex flex-wrap">
+          <!-- 기본 서울 구/군 표시 (예시) -->
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 강남구"
+            data-sido="서울특별시"
+            data-gugun="강남구"
+            data-area-price="38000"
+          >
+            강남구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 강동구"
+            data-sido="서울특별시"
+            data-gugun="강동구"
+            data-area-price="38000"
+          >
+            강동구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 강북구"
+            data-sido="서울특별시"
+            data-gugun="강북구"
+            data-area-price="38000"
+          >
+            강북구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 강서구"
+            data-sido="서울특별시"
+            data-gugun="강서구"
+            data-area-price="38000"
+          >
+            강서구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 관악구"
+            data-sido="서울특별시"
+            data-gugun="관악구"
+            data-area-price="38000"
+          >
+            관악구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 광진구"
+            data-sido="서울특별시"
+            data-gugun="광진구"
+            data-area-price="38000"
+          >
+            광진구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 구로구"
+            data-sido="서울특별시"
+            data-gugun="구로구"
+            data-area-price="38000"
+          >
+            구로구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 금천구"
+            data-sido="서울특별시"
+            data-gugun="금천구"
+            data-area-price="38000"
+          >
+            금천구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 노원구"
+            data-sido="서울특별시"
+            data-gugun="노원구"
+            data-area-price="38000"
+          >
+            노원구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 도봉구"
+            data-sido="서울특별시"
+            data-gugun="도봉구"
+            data-area-price="38000"
+          >
+            도봉구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 동대문구"
+            data-sido="서울특별시"
+            data-gugun="동대문구"
+            data-area-price="38000"
+          >
+            동대문구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 동작구"
+            data-sido="서울특별시"
+            data-gugun="동작구"
+            data-area-price="38000"
+          >
+            동작구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 마포구"
+            data-sido="서울특별시"
+            data-gugun="마포구"
+            data-area-price="38000"
+          >
+            마포구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 서대문구"
+            data-sido="서울특별시"
+            data-gugun="서대문구"
+            data-area-price="38000"
+          >
+            서대문구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 서초구"
+            data-sido="서울특별시"
+            data-gugun="서초구"
+            data-area-price="38000"
+          >
+            서초구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 성동구"
+            data-sido="서울특별시"
+            data-gugun="성동구"
+            data-area-price="38000"
+          >
+            성동구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 성북구"
+            data-sido="서울특별시"
+            data-gugun="성북구"
+            data-area-price="38000"
+          >
+            성북구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 송파구"
+            data-sido="서울특별시"
+            data-gugun="송파구"
+            data-area-price="38000"
+          >
+            송파구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 양천구"
+            data-sido="서울특별시"
+            data-gugun="양천구"
+            data-area-price="38000"
+          >
+            양천구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 영등포구"
+            data-sido="서울특별시"
+            data-gugun="영등포구"
+            data-area-price="38000"
+          >
+            영등포구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 용산구"
+            data-sido="서울특별시"
+            data-gugun="용산구"
+            data-area-price="38000"
+          >
+            용산구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 은평구"
+            data-sido="서울특별시"
+            data-gugun="은평구"
+            data-area-price="38000"
+          >
+            은평구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 종로구"
+            data-sido="서울특별시"
+            data-gugun="종로구"
+            data-area-price="38000"
+          >
+            종로구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 중구"
+            data-sido="서울특별시"
+            data-gugun="중구"
+            data-area-price="38000"
+          >
+            중구 <span class="price-tag">38</span>
+          </div>
+          <div
+            class="district-btn js-area-gugun-click"
+            data-sidogugun="서울특별시 중랑구"
+            data-sido="서울특별시"
+            data-gugun="중랑구"
+            data-area-price="38000"
+          >
+            중랑구 <span class="price-tag">38</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // 시/도 및 구/군 데이터
+        const regionData = {
+          서울특별시: [
+            { name: "강남구", price: 38000 },
+            { name: "강동구", price: 38000 },
+            { name: "강북구", price: 38000 },
+            { name: "강서구", price: 38000 },
+            { name: "관악구", price: 38000 },
+            { name: "광진구", price: 38000 },
+            { name: "구로구", price: 38000 },
+            { name: "금천구", price: 38000 },
+            { name: "노원구", price: 38000 },
+            { name: "도봉구", price: 38000 },
+            { name: "동대문구", price: 38000 },
+            { name: "동작구", price: 38000 },
+            { name: "마포구", price: 38000 },
+            { name: "서대문구", price: 38000 },
+            { name: "서초구", price: 38000 },
+            { name: "성동구", price: 38000 },
+            { name: "성북구", price: 38000 },
+            { name: "송파구", price: 38000 },
+            { name: "양천구", price: 38000 },
+            { name: "영등포구", price: 38000 },
+            { name: "용산구", price: 38000 },
+            { name: "은평구", price: 38000 },
+            { name: "종로구", price: 38000 },
+            { name: "중구", price: 38000 },
+            { name: "중랑구", price: 38000 },
+          ],
+          강원도: [
+            { name: "강릉시", price: 50000 },
+            { name: "고성군", price: 50000 },
+            { name: "동해시", price: 55000 },
+            { name: "삼척시", price: 55000 },
+            { name: "속초시", price: 50000 },
+            { name: "양구군", price: 70000 },
+            { name: "양양군", price: 50000 },
+            { name: "영월군", price: 60000 },
+            { name: "원주시", price: 55000 },
+            { name: "인제군", price: 70000 },
+            { name: "정선군", price: 70000 },
+            { name: "철원군", price: 65000 },
+            { name: "춘천시", price: 47000 },
+            { name: "태백시", price: 70000 },
+            { name: "평창군", price: 70000 },
+            { name: "홍천군", price: 50000 },
+            { name: "화천군", price: 60000 },
+            { name: "횡성군", price: 70000 },
+          ],
+          광주광역시: [
+            { name: "광산구", price: 38000 },
+            { name: "남구", price: 38000 },
+            { name: "동구", price: 38000 },
+            { name: "북구", price: 38000 },
+            { name: "서구", price: 38000 },
+          ],
+          경기도: [
+            { name: "가평군", price: 50000 },
+            { name: "고양시", price: 38000 },
+            { name: "과천시", price: 38000 },
+            { name: "광명시", price: 38000 },
+            { name: "광주시", price: 40000 },
+            { name: "구리시", price: 38000 },
+            { name: "군포시", price: 38000 },
+            { name: "김포시", price: 40000 },
+            { name: "남양주시", price: 38000 },
+            { name: "동두천시", price: 40000 },
+            { name: "부천시", price: 38000 },
+            { name: "성남시", price: 38000 },
+            { name: "수원시", price: 40000 },
+            { name: "시흥시", price: 38000 },
+            { name: "안산시", price: 38000 },
+            { name: "안성시", price: 40000 },
+            { name: "안양시", price: 38000 },
+            { name: "양주시", price: 40000 },
+            { name: "양평군", price: 40000 },
+            { name: "여주시", price: 45000 },
+            { name: "연천군", price: 70000 },
+            { name: "오산시", price: 40000 },
+            { name: "용인시", price: 40000 },
+            { name: "의왕시", price: 38000 },
+            { name: "의정부시", price: 38000 },
+            { name: "이천시", price: 45000 },
+            { name: "파주시", price: 40000 },
+            { name: "평택시", price: 40000 },
+            { name: "포천시", price: 40000 },
+            { name: "하남시", price: 38000 },
+            { name: "화성시", price: 40000 },
+          ],
+        };
+
+        // 현재 선택된 값
+        let selectedSido = "광주광역시";
+        let selectedGugun = "광산구";
+        let selectedPrice = 38000;
+
+        // 시/도 선택 이벤트
+        const sidoButtons = document.querySelectorAll(".js-area-sido-click");
+        sidoButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            // 시/도 버튼 활성화 처리
+            sidoButtons.forEach((btn) => btn.classList.remove("active"));
+            this.classList.add("active");
+
+            // 선택된 시/도 정보 가져오기
+            const sido = this.getAttribute("data-sido");
+            selectedSido = sido;
+
+            // 구/군 목록 업데이트 (세종특별자치시 처리)
+            updateGugunList(sido);
+
+            // 세종특별자치시는 구/군 없이 직접 선택
+            if (sido === "세종특별자치시") {
+              selectedGugun = "";
+              selectedPrice = 45000;
+              updateSelectedRegion();
+            }
+          });
+        });
+
+        // 구/군 선택 이벤트 (동적으로 추가되는 요소를 위해 이벤트 위임 사용)
+        document.addEventListener("click", function (e) {
+          if (
+            e.target.classList.contains("js-area-gugun-click") ||
+            e.target.parentElement.classList.contains("js-area-gugun-click")
+          ) {
+            const target = e.target.classList.contains("js-area-gugun-click")
+              ? e.target
+              : e.target.parentElement;
+
+            // 구/군 버튼 활성화 처리
+            document
+              .querySelectorAll(".js-area-gugun-click")
+              .forEach((btn) => btn.classList.remove("active"));
+            target.classList.add("active");
+
+            // 선택된 구/군 정보 가져오기
+            const sido = target.getAttribute("data-sido");
+            const gugun = target.getAttribute("data-gugun");
+            const price = parseInt(target.getAttribute("data-area-price"));
+
+            selectedSido = sido;
+            selectedGugun = gugun;
+            selectedPrice = price;
+
+            // 선택된 지역 표시 업데이트
+            updateSelectedRegion();
+          }
+        });
+
+        // 구/군 목록 업데이트 함수
+        function updateGugunList(sido) {
+          const gugunList = document.getElementById("gugun-list");
+          gugunList.innerHTML = "";
+
+          if (regionData[sido]) {
+            regionData[sido].forEach((item) => {
+              const span = document.createElement("span");
+              span.className = "js-area-gugun-click";
+              span.setAttribute("data-sidogugun", `${sido} ${item.name}`);
+              span.setAttribute("data-sido", sido);
+              span.setAttribute("data-gugun", item.name);
+              span.setAttribute(
+                "title",
+                `화환 최저 단가: ${formatPrice(item.price)}원`,
+              );
+              span.setAttribute("data-area-price", item.price);
+
+              // 첫 번째 항목이면 active 클래스 추가
+              if (regionData[sido].indexOf(item) === 0) {
+                span.classList.add("active");
+                selectedGugun = item.name;
+                selectedPrice = item.price;
+                updateSelectedRegion();
+              }
+
+              // 구/군명과 가격 표시
+              span.innerHTML = `${item.name}<div class="price-tag">${Math.floor(item.price / 1000)}</div>`;
+
+              gugunList.appendChild(span);
+            });
+          }
+        }
+
+        // 선택된 지역 표시 업데이트 함수
+        function updateSelectedRegion() {
+          const selectedRegion = document.getElementById("selected-region");
+          const selectedPriceEl = document.getElementById("selected-price");
+
+          if (selectedSido === "세종특별자치시") {
+            selectedRegion.textContent = selectedSido;
+          } else {
+            selectedRegion.textContent = `${selectedSido} ${selectedGugun}`;
+          }
+
+          selectedPriceEl.textContent = `최저가 ${formatPrice(selectedPrice)}원`;
+        }
+
+        // 가격 포맷 함수
+        function formatPrice(price) {
+          return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // 선택 완료 버튼 클릭 시 처리
+        document
+          .getElementById("complete-btn")
+          .addEventListener("click", function () {
+            let regionText = selectedSido;
+            if (selectedSido !== "세종특별자치시") {
+              regionText = `${selectedSido} ${selectedGugun}`;
+            }
+
+            // 부모 창으로 선택된 지역 전달
+            window.opener.postMessage(
+              {
+                type: "regionSelected",
+                region: regionText,
+                price: selectedPrice,
+              },
+              "*",
+            );
+
+            // 창 닫기
+            window.close();
+          });
+      });
+    </script>
+  </body>
+</html>

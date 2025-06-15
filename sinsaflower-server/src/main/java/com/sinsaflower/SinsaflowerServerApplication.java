@@ -2,8 +2,10 @@ package com.sinsaflower;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan(basePackages = "com.sinsaflower")
 public class SinsaflowerServerApplication {
 
 	public static void main(String[] args) {

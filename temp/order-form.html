@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>신사 플라워 - 발주서</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .label { font-weight: bold; margin-right: 6px; }
+  </style>
+  <script src="js/error-handler.js" defer></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Header -->
+  <header class="bg-white shadow p-2 flex justify-between items-center">
+    <div class="flex items-center">
+      <a href="index.html">
+      <img src="images/flower-bear-logo.png" alt="신사 플라워 로고" class="h-12 mr-2">
+      <span style="color: rgb(251,229,187);" class="text-xl font-bold">신사 플라워</span></a>
+    </div>
+    <nav class="space-x-4">
+      <a href="order-form.html" class="text-sm hover:underline font-semibold">발주</a>
+      <a href="orders.html" class="text-sm hover:underline">주문확인</a>
+    </nav>
+    <div class="text-sm space-x-2">
+      <a href="edit-profile.html" class="hover:underline">회원 정보 수정</a>
+      <a href="login.html" class="hover:underline text-red-500">로그아웃</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto mt-2 px-2 grid grid-cols-1 md:grid-cols-12 gap-2">
+    <!-- Sidebar -->
+    <aside class="md:col-span-3 space-y-2">
+      <div class="bg-white p-2 rounded shadow-sm">
+        <h2 class="font-bold text-sm">화환앤플라워님</h2>
+        <p class="text-xs text-gray-600">잔금총액: <strong>805,500원</strong></p>
+        <div class="mt-1">
+          <p class="text-xs">신사 포인트: <strong>11,110P</strong></p>
+          <p class="text-xs">등급 포인트: <strong>0P</strong></p>
+        </div>
+        <a href="settlement.html" class="block mt-1 w-full bg-amber-200 text-white py-0.5 rounded text-center text-xs">충전/정산</a>
+        <button class="mt-1 w-full bg-gray-100 py-0.5 rounded text-xs">신사멤버십 혜택보기</button>
+      </div>
+
+      <div class="bg-white p-2 rounded shadow-sm">
+        <h3 class="font-semibold text-xs border-b pb-1 mb-1">주문관리</h3>
+        <ul class="space-y-0.5 text-xs">
+          <li><a href="member-search.html" class="hover:underline">회원검색</a></li>
+          <li><a href="order-form.html" class="hover:underline font-semibold text-amber-200">발주</a></li>
+          <li><a href="all-orders.html" class="hover:underline">전체발주리스트</a></li>
+          <li><a href="all-received-orders.html" class="hover:underline">전체수주리스트</a></li>
+          <li><a href="unconfirmed-orders.html" class="hover:underline">미확인주문리스트</a></li>
+          <li><a href="canceled-orders.html" class="hover:underline">취소주문리스트</a></li>
+        </ul>
+      </div>
+      
+      <div class="bg-white p-2 rounded shadow-sm">
+        <h3 class="font-semibold text-xs border-b pb-1 mb-1">게시판</h3>
+        <ul class="space-y-0.5 text-xs">
+          <li><a href="notice.html" class="hover:underline">공지사항</a></li>
+          <li><a href="board.html" class="hover:underline">자유게시판</a></li>
+        </ul>
+      </div>
+      
+      <div class="bg-white p-2 rounded shadow-sm">
+        <h3 class="font-semibold text-xs border-b pb-1 mb-1">정산관리</h3>
+        <ul class="space-y-0.5 text-xs">
+          <li><a href="settlement-detail.html" class="hover:underline">정산내역</a></li>
+          <li><a href="#" class="hover:underline">충전하기</a></li>
+          <li><a href="#" class="hover:underline">출금요청</a></li>
+          <li><a href="#" class="hover:underline">계산서 발행내역</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Panel -->
+    <section class="md:col-span-9 space-y-2">
+      <div class="flex justify-between items-center">
+        <h1 class="text-base font-bold">주문 입력</h1>
+      </div>
+      
+      <div class="bg-white p-2 rounded shadow-sm">
+        <!-- 특이사항 알림 -->
+        <div class="bg-green-50 border border-green-200 text-xs p-1 rounded mb-1 text-center text-red-600 font-medium">
+          발주 후 수주처와 협의된 주문서는 <span class="text-red-700">금액, 날짜, 리본 등 수정 가능</span> (협의된 주문건은 본사로 연락 안 하셔도 됩니다)
+        </div>
+        
+        <!-- 발주 유형 선택 -->
+        <div class="flex justify-center mb-2 gap-1">
+          <button type="button" id="direct-order-btn" class="bg-amber-200 text-white px-3 py-1 rounded text-xs font-medium">직발주</button>
+          <button type="button" id="open-call-btn" class="bg-gray-200 px-3 py-1 rounded text-xs font-medium">오픈콜 발주</button>
+        </div>
+
+        <!-- 수주회원 -->
+        <div class="mb-2" id="member-selection-section">
+          <label class="label text-xs font-medium">수주회원</label>
+          <div class="flex items-center gap-1 flex-wrap">
+            <input type="text" id="member-code" class="border p-0.5 w-1/5 rounded text-xs" readonly placeholder="회원코드"/>
+            <input type="text" id="shop-name" class="border p-0.5 w-1/5 rounded text-xs" readonly placeholder="상호명"/>
+            <input type="text" id="delivery-region" class="border p-0.5 w-1/5 rounded text-xs" readonly placeholder="배송지역"/>
+            <button type="button" onclick="window.open('member-search-popup.html', 'memberSearch', 'width=800,height=600')" class="bg-amber-200 text-white px-2 py-0.5 rounded text-xs">회원검색</button>
+            <button type="button" onclick="resetMemberSelection()" class="bg-gray-200 px-2 py-0.5 rounded text-xs">선택취소</button>
+          </div>
+        </div>
+
+        <!-- 배달지역 -->
+        <div class="mb-2">
+          <label class="label text-xs font-medium">배달지역</label>
+          <div class="flex items-center gap-1">
+            <input type="text" id="delivery-region-input" name="delivery_region" class="border p-0.5 flex-grow rounded text-xs" placeholder="배송할 지역을 입력하세요"/>
+            <input type="hidden" id="delivery-region-price" name="delivery_region_price" value="0"/>
+            <button type="button" onclick="openRegionSelect()" class="bg-amber-200 text-white px-2 py-0.5 rounded text-xs">지역선택</button>
+          </div>
+        </div>
+
+        <!-- 상품명 -->
+        <div class="mb-2">
+          <label class="label block text-xs font-medium">상품명</label>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-1">
+            <!-- 첫 번째 열: 상품 버튼들 -->
+            <div class="flex flex-wrap gap-0.5">
+              <button type="button" onclick="selectProduct('축하3단')" class="bg-red-500 text-white px-1.5 py-0.5 rounded text-xs">축하3단</button>
+              <button type="button" onclick="selectProduct('근조3단')" class="bg-gray-500 text-white px-1.5 py-0.5 rounded text-xs">근조3단</button>
+              <button type="button" onclick="selectProduct('근조바구니')" class="bg-gray-300 px-1.5 py-0.5 rounded text-xs">근조바구니</button>
+              <button type="button" onclick="selectProduct('동양란')" class="bg-gray-300 px-1.5 py-0.5 rounded text-xs">동양란</button>
+              <button type="button" onclick="selectProduct('서양란')" class="bg-gray-300 px-1.5 py-0.5 rounded text-xs">서양란</button>
+              <button type="button" onclick="selectProduct('꽃바구니')" class="bg-gray-300 px-1.5 py-0.5 rounded text-xs">꽃바구니</button>
+              <button type="button" onclick="selectProduct('관엽식물')" class="bg-gray-300 px-1.5 py-0.5 rounded text-xs">관엽식물</button>
+            </div>
+            
+            <!-- 두 번째 열: 상품 세부 정보 -->
+            <div class="flex flex-wrap items-center gap-1">
+              <button type="button" class="bg-blue-100 px-1.5 py-0.5 rounded text-xs">상품선택</button>
+              <input type="text" id="product-name" class="border p-0.5 rounded w-24 text-xs" readonly placeholder="상품명" value="축하3단"/>
+              <span class="text-xs font-medium">상세상품명:</span>
+              <input type="text" id="product-detail" class="border p-0.5 rounded w-24 text-xs" placeholder="상세상품명" value="축하3단화환"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- 원청금액 -->
+        <div class="mb-2">
+          <label class="label text-xs font-medium">원청금액</label>
+          <div class="flex items-center gap-1 flex-wrap">
+            <input type="number" id="original-price" class="border p-0.5 rounded w-32 text-xs" placeholder="₩" value="80000"/>
+            <span class="text-xs">원</span>
+            <button type="button" onclick="setPrice('original-price', 10000)" class="bg-gray-200 px-1.5 py-0.5 rounded text-xs">1만</button>
+            <button type="button" onclick="setPrice('original-price', 60000)" class="bg-gray-200 px-1.5 py-0.5 rounded text-xs">6만</button>
+            <button type="button" onclick="setPrice('original-price', 70000)" class="bg-gray-200 px-1.5 py-0.5 rounded text-xs">7만</button>
+            <button type="button" onclick="setPrice('original-price', 80000)" class="bg-gray-200 px-1.5 py-0.5 rounded text-xs">8만</button>
+            <button type="button" onclick="resetPrice('original-price')" class="bg-gray-200 px-1.5 py-0.5 rounded text-xs">초기화</button>
+          </div>
+        </div>
+
+        <!-- 결제금액 -->
+        <div class="mb-2">
+          <label class="label text-xs font-medium">결제금액(옵션제외)</label>
+          <div class="flex items-center gap-1 flex-wrap">
+            <input type="number" id="payment-price" class="border p-0.5 rounded w-32 text-xs" placeholder="₩" value="80000" onchange="updateTotalPrice()"/>
+            <span class="text-xs">원</span>
+            <button type="button" onclick="setPrice('payment-price', 10000)" class="bg-gray-200 px-1.5 py-0.5 rounded text-xs">1만</button>
+            <button type="button" onclick="setPrice('payment-price', 60000)" class="bg-gray-200 px-1.5 py-0.5 rounded text-xs">6만</button>
+            <button type="button" onclick="setPrice('payment-price', 70000)" class="bg-gray-200 px-1.5 py-0.5 rounded text-xs">7만</button>
+            <button type="button" onclick="setPrice('payment-price', 80000)" class="bg-gray-200 px-1.5 py-0.5 rounded text-xs">8만</button>
+            <button type="button" onclick="resetPrice('payment-price')" class="bg-gray-200 px-1.5 py-0.5 rounded text-xs">초기화</button>
+            <div class="flex items-center ml-1">
+              <input type="checkbox" id="showOptions" onchange="toggleOptions()" class="mr-0.5 h-3 w-3"/>
+              <label for="showOptions" class="text-xs">옵션상품보기</label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 옵션상품 (기본적으로 숨김) -->
+        <div id="options-section" class="mb-4 p-4 border rounded bg-gray-50 hidden">
+          <h3 class="font-semibold mb-3">옵션상품</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- 좌측 옵션들 -->
+            <div class="space-y-2">
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="option-cake" class="option-checkbox" onchange="updateTotalPrice()"/>
+                <label for="option-cake" class="w-28">케익</label>
+                <input type="number" id="option-cake-value" class="border p-1 rounded w-20 option-value" value="0" min="0" onchange="updateTotalPrice()"/>
+                <span class="text-sm">원</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="option-champagne" class="option-checkbox" onchange="updateTotalPrice()"/>
+                <label for="option-champagne" class="w-28">샴페인</label>
+                <input type="number" id="option-champagne-value" class="border p-1 rounded w-20 option-value" value="0" min="0" onchange="updateTotalPrice()"/>
+                <span class="text-sm">원</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="option-candy" class="option-checkbox" onchange="updateTotalPrice()"/>
+                <label for="option-candy" class="w-28">사탕</label>
+                <input type="number" id="option-candy-value" class="border p-1 rounded w-20 option-value" value="0" min="0" onchange="updateTotalPrice()"/>
+                <span class="text-sm">원</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="option-etc" class="option-checkbox" onchange="updateTotalPrice()"/>
+                <label for="option-etc" class="w-28">기타</label>
+                <input type="number" id="option-etc-value" class="border p-1 rounded w-20 option-value" value="0" min="0" onchange="updateTotalPrice()"/>
+                <span class="text-sm">원</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="option-stand" class="option-checkbox" onchange="updateTotalPrice()"/>
+                <label for="option-stand" class="w-28">화분받침대</label>
+                <input type="number" id="option-stand-value" class="border p-1 rounded w-20 option-value" value="0" min="0" onchange="updateTotalPrice()"/>
+                <span class="text-sm">원</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="option-ribbon" class="option-checkbox" onchange="updateTotalPrice()"/>
+                <label for="option-ribbon" class="w-28">리본교체비</label>
+                <input type="number" id="option-ribbon-value" class="border p-1 rounded w-20 option-value" value="0" min="0" onchange="updateTotalPrice()"/>
+                <span class="text-sm">원</span>
+              </div>
+            </div>
+            
+            <!-- 우측 옵션들 -->
+            <div class="space-y-2">
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="option-wine" class="option-checkbox" onchange="updateTotalPrice()"/>
+                <label for="option-wine" class="w-28">와인</label>
+                <input type="number" id="option-wine-value" class="border p-1 rounded w-20 option-value" value="0" min="0" onchange="updateTotalPrice()"/>
+                <span class="text-sm">원</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="option-chocolate" class="option-checkbox" onchange="updateTotalPrice()"/>
+                <label for="option-chocolate" class="w-28">초코렛</label>
+                <input type="number" id="option-chocolate-value" class="border p-1 rounded w-20 option-value" value="0" min="0" onchange="updateTotalPrice()"/>
+                <span class="text-sm">원</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="option-pepero" class="option-checkbox" onchange="updateTotalPrice()"/>
+                <label for="option-pepero" class="w-28">빼빼로</label>
+                <input type="number" id="option-pepero-value" class="border p-1 rounded w-20 option-value" value="0" min="0" onchange="updateTotalPrice()"/>
+                <span class="text-sm">원</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="option-donation" class="option-checkbox" onchange="updateTotalPrice()"/>
+                <label for="option-donation" class="w-28">경조사비</label>
+                <input type="number" id="option-donation-value" class="border p-1 rounded w-20 option-value" value="0" min="0" onchange="updateTotalPrice()"/>
+                <span class="text-sm">원</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="option-delivery" class="option-checkbox" onchange="updateTotalPrice()"/>
+                <label for="option-delivery" class="w-28">배송비</label>
+                <input type="number" id="option-delivery-value" class="border p-1 rounded w-20 option-value" value="0" min="0" onchange="updateTotalPrice()"/>
+                <span class="text-sm">원</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 상품이미지 -->
+        <div class="mb-2">
+          <label class="label text-xs font-medium">상품이미지</label>
+          <div class="flex items-center gap-1">
+            <button type="button" onclick="openImageUploadPopup()" class="bg-amber-200 text-white px-2 py-0.5 rounded text-xs">이미지 등록</button>
+            <span id="uploaded-image-name" class="text-xs text-gray-600">선택된 파일 없음</span>
+            <div class="ml-auto flex items-center">
+              <input type="checkbox" id="image-private" class="mr-0.5 h-3 w-3"/>
+              <label for="image-private" class="text-xs">비공개</label>
+            </div>
+          </div>
+          <div class="mt-1 bg-orange-50 border border-orange-200 p-1 rounded text-orange-700 text-xs">
+            비공개일 때 수주화원 배송사진 목록에 등록되지 않습니다.
+          </div>
+        </div>
+
+        <!-- 총 결제액 -->
+        <div class="mb-4 bg-gray-100 p-3 rounded">
+          <div class="flex justify-between items-center">
+            <label class="font-bold text-lg">총 결제액:</label>
+            <div class="text-xl font-bold text-gray-800"><span id="total-price">80,000</span>원 (옵션포함)</div>
+          </div>
+        </div>
+
+        <!-- 고객 정보 -->
+        <div class="grid grid-cols-2 gap-2 mb-2">
+          <div>
+            <label class="label text-xs font-medium">주문고객정보</label>
+            <div class="grid grid-cols-3 gap-1">
+              <div>
+                <input type="text" class="border p-0.5 w-full rounded text-xs" placeholder="주문고객명" id="order-customer-name"/>
+              </div>
+              <div>
+                <input type="text" class="border p-0.5 w-full rounded text-xs" placeholder="전화번호" id="order-customer-phone" onkeyup="formatPhoneNumber(this)"/>
+              </div>
+              <div>
+                <input type="text" class="border p-0.5 w-full rounded text-xs" placeholder="핸드폰" id="order-customer-mobile" onkeyup="formatPhoneNumber(this)"/>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label class="label text-xs font-medium">받는고객정보</label>
+            <div class="grid grid-cols-3 gap-1">
+              <div>
+                <input type="text" class="border p-0.5 w-full rounded text-xs" placeholder="받는고객명" id="receiver-name"/>
+              </div>
+              <div>
+                <input type="text" class="border p-0.5 w-full rounded text-xs" placeholder="전화번호" id="receiver-phone" onkeyup="formatPhoneNumber(this)"/>
+              </div>
+              <div>
+                <input type="text" class="border p-0.5 w-full rounded text-xs" placeholder="핸드폰" id="receiver-mobile" onkeyup="formatPhoneNumber(this)"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 배달일시 -->
+        <div class="mb-2">
+          <label class="label text-xs font-medium">배달일시</label>
+          <div class="flex flex-wrap items-center gap-1 mb-0.5">
+            <input type="text" id="delivery-date" readonly class="border p-0.5 rounded w-24 cursor-pointer text-xs" placeholder="날짜 선택" onclick="showDatePicker()"/>
+            <input type="text" id="delivery-day" readonly class="border p-0.5 rounded w-12 text-xs" placeholder="요일"/>
+            <select id="delivery-time" class="border p-0.5 rounded w-16 text-xs" onchange="toggleEventTimeFields()">
+              <option value="default">기본시간</option>
+              <option value="08:00">08:00</option>
+              <option value="09:00">09:00</option>
+              <option value="10:00">10:00</option>
+              <option value="11:00">11:00</option>
+              <option value="12:00">12:00</option>
+              <option value="13:00">13:00</option>
+              <option value="14:00">14:00</option>
+              <option value="15:00">15:00</option>
+              <option value="16:00">16:00</option>
+              <option value="17:00">17:00</option>
+              <option value="18:00">18:00</option>
+              <option value="19:00">19:00</option>
+              <option value="20:00">20:00</option>
+              <option value="21:00">21:00</option>
+              <option value="22:00">22:00</option>
+              <option value="23:00">23:00</option>
+              <option value="custom">직접입력</option>
+            </select>
+          </div>
+          
+          <!-- 직접입력용 시간 필드 -->
+          <div id="custom-time-field" class="flex flex-wrap items-center gap-1 mb-0.5 hidden">
+            <span class="text-xs">직접입력:</span>
+            <input type="text" id="custom-time-input" class="border p-0.5 rounded w-40 text-xs" placeholder="예: 14:30 또는 오후 2시반"/>
+          </div>
+          
+          <!-- 행사시간 필드 (직접입력 선택 시 숨김) -->
+          <div id="event-time-fields" class="flex flex-wrap items-center gap-1 mb-0.5">
+            <span class="text-xs">행사시간:</span>
+            <select id="event-hour" class="border p-0.5 rounded w-12 text-xs">
+              <option value="" disabled selected>시</option>
+              <option value="8">8시</option>
+              <option value="9">9시</option>
+              <option value="10">10시</option>
+              <option value="11">11시</option>
+              <option value="12">12시</option>
+              <option value="13">13시</option>
+              <option value="14">14시</option>
+              <option value="15">15시</option>
+              <option value="16">16시</option>
+              <option value="17">17시</option>
+              <option value="18">18시</option>
+              <option value="19">19시</option>
+              <option value="20">20시</option>
+              <option value="21">21시</option>
+              <option value="22">22시</option>
+              <option value="23">23시</option>
+            </select>
+            <select id="event-minute" class="border p-0.5 rounded w-12 text-xs">
+              <option value="" disabled selected>분</option>
+              <option value="00">00분</option>
+              <option value="10">10분</option>
+              <option value="20">20분</option>
+              <option value="30">30분</option>
+              <option value="40">40분</option>
+              <option value="50">50분</option>
+            </select>
+            <select id="event-type" class="border p-0.5 rounded w-12 text-xs">
+              <option value="ceremony">예식</option>
+              <option value="event">행사</option>
+            </select>
+          </div>
+          
+          <div class="bg-orange-50 border border-orange-200 p-1 rounded text-orange-700 text-xs">
+            근조화환 배송시간 가급적 여유있게 설정해주시기 바랍니다.(권장 5시간 이상)
+          </div>
+        </div>
+
+        <!-- 배달장소 -->
+        <div class="mb-2">
+          <div class="flex items-center justify-between mb-1">
+            <label class="label font-bold">배달장소</label>
+            <button id="important-notice-btn" class="bg-gray-200 px-2 py-0.5 rounded text-xs" onclick="toggleImportantNotice()">필독사항</button>
+          </div>
+          
+          <!-- 필독사항 섹션 (기본적으로 숨김) -->
+          <div id="important-notice-section" class="bg-gray-50 p-1.5 rounded border mb-1 text-xs hidden">
+            <h4 class="font-bold mb-0.5">배달장소 필독사항</h4>
+            <ul class="list-disc pl-4 space-y-0.5">
+              <li>정확한 주소지를 기재해 주세요.</li>
+              <li>상세 주소 없이 발생하는 배송 문제는 책임지지 않습니다.</li>
+              <li>특별한 요청사항이 있는 경우 반드시 기재해 주세요.</li>
+            </ul>
+          </div>
+          
+          <div class="flex gap-1">
+            <textarea class="border p-1 flex-grow rounded text-sm" rows="1" placeholder="정확한 주소지 기재하지 않았을 때 발생하는 오배송에 대한 부분은 본부에서 책임지지 않습니다."></textarea>
+            <button class="whitespace-nowrap bg-amber-200 text-white px-2 py-0.5 rounded text-xs">행사장 검색</button>
+          </div>
+        </div>
+
+        <!-- 경조사 문구 -->
+        <!-- 경조사어 & 보내는 분 섹션 -->
+        <div class="mb-1">
+          <!-- 경조사어(오른쪽) -->
+          <div class="mb-1">
+            <label class="label block">경조사어(오른쪽)</label>
+            <div class="border rounded p-1 bg-gray-50">
+              <div>
+                <p class="flex flex-wrap gap-0.5">
+                  <button type="button" class="bg-pink-100 border px-1 py-0.5 rounded text-xs -js-quick-message-type02" data-message="祝結婚">祝結婚</button>
+                  <button type="button" class="bg-pink-100 border px-1 py-0.5 rounded text-xs -js-quick-message-type02" data-message="祝華婚">祝華婚</button>
+                  <button type="button" class="bg-pink-100 border px-1 py-0.5 rounded text-xs -js-quick-message-type02" data-message="祝發展">祝發展</button>
+                  <button type="button" class="bg-pink-100 border px-1 py-0.5 rounded text-xs -js-quick-message-type02" data-message="祝開業">祝開業</button>
+                  <button type="button" class="bg-pink-100 border px-1 py-0.5 rounded text-xs -js-quick-message-type02" data-message="祝榮轉">祝榮轉</button>
+                  <button type="button" class="bg-pink-100 border px-1 py-0.5 rounded text-xs -js-quick-message-type02" data-message="祝昇進">祝昇進</button>
+                  <button type="button" class="bg-red-100 border px-1 py-0.5 rounded text-xs -js-quick-message-type02" data-message="謹弔">謹弔</button>
+                  <button type="button" class="bg-red-100 border px-1 py-0.5 rounded text-xs -js-quick-message-type02" data-message="삼가 故人의 冥福을 빕니다">삼가 故人의 冥福을 빕니다</button>
+                </p>
+                <p class="mt-0.5 flex flex-wrap gap-0.5">
+                  <button type="button" class="bg-pink-100 border px-1 py-0.5 rounded text-xs -js-quick-message-type02" data-message="축결혼">축결혼</button>
+                  <button type="button" class="bg-pink-100 border px-1 py-0.5 rounded text-xs -js-quick-message-type02" data-message="축화혼">축화혼</button>
+                  <button type="button" class="bg-pink-100 border px-1 py-0.5 rounded text-xs -js-quick-message-type02" data-message="축발전">축발전</button>
+                  <button type="button" class="bg-pink-100 border px-1 py-0.5 rounded text-xs -js-quick-message-type02" data-message="축개업">축개업</button>
+                  <button type="button" class="bg-pink-100 border px-1 py-0.5 rounded text-xs -js-quick-message-type02" data-message="축영전">축영전</button>
+                  <button type="button" class="bg-pink-100 border px-1 py-0.5 rounded text-xs -js-quick-message-type02" data-message="축승진">축승진</button>
+                  <button type="button" class="bg-red-100 border px-1 py-0.5 rounded text-xs -js-quick-message-type02" data-message="근조">근조</button>
+                  <button type="button" class="bg-red-100 border px-1 py-0.5 rounded text-xs -js-quick-message-type02" data-message="삼가 고인의 명복을 빕니다">삼가 고인의 명복을 빕니다</button>
+                </p>
+              </div>
+            </div>
+            <input type="text" class="mt-0.5 border p-1 w-full rounded" placeholder="경조사어를 입력하세요" id="congratulatory-message"/>
+          </div>
+          
+          <!-- 보내는 분(왼쪽) -->
+          <div class="mb-1">
+            <label class="label block">보내는 분(왼쪽)</label>
+            <input type="text" class="border p-1 w-full rounded" placeholder="보내는 분을 입력하세요" id="sender-name"/>
+          </div>
+        </div>
+
+        <!-- 카드 / 요청사항 -->
+        <div class="mb-1">
+          <label class="label block">카드 문구</label>
+          <textarea class="border p-1 w-full rounded text-sm" rows="1" placeholder="예: 사랑하는 마음을 담아..."></textarea>
+        </div>
+
+        <div class="mb-1">
+          <label class="label block">요구사항</label>
+          <textarea class="border p-1 w-full rounded text-sm" rows="1" placeholder="배송 완료 시 사진 첨부해주세요."></textarea>
+        </div>
+
+        <!-- 버튼 -->
+        <div class="flex justify-end gap-4">
+          <button type="button" onclick="openPrintPreview()" class="bg-blue-600 text-white px-6 py-2 rounded">미리 보기</button>
+          <button class="bg-green-600 text-white px-6 py-2 rounded">발주하기</button>
+        </div>
+
+        <p class="text-center text-xs text-red-600 mt-4">
+          발주 후 수주처와 협의된 주문서는 <span class="font-bold">금액, 날짜, 리본 등 수정 가능</span>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-6 text-center text-xs text-gray-500 p-2">
+    &copy; 2025 꽃비파트너스. All rights reserved.
+  </footer>
+
+  <script>
+    // 상품 선택 함수
+    function selectProduct(productName) {
+      document.getElementById('product-name').value = productName;
+      document.getElementById('product-detail').value = productName + '화환';
+    }
+    
+    // 가격 설정 함수
+    function setPrice(elementId, price) {
+      document.getElementById(elementId).value = price;
+      
+      // 결제금액 설정 시 원청금액도 자동 설정 (반대도 가능)
+      if (elementId === 'payment-price' && !document.getElementById('original-price').value) {
+        document.getElementById('original-price').value = price;
+      } else if (elementId === 'original-price' && !document.getElementById('payment-price').value) {
+        document.getElementById('payment-price').value = price;
+      }
+      
+      updateTotalPrice();
+    }
+    
+    // 가격 초기화 함수
+    function resetPrice(elementId) {
+      document.getElementById(elementId).value = '';
+      updateTotalPrice();
+    }
+    
+    // 옵션 표시/숨김 토글 함수
+    function toggleOptions() {
+      const optionsSection = document.getElementById('options-section');
+      const showOptions = document.getElementById('showOptions').checked;
+      optionsSection.classList.toggle('hidden', !showOptions);
+      updateTotalPrice();
+    }
+    
+    // 전화번호 자동 하이픈 추가 함수
+    function formatPhoneNumber(input) {
+      // 숫자만 추출
+      let phoneNumber = input.value.replace(/[^0-9]/g, '');
+      
+      // 길이에 따라 하이픈 추가
+      if (phoneNumber.length < 4) {
+        // 변경 없음
+      } else if (phoneNumber.length < 7) {
+        phoneNumber = phoneNumber.replace(/(\d{3})(\d+)/, '$1-$2');
+      } else if (phoneNumber.length < 11) {
+        phoneNumber = phoneNumber.replace(/(\d{3})(\d{3})(\d+)/, '$1-$2-$3');
+      } else {
+        phoneNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
+      }
+      
+      // 결과를 입력 필드에 적용
+      input.value = phoneNumber;
+    }
+    
+    // 배달시간 선택 시 직접입력 필드 표시 여부 설정
+    function toggleEventTimeFields() {
+      const deliveryTime = document.getElementById('delivery-time');
+      const customTimeField = document.getElementById('custom-time-field');
+      const eventTimeFields = document.getElementById('event-time-fields');
+      
+      if (deliveryTime.value === 'custom') {
+        // 직접입력 선택 시
+        customTimeField.classList.remove('hidden');
+        eventTimeFields.classList.add('hidden');
+      } else {
+        // 일반 시간 선택 시
+        customTimeField.classList.add('hidden');
+        eventTimeFields.classList.remove('hidden');
+      }
+    }
+    
+    // 이미지 업로드 팝업 열기
+    function openImageUploadPopup() {
+      window.open('image-upload-popup.html', 'imageUpload', 'width=500,height=400');
+    }
+    
+    // 숫자만 입력 허용하는 함수
+    function validateNumberInput(input) {
+      const value = input.value;
+      // 마지막 문자가 숫자가 아니면 제거
+      if (value.length > 0 && !/\d$/.test(value)) {
+        input.value = value.slice(0, -1);
+      }
+    }
+    
+    // 총 가격 업데이트 함수
+    function updateTotalPrice() {
+      // 원청금액, 결제금액 가져오기 - 둘 다 필수가 아님
+      const paymentPrice = parseInt(document.getElementById('payment-price').value) || 0;
+      
+      // 옵션 체크박스 체크된 경우만 옵션 금액 합산
+      let optionTotal = 0;
+      const checkboxes = document.querySelectorAll('.option-checkbox');
+      checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+          const valueInput = document.getElementById(checkbox.id + '-value');
+          const value = parseInt(valueInput.value) || 0;
+          optionTotal += value;
+        }
+      });
+      
+      // 총 금액 계산 (결제금액 + 옵션)
+      const totalPrice = paymentPrice + optionTotal;
+      
+      // 화면에 표시 (천 단위 쉼표)
+      const totalPriceElement = document.getElementById('total-price');
+      if (totalPriceElement) {
+        totalPriceElement.textContent = totalPrice.toLocaleString();
+      }
+    }
+    
+    // 회원 선택 기능
+    function setSelectedMember(memberData) {
+      if (!memberData) return;
+      
+      // 회원 정보 입력
+      document.getElementById('member-code').value = memberData.memberCode;
+      document.getElementById('shop-name').value = memberData.shopName;
+      document.getElementById('delivery-region').value = memberData.region;
+      
+      console.log("회원이 선택되었습니다:", memberData);
+    }
+    
+    // 경조사어 추가 함수
+    function addCongratulatory() {
+      // 기능 제거됨
+    }
+    
+    // 행사시간 필드 토글 함수
+    function toggleEventTimeFields() {
+      const deliveryTime = document.getElementById('delivery-time');
+      const eventTimeFields = document.getElementById('event-time-fields');
+      const customTimeField = document.getElementById('custom-time-field');
+      
+      // 모든 필드 초기화 (숨기기)
+      customTimeField.classList.add('hidden');
+      eventTimeFields.classList.add('hidden');
+      
+      if (deliveryTime.value === 'custom') {
+        // 직접입력인 경우
+        customTimeField.classList.remove('hidden');
+        eventTimeFields.classList.remove('hidden');
+      } else if (deliveryTime.value !== 'default') {
+        // 기본시간이 아닌 경우 (08:00~23:00 선택 시)
+        eventTimeFields.classList.remove('hidden');
+      }
+    }
+    
+    // 회원 선택 취소
+    function resetMemberSelection() {
+      document.getElementById('member-code').value = '';
+      document.getElementById('shop-name').value = '';
+      document.getElementById('delivery-region').value = '';
+    }
+    
+    // 날짜 선택기 표시 함수
+    function showDatePicker() {
+      // 기존 input type="date"를 직접 사용합니다
+      const deliveryDateInput = document.getElementById('delivery-date');
+      
+      // 날짜 선택 요소 생성
+      const dateInput = document.createElement('input');
+      dateInput.type = 'date';
+      dateInput.style.position = 'absolute';
+      dateInput.style.left = (deliveryDateInput.getBoundingClientRect().left) + 'px';
+      dateInput.style.top = (deliveryDateInput.getBoundingClientRect().bottom + window.scrollY) + 'px';
+      dateInput.style.zIndex = '1000';
+      document.body.appendChild(dateInput);
+      
+      // 달력 외부 클릭 시 닫기
+      document.addEventListener('click', function closeCalendar(e) {
+        if (e.target !== dateInput && e.target !== deliveryDateInput) {
+          document.body.removeChild(dateInput);
+          document.removeEventListener('click', closeCalendar);
+        }
+      });
+      
+      // 날짜 변경 이벤트
+      dateInput.addEventListener('change', function() {
+        const selectedDate = new Date(this.value);
+        if(selectedDate) {
+          // YYYY-MM-DD 형식으로 날짜 표시
+          deliveryDateInput.value = this.value;
+          
+          // 요일 표시
+          const days = ['일', '월', '화', '수', '목', '금', '토'];
+          const dayOfWeek = days[selectedDate.getDay()];
+          document.getElementById('delivery-day').value = dayOfWeek + '요일';
+          
+          // 달력 닫기
+          document.body.removeChild(dateInput);
+          document.removeEventListener('click', closeCalendar);
+        }
+      });
+      
+      // 포커스 및 클릭
+      setTimeout(() => {
+        dateInput.focus();
+        dateInput.click();
+      }, 100);
+    }
+    
+    // 필독사항 토글 함수
+    function toggleImportantNotice() {
+      const noticeSection = document.getElementById('important-notice-section');
+      noticeSection.classList.toggle('hidden');
+    }
+    
+    // 경조사어 버튼 클릭 이벤트
+    document.addEventListener('DOMContentLoaded', function() {
+      const messageButtons = document.querySelectorAll('.-js-quick-message-type02');
+      messageButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          document.getElementById('congratulatory-message').value = this.getAttribute('data-message');
+        });
+      });
+    });
+    
+    // 페이지 로드 시 초기화
+    window.onload = function() {
+      // 옵션값 입력 필드에 숫자 입력 검증 추가
+      const optionValues = document.querySelectorAll('.option-value');
+      optionValues.forEach(input => {
+        input.addEventListener('input', function() {
+          validateNumberInput(this);
+          updateTotalPrice();
+        });
+      });
+      
+      // 경조사어 버튼 클릭 이벤트 처리
+      document.querySelectorAll('.-js-quick-message-type02').forEach(button => {
+        button.addEventListener('click', function() {
+          const message = this.getAttribute('data-message');
+          const messageField = document.getElementById('congratulatory-message');
+          if (messageField) {
+            messageField.value = message;
+          }
+        });
+      });
+      
+      updateTotalPrice();
+    };
+    
+    // 주문서 미리보기 창 열기 함수
+    function openPrintPreview() {
+      // 현재 폼 데이터 수집
+      const now = new Date();
+      const orderDate = now.toISOString().slice(0, 10).replace(/-/g, '-') + ' ' + 
+                      now.getHours().toString().padStart(2, '0') + ':' + 
+                      now.getMinutes().toString().padStart(2, '0') + ':' + 
+                      now.getSeconds().toString().padStart(2, '0');
+                      
+      // 발주화원 정보
+      const shopName = '화환앤플라워'; // 로그인된 사용자 정보
+      const shopTel = '1800-0468';
+      const shopMobile = '010-1234-5678';
+      
+      // 수주화원 정보
+      const receiveShop = document.querySelector('#shop-name')?.value || '미소플라워';
+      const receiveShopTel = document.querySelector('#shop-tel')?.value || '02-123-4567';
+      const receiveShopMobile = document.querySelector('#shop-mobile')?.value || '010-9876-5432';
+      
+      // 상품 정보
+      const productName = document.querySelector('#product-type')?.value || '관엽식물';
+      const originalPrice = document.querySelector('#product-price')?.value || '55000';
+      const paymentPrice = document.querySelector('#payment-price')?.value || '55000';
+      
+      // 배달 정보
+      const deliveryDate = document.querySelector('#delivery-date')?.value || '2025-05-20';
+      const deliveryHour = document.querySelector('#delivery-hour')?.value || '8';
+      const deliveryMinute = document.querySelector('#delivery-minute')?.value || '10';
+      const deliveryType = document.querySelector('input[name="delivery-type"]:checked')?.value || '행사';
+      const deliveryAddress = document.querySelector('#delivery-address')?.value || '서울시 강남구 테헤란로 123 5층 대회의실';
+      
+      // 수신자 정보
+      const receiverName = document.querySelector('#receiver-name')?.value || '홍길동';
+      const receiverTel = document.querySelector('#receiver-tel')?.value || '02-987-6543';
+      const receiverMobile = document.querySelector('#receiver-mobile')?.value || '010-1111-2222';
+      
+      // 추가 정보
+      const orderNotes = document.querySelector('textarea')?.value || '깨끗한 식물로 준비해 주세요.';
+      const ribbonText = document.querySelector('#ribbon-text')?.value || '축결혼';
+      const senderName = document.querySelector('#sender-name')?.value || '김철수';
+      
+      // URL 파라미터 구성
+      const params = new URLSearchParams({
+        orderDate,
+        shopName,
+        shopTel,
+        shopMobile,
+        receiveShop,
+        receiveShopTel, 
+        receiveShopMobile,
+        productName,
+        originalPrice,
+        paymentPrice,
+        deliveryDate,
+        deliveryHour,
+        deliveryMinute,
+        deliveryType,
+        deliveryAddress,
+        receiverName,
+        receiverTel,
+        receiverMobile,
+        orderNotes,
+        ribbonText,
+        senderName,
+        productQuantity: '1'
+      });
+      
+      // 새 창에서 미리보기 페이지 열기
+      const printWindow = window.open('order-print-preview.html?' + params.toString(), 'orderPreview', 'width=800,height=800,scrollbars=yes');
+    }
+    
+    // 발주하기 함수
+    function submitOrder() {
+      // 발주 로직 구현
+      alert('주문이 성공적으로 접수되었습니다.');
+      // 주문 완료 후 처리 로직...
+    }
+    
+    // 경조사어 관련 변수 및 함수
+    let congratulatoryCount = 1; // 이미 하나의 입력란이 있으므로 1부터 시작
+    const maxCongratulatoryCount = 5; // 최대 경조사어 개수
+    
+    function initCongratulatoryMessages() {
+      // 경조사어 추가 버튼 이벤트
+      const addBtn = document.querySelector('.-js-message-type-type02-add-button');
+      if (addBtn) {
+        addBtn.addEventListener('click', addCongratulatoryMessage);
+      }
+      
+      // 모두 삭제 버튼 이벤트
+      const removeAllBtn = document.querySelector('.-js-msg-type02-delete');
+      if (removeAllBtn) {
+        removeAllBtn.addEventListener('click', removeAllCongratulatoryMessages);
+      }
+      
+      // 이미 있는 첫 번째 경조사어 입력란의 삭제 버튼 이벤트
+      const deleteBtn = document.querySelector('.delete-congratulatory-btn');
+      if (deleteBtn) {
+        deleteBtn.addEventListener('click', function() {
+          removeCongratulatoryMessage(this);
+        });
+      }
+      
+      // 경조사어 프리셋 버튼 이벤트
+      document.querySelectorAll('.-js-quick-message-type02').forEach(button => {
+        button.addEventListener('click', function() {
+          addPresetCongratulatoryMessage(this.dataset.message);
+        });
+      });
+      
+      // 경조사어 입력란 변경 이벤트
+      updateCongratulatoryInputEvents();
+    }
+    
+    function addCongratulatoryMessage() {
+      if (congratulatoryCount >= maxCongratulatoryCount) {
+        alert('경조사어는 최대 ' + maxCongratulatoryCount + '개까지 추가할 수 있습니다.');
+        return;
+      }
+      
+      const container = document.getElementById('congratulatory-messages-container');
+      const newIndex = congratulatoryCount;
+      
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'flex items-center gap-2 mt-2';
+      messageDiv.innerHTML = `
+        <input type="text" class="border p-2 w-full rounded congratulatory-input" placeholder="추가 경조사어를 입력하세요" id="congratulatory-message-${newIndex}"/>
+        <button type="button" class="text-red-500 px-2 delete-congratulatory-btn" data-index="${newIndex}">&times;</button>
+      `;
+      
+      container.appendChild(messageDiv);
+      congratulatoryCount++;
+      
+      // 새로 추가된 삭제 버튼에 이벤트 추가
+      messageDiv.querySelector('.delete-congratulatory-btn').addEventListener('click', function() {
+        removeCongratulatoryMessage(this);
+      });
+      
+      updateCongratulatoryInputEvents();
+      updateCongratulatoryPreview();
+    }
+    
+    function removeCongratulatoryMessage(button) {
+      // 마지막 하나는 남겨두기
+      if (document.querySelectorAll('.congratulatory-input').length <= 1) {
+        document.getElementById('congratulatory-message-0').value = '';
+        updateCongratulatoryPreview();
+        return;
+      }
+      
+      // 해당 입력란 삭제
+      button.closest('div').remove();
+      updateCongratulatoryPreview();
+    }
+    
+    function removeAllCongratulatoryMessages() {
+      // 첫 번째 입력란은 남기고 값만 비우기
+      document.getElementById('congratulatory-message-0').value = '';
+      
+      // 나머지 입력란 삭제
+      const container = document.getElementById('congratulatory-messages-container');
+      while (container.children.length > 1) {
+        container.removeChild(container.lastChild);
+      }
+      
+      congratulatoryCount = 1;
+      updateCongratulatoryPreview();
+    }
+    
+    function addPresetCongratulatoryMessage(text) {
+      // 비어있는 입력란 찾기
+      let emptyInput = null;
+      document.querySelectorAll('.congratulatory-input').forEach(input => {
+        if (!input.value.trim() && !emptyInput) {
+          emptyInput = input;
+        }
+      });
+      
+      // 비어있는 입력란이 없으면 새로 추가
+      if (!emptyInput && congratulatoryCount < maxCongratulatoryCount) {
+        addCongratulatoryMessage();
+        emptyInput = document.getElementById(`congratulatory-message-${congratulatoryCount-1}`);
+      }
+      
+      // 값 설정
+      if (emptyInput) {
+        emptyInput.value = text;
+        updateCongratulatoryPreview();
+      }
+    }
+    
+    function updateCongratulatoryInputEvents() {
+      const inputs = document.querySelectorAll('.congratulatory-input');
+      if (inputs && inputs.length > 0) {
+        inputs.forEach(input => {
+          input.addEventListener('input', updateCongratulatoryPreview);
+        });
+      }
+    }
+    
+    function updateCongratulatoryPreview() {
+      const messages = [];
+      const inputs = document.querySelectorAll('.congratulatory-input');
+      if (inputs && inputs.length > 0) {
+        inputs.forEach(input => {
+          if (input.value.trim()) {
+            messages.push(input.value.trim());
+          }
+        });
+      }
+      
+      // 주문 폼에서 경조사어 미리보기 영역이 없다면, 메인 경조사어 입력 필드에 값 설정
+      const mainInput = document.getElementById('congratulatory-message');
+      if (mainInput && messages.length > 0) {
+        mainInput.value = messages.join(', ');
+      }
+      
+      // 미리보기 섹션 업데이트 (있는 경우에만)
+      const previewContainer = document.getElementById('selected-congratulatory-messages');
+      const previewContent = document.getElementById('congratulatory-preview');
+      
+      if (previewContainer && previewContent) {
+        if (messages.length > 0) {
+          previewContent.innerHTML = messages.map(msg => `<div class="bg-blue-50 inline-block px-2 py-1 rounded m-1">${msg}</div>`).join('');
+          previewContainer.classList.remove('hidden');
+        } else {
+          previewContainer.classList.add('hidden');
+        }
+      }
+    }
+    
+    // 직발주/오픈콜 관련 기능
+    function toggleOrderType() {
+      const directOrderBtn = document.getElementById('direct-order-btn');
+      const openCallBtn = document.getElementById('open-call-btn');
+      const memberSelectionSection = document.getElementById('member-selection-section');
+      
+      directOrderBtn.addEventListener('click', function() {
+        directOrderBtn.classList.remove('bg-gray-200');
+        directOrderBtn.classList.add('bg-amber-200', 'text-white');
+        openCallBtn.classList.remove('bg-amber-200', 'text-white');
+        openCallBtn.classList.add('bg-gray-200');
+        memberSelectionSection.style.display = 'block';
+      });
+      
+      openCallBtn.addEventListener('click', function() {
+        openCallBtn.classList.remove('bg-gray-200');
+        openCallBtn.classList.add('bg-amber-200', 'text-white');
+        directOrderBtn.classList.remove('bg-amber-200', 'text-white');
+        directOrderBtn.classList.add('bg-gray-200');
+        memberSelectionSection.style.display = 'none';
+        resetMemberSelection();
+      });
+    }
+    
+    // 지역 선택 관련 함수
+    function selectRegion(region) {
+      const regionInput = document.querySelector('input[placeholder="배송할 지역을 입력하세요"]');
+      if (regionInput) {
+        regionInput.value = region;
+      }
+    }
+    
+    // window.addEventListener를 사용하여 메시지 수신 처리 (region-select-popup.html에서 호출됨)
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'regionSelected') {
+        selectRegion(event.data.region);
+      }
+    });
+    
+    // 경조사어 관련 버튼 이벤트 연결
+    function setupCongratulatoryButtons() {
+      // 프리셋 버튼 이벤트 처리
+      document.querySelectorAll('.-js-quick-message-type02').forEach(button => {
+        button.addEventListener('click', function() {
+          const message = this.dataset.message;
+          const messageInput = document.getElementById('congratulatory-message');
+          if (messageInput) {
+            messageInput.value = message;
+          }
+        });
+      });
+      
+      // 경조사어 추가 버튼
+      const addBtn = document.getElementById('add-congratulatory-btn-real');
+      if (addBtn) {
+        addBtn.addEventListener('click', function() {
+          const messageInput = document.getElementById('congratulatory-message');
+          if (messageInput) {
+            if (!messageInput.value) {
+              alert('경조사어를 입력하세요');
+              return;
+            }
+            
+            // 이미 추가된 경조사어 가져오기
+            let messages = [];
+            if (messageInput.value) {
+              messages = messageInput.value.split(',').map(msg => msg.trim()).filter(msg => msg);
+            }
+            
+            // 경조사어 추가 UI 표시
+            const newMessage = prompt('추가할 경조사어를 입력하세요');
+            if (newMessage && newMessage.trim()) {
+              messages.push(newMessage.trim());
+              messageInput.value = messages.join(', ');
+            }
+          }
+        });
+      }
+      
+      // 경조사어 모두 삭제 버튼
+      const removeAllBtn = document.getElementById('remove-all-congratulatory-btn-real');
+      if (removeAllBtn) {
+        removeAllBtn.addEventListener('click', function() {
+          const messageInput = document.getElementById('congratulatory-message');
+          if (messageInput) {
+            messageInput.value = '';
+          }
+        });
+      }
+    }
+    
+    // 페이지 로드 시 초기화 함수
+    window.addEventListener('DOMContentLoaded', function() {
+      toggleOrderType();
+      setupCongratulatoryButtons();
+    });
+  </script>
+  <!-- 지역 선택 팝업 스크립트 -->
+  <script>
+    // 지역 선택 팝업 열기
+    function openRegionSelect() {
+      window.open('region-select-popup-updated.html', 'regionSelect', 'width=700,height=600');
+    }
+    
+    // 팝업에서 선택된 지역 정보 수신
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'regionSelected') {
+        // 선택된 지역 정보 업데이트
+        document.getElementById('delivery-region-input').value = event.data.region;
+        document.getElementById('delivery-region-price').value = event.data.price;
+        
+        // 가격 정보가 있으면 표시
+        if (event.data.price) {
+          const formattedPrice = new Intl.NumberFormat('ko-KR').format(event.data.price);
+          // 상품금액이나 배송비 계산에 활용할 수 있습니다
+          console.log(`선택된 지역 최저가: ${formattedPrice}원`);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
