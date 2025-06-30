@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>신사 플라워 - 정산내역</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .label { font-weight: bold; margin-right: 6px; }
+    
+    .table-type1 {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+    }
+    
+    .table-type1 th {
+      background-color: #f7f7f7;
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    
+    .table-type1 td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+      font-size: 13px;
+    }
+    
+    .text-left { text-align: left; }
+    .text-right { text-align: right; }
+    .text-center { text-align: center; }
+    
+    .sub-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 16px 0 8px 0;
+      color: #333;
+    }
+    
+    .bg-gray {
+      background-color: #f7f7f7;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 3px 5px;
+      font-size: 11px;
+      font-weight: bold;
+      border-radius: 3px;
+      color: white;
+    }
+    
+    .bg-purple {
+      background-color: #9c27b0;
+    }
+    
+    .bg-gray-badge {
+      background-color: #999;
+    }
+    
+    .text-bold {
+      font-weight: bold;
+    }
+    
+    select {
+      padding: 4px 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 6px 12px;
+      margin-bottom: 0;
+      font-size: 13px;
+      font-weight: normal;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-radius: 4px;
+    }
+    
+    .btn-default {
+      color: #333;
+      background-color: #fff;
+      border-color: #ccc;
+    }
+    
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Header -->
+  <header class="bg-white shadow p-2 flex justify-between items-center">
+    <div class="flex items-center">
+      <a href="index.html"><img src="images/flower-bear-logo.png" alt="신사 플라워 로고" class="h-12 mr-2"><span style="color: rgb(251,229,187);" class="text-xl font-bold">신사 플라워</span></a></div>
+    <nav class="space-x-4">
+      <a href="order-form.html" class="text-sm hover:underline">발주</a>
+      <a href="orders.html" class="text-sm hover:underline">주문확인</a>
+    </nav>
+    <div class="text-sm space-x-2">
+      <a href="login.html" class="hover:underline text-red-500">로그아웃</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto mt-6 px-4 sm:px-6 grid grid-cols-1 md:grid-cols-12 gap-6">
+    <!-- Sidebar -->
+    <aside class="md:col-span-3 space-y-6">
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="font-bold text-lg">화환앤플라워님</h2>
+        <p class="text-sm text-gray-600">잔금총액: <strong>805,500원</strong></p>
+        <div class="mt-2">
+          <p>신사 포인트: <strong>11,110P</strong></p>
+          <p>등급 포인트: <strong>0P</strong></p>
+        </div>
+        <div class="mt-2 border-t pt-2">
+          <p class="text-sm mb-1">수주미확인: <strong>2건</strong></p>
+          <p class="text-sm">수주미배송: <strong>3건</strong></p>
+        </div>
+        <a href="settlement.html" class="block mt-4 w-full bg-amber-200 text-white py-1 rounded text-center">충전/정산</a>
+        <button class="mt-2 w-full bg-gray-100 py-1 rounded">신사멤버십 혜택보기</button>
+      </div>
+
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-semibold text-md mb-2">주문관리</h3>
+        <ul class="space-y-1 text-sm">
+          <li><a href="member-search.html" class="hover:underline">회원검색</a></li>
+          <li><a href="order-form.html" class="hover:underline">발주</a></li>
+          <li><a href="all-orders.html" class="hover:underline">전체발주리스트</a></li>
+          <li><a href="all-received-orders.html" class="hover:underline">전체수주리스트</a></li>
+          <li><a href="unconfirmed-orders.html" class="hover:underline">미확인주문리스트</a></li>
+          <li><a href="canceled-orders.html" class="hover:underline">취소주문리스트</a></li>
+        </ul>
+      </div>
+      
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-semibold text-md mb-2">게시판</h3>
+        <ul class="space-y-1 text-sm">
+          <li><a href="notice.html" class="hover:underline">공지사항</a></li>
+          <li><a href="board.html" class="hover:underline">자유게시판</a></li>
+        </ul>
+      </div>
+      
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-semibold text-md mb-2">정산관리</h3>
+        <ul class="space-y-1 text-sm">
+          <li><a href="settlement-detail.html" class="hover:underline font-semibold text-amber-200">정산내역</a></li>
+          <li><a href="#" class="hover:underline">충전하기</a></li>
+          <li><a href="#" class="hover:underline">출금요청</a></li>
+          <li><a href="#" class="hover:underline">계산서 발행내역</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Panel -->
+    <section class="md:col-span-9 space-y-4">
+      <div class="flex justify-between items-center">
+        <h1 class="text-xl font-bold">정산내역</h1>
+      </div>
+      
+      <div class="bg-white p-4 rounded shadow">
+        <!-- 정산내역 테이블 -->
+        <div class="sub-title">[정산내역]</div>
+
+        <table class="table-type1">
+          <colgroup>
+            <col width="120">
+            <col>
+            <col width="120">
+            <col>
+            <col width="120">
+            <col width="300">
+          </colgroup>
+          <tbody>
+            <tr>
+              <th>화원</th>
+              <td class="text-left">춘천4호</td>
+              <th>전화</th>
+              <td class="text-left">010-5174-0942</td>
+              <th>화원계좌</th>
+              <td colspan="3" class="text-left">농협 ) 352-1961-1566-73 노광택</td>
+            </tr>
+            <tr>
+              <th>본부계좌</th>
+              <td colspan="5" class="text-left">국민은행 ) 125001-04-141483 한지호(참플라워)</td>
+            </tr>
+            <tr>
+              <th>정산계산</th>
+              <td colspan="5" class="text-left">
+                <div style="margin-top:10px">
+                  <div class="sub-title">
+                    결산금액 : 5,630원 <span style="color:#3366ff">(화원이 받을금액)</span>
+                  </div>
+                </div>
+                <div>
+                  <font color="#999999">* 정산액이 - 일경우는 본부로 송금, +일 경우는 본부로부터 받음 </font>
+                  <br>
+                  * 정산일 = 가맹점 정산은 1일 ~ 5일까지 본부로 입금해 주시기 바랍니다.
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div class="mt-4 mb-4 flex justify-between items-center">
+          <div>
+            <a href="#" class="btn btn-sm btn-default"><i class="fa fa-arrow-left"></i></a>
+            <select class="mx-1">
+              <option value="2025" selected>2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+              <option value="2022">2022</option>
+              <option value="2021">2021</option>
+            </select>
+            <select>
+              <option value="01">01</option>
+              <option value="02">02</option>
+              <option value="03">03</option>
+              <option value="04" selected>04</option>
+              <option value="05">05</option>
+              <option value="06">06</option>
+              <option value="07">07</option>
+              <option value="08">08</option>
+              <option value="09">09</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+            </select>
+          </div>
+          <button class="btn btn-default btn-sm">엑셀저장</button>
+        </div>
+        
+        <table id="list" class="table-type1">
+          <tbody>
+            <tr>
+              <th>일자</th>
+              <th>발주</th>
+              <th>옵션</th>
+              <th>수주</th>
+              <th>옵션</th>
+              <th>수수료</th>
+              <th>장려금</th>
+              <th>장려공제</th>
+              <th>입금</th>
+              <th>송금</th>
+              <th>공제</th>
+              <th>시스템</th>
+              <th>잔액</th>
+            </tr>
+            <tr class="bg-gray">
+              <td>합계</td>
+              <td class="text-right">997,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">875,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">67,375</td>
+              <td class="text-right">4,026</td>
+              <td class="text-right">0</td>
+              <td class="text-right">105,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">22,000</td>
+              <td class="text-right">5,630</td>
+            </tr>
+            <tr>
+              <td colspan="13" class="text-right bg-gray"><span class="badge bg-purple">이월금액</span> <span class="text-bold">107,979</span></td>
+            </tr>
+            <tr>
+              <td>04-01</td>
+              <td class="text-right">35,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right" colspan="3"><span class="badge bg-gray-badge">주문번호</span> 250401-2664</td>
+              <td class="text-right">0</td>
+              <td class="text-right">72,979</td>
+            </tr>
+            <tr>
+              <td>04-05</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">35,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">2,695</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right" colspan="3"><span class="badge bg-gray-badge">주문번호</span> 250326-8052</td>
+              <td class="text-right">0</td>
+              <td class="text-right">105,284</td>
+            </tr>
+            <tr>
+              <td>04-05</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">35,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">2,695</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right" colspan="3"><span class="badge bg-gray-badge">주문번호</span> 250404-7696</td>
+              <td class="text-right">0</td>
+              <td class="text-right">137,589</td>
+            </tr>
+            <tr>
+              <td>04-05</td>
+              <td class="text-right">35,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right" colspan="3"><span class="badge bg-gray-badge">주문번호</span> 250325-1941</td>
+              <td class="text-right">0</td>
+              <td class="text-right">102,589</td>
+            </tr>
+            <tr>
+              <td>04-05</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">35,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">2,695</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right" colspan="3"><span class="badge bg-gray-badge">주문번호</span> 250404-4349</td>
+              <td class="text-right">0</td>
+              <td class="text-right">134,894</td>
+            </tr>
+            <tr>
+              <td>04-05</td>
+              <td class="text-right">40,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right" colspan="3"><span class="badge bg-gray-badge">주문번호</span> 250405-1771</td>
+              <td class="text-right">0</td>
+              <td class="text-right">94,894</td>
+            </tr>
+            <tr>
+              <td>04-05</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">35,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">2,695</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right" colspan="3"><span class="badge bg-gray-badge">주문번호</span> 250405-9381</td>
+              <td class="text-right">0</td>
+              <td class="text-right">127,199</td>
+            </tr>
+            <tr>
+              <td>04-07</td>
+              <td class="text-right">35,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right" colspan="3"><span class="badge bg-gray-badge">주문번호</span> 250407-4775</td>
+              <td class="text-right">0</td>
+              <td class="text-right">92,199</td>
+            </tr>
+            <tr>
+              <td>04-07</td>
+              <td class="text-right">35,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right" colspan="3"><span class="badge bg-gray-badge">주문번호</span> 250407-5180</td>
+              <td class="text-right">0</td>
+              <td class="text-right">57,199</td>
+            </tr>
+            <tr>
+              <td>04-11</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">35,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">2,695</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right" colspan="3"><span class="badge bg-gray-badge">주문번호</span> 250411-8837</td>
+              <td class="text-right">0</td>
+              <td class="text-right">89,504</td>
+            </tr>
+            <tr>
+              <td>04-11</td>
+              <td class="text-right">60,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right" colspan="3"><span class="badge bg-gray-badge">주문번호</span> 250411-2422</td>
+              <td class="text-right">0</td>
+              <td class="text-right">29,504</td>
+            </tr>
+            <tr>
+              <td>04-12</td>
+              <td class="text-right">35,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right" colspan="3"><span class="badge bg-gray-badge">주문번호</span> 250411-5160</td>
+              <td class="text-right">0</td>
+              <td class="text-right">-5,496</td>
+            </tr>
+            <tr>
+              <td>04-12</td>
+              <td class="text-right">40,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right" colspan="3"><span class="badge bg-gray-badge">주문번호</span> 250326-6838</td>
+              <td class="text-right">0</td>
+              <td class="text-right">-45,496</td>
+            </tr>
+            <tr>
+              <td>04-12</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">35,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">2,695</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right" colspan="3"><span class="badge bg-gray-badge">주문번호</span> 250411-1422</td>
+              <td class="text-right">0</td>
+              <td class="text-right">-13,191</td>
+            </tr>
+            <tr>
+              <td>04-12</td>
+              <td class="text-right">35,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right" colspan="3"><span class="badge bg-gray-badge">주문번호</span> 250411-4445</td>
+              <td class="text-right">0</td>
+              <td class="text-right">-48,191</td>
+            </tr>
+            <tr>
+              <td>04-12</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right">35,000</td>
+              <td class="text-right">0</td>
+              <td class="text-right">2,695</td>
+              <td class="text-right">0</td>
+              <td class="text-right">0</td>
+              <td class="text-right" colspan="3"><span class="badge bg-gray-badge">주문번호</span> 250410-4375</td>
+              <td class="text-right">0</td>
+              <td class="text-right">-15,886</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-6 text-center text-xs text-gray-500 p-2">
+    &copy; 2025 신사 플라워. All rights reserved.
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 년/월 선택 시 페이지 이동
+      const yearSelect = document.querySelector('select:nth-of-type(1)');
+      const monthSelect = document.querySelector('select:nth-of-type(2)');
+      
+      function updateTable() {
+        const year = yearSelect.value;
+        const month = monthSelect.value;
+        // 실제 구현에서는 새 데이터를 가져오는 AJAX 요청을 보내야 함
+        console.log(`정산내역 요청: ${year}년 ${month}월`);
+      }
+      
+      yearSelect.addEventListener('change', updateTable);
+      monthSelect.addEventListener('change', updateTable);
+    });
+  </script>
+</body>
+</html>

@@ -184,4 +184,90 @@ public class UserService {
         userRepository.save(user);  // 상태 변경 저장
         // TODO: 거절 사유 저장 및 알림 발송
     }
+
+    /**
+     * 회원 검색 (직발주용)
+     * @param searchType 검색 유형 (상호명, 회원코드, 대표자명, 전화번호)
+     * @param searchKeyword 검색 키워드
+     * @param region 지역 필터
+     * @return 검색된 회원 목록
+     */
+    @Transactional(readOnly = true)
+    public List<com.sinsaflower.dto.OrderDto.MemberSearchResponse> searchMembers(
+            String searchType, String searchKeyword, String region) {
+        
+        List<User> users;
+        
+        // 활성 상태의 화원만 검색 (UserType.FLORIST)
+        if (searchKeyword != null && !searchKeyword.trim().isEmpty()) {
+            users = userRepository.findActiveFloristsBySearchCriteria(searchType, searchKeyword.trim());
+        } else {
+            users = userRepository.findActiveFlorists();
+        }
+        
+        // 지역 필터링 - 실제 주소 기반
+        if (region != null && !region.trim().isEmpty() && !region.equals("전체")) {
+            users = users.stream()
+                .filter(user -> {
+                    String userProvince = businessInfoService.getProvinceFromBusinessAddress(user);
+                    return region.equals(userProvince);
+                })
+                .collect(Collectors.toList());
+        }
+        
+        return users.stream()
+            .map(this::convertToMemberSearchResponse)
+            .collect(Collectors.toList());
+    }
+    
+    /**
+     * User 엔티티를 MemberSearchResponse로 변환
+     */
+    private com.sinsaflower.dto.OrderDto.MemberSearchResponse convertToMemberSearchResponse(User user) {
+        String corporationName = getCorporationName(user);
+        String businessAddress = getBusinessAddress(user);
+        String deliveryRegion = getDeliveryRegion(user);
+        Integer deliveryPrice = getDeliveryPrice(user);
+        
+        return com.sinsaflower.dto.OrderDto.MemberSearchResponse.builder()
+            .id(user.getId())
+            .corporationName(corporationName)
+            .ownerName(user.getName())
+            .phoneNumber(user.getPhone())
+            .businessAddress(businessAddress)
+            .deliveryRegion(deliveryRegion)
+            .deliveryPrice(deliveryPrice)
+            .build();
+    }
+    
+    /**
+     * 사용자의 법인명/상호명 조회 (BusinessInfo.corporationName)
+     */
+    private String getCorporationName(User user) {
+        return businessInfoService.getShopNameByUser(user);
+    }
+    
+    /**
+     * 사용자의 사업장 주소 조회 (실제 주소)
+     */
+    private String getBusinessAddress(User user) {
+        // BusinessInfo에서 사업장 주소 조회
+        return businessInfoService.getRegionByUser(user);
+    }
+    
+    /**
+     * 사용자의 배송 지역 조회 (실제 배송 주소)
+     */
+    private String getDeliveryRegion(User user) {
+        // DeliverySetting에서 배송 지역 조회
+        return deliverySettingService.getDeliveryRegionByUser(user);
+    }
+    
+    /**
+     * 사용자의 배송비 조회
+     */
+    private Integer getDeliveryPrice(User user) {
+        // DeliverySetting에서 배송비 조회
+        return deliverySettingService.getDeliveryPriceByUser(user);
+    }
 } 

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>신사 플라워 - 회원 정보 수정</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <style>
+    body { 
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #f9fafb;
+    }
+    .btn-primary {
+      background-color: rgb(251,229,187);
+      color: black;
+    }
+    .btn-primary:hover {
+      background-color: rgb(235,215,175);
+    }
+    .btn-secondary {
+      background-color: #e5e7eb;
+      color: #4b5563;
+    }
+    .btn-secondary:hover {
+      background-color: #d1d5db;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="bg-white shadow p-2 flex justify-between items-center">
+    <div class="flex items-center">
+      <a href="/"><img src="/images/sinsa-flower-logo-nobg.png" alt="신사 플라워 로고" class="h-12 mr-2"><span style="color: rgb(251,229,187);" class="text-xl font-bold">신사 플라워</span></a>
+    </div>
+    <nav class="space-x-4">
+      <a href="order-form.html" class="text-sm hover:underline">발주</a>
+      <a href="orders.html" class="text-sm hover:underline">주문확인</a>
+    </nav>
+    <div class="text-sm space-x-2">
+      <a href="edit-profile.html" class="hover:underline">회원 정보 수정</a>
+      <a href="/login.html" class="hover:underline text-red-500">로그아웃</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto mt-2 px-2 pb-4 max-w-7xl">
+    <div class="grid grid-cols-12 gap-2">
+      <!-- Sidebar -->
+      <aside class="col-span-2 space-y-2">
+        <!-- 사이드 메뉴 -->
+        <div class="bg-white rounded shadow-sm p-2">
+          <div class="mb-1 font-bold text-sm border-b pb-1">회원정보</div>
+          <ul class="text-xs space-y-1">
+            <li class="py-0.5 pl-1 bg-amber-100 rounded"><a href="edit-profile.html" class="block">회원 정보 수정</a></li>
+            <li class="py-0.5 pl-1"><a href="#" class="block">비밀번호 변경</a></li>
+            <li class="py-0.5 pl-1"><a href="#" class="block">주변 화원 설정</a></li>
+          </ul>
+        </div>
+        
+        <div class="bg-white rounded shadow-sm p-2">
+          <div class="mb-1 font-bold text-sm border-b pb-1">주문관리</div>
+          <ul class="text-xs space-y-1">
+            <li class="py-0.5 pl-1"><a href="orders.html" class="block">전체 주문 목록</a></li>
+            <li class="py-0.5 pl-1"><a href="unconfirmed-orders.html" class="block">미확인 주문</a></li>
+            <li class="py-0.5 pl-1"><a href="canceled-orders.html" class="block">취소 주문</a></li>
+            <li class="py-0.5 pl-1"><a href="all-received-orders.html" class="block">수령받은 주문</a></li>
+          </ul>
+        </div>
+        
+        <div class="bg-white rounded shadow-sm p-2">
+          <div class="mb-1 font-bold text-sm border-b pb-1">게시판</div>
+          <ul class="text-xs space-y-1">
+            <li class="py-0.5 pl-1"><a href="#" class="block">공지사항</a></li>
+            <li class="py-0.5 pl-1"><a href="#" class="block">문의게시판</a></li>
+            <li class="py-0.5 pl-1"><a href="#" class="block">자유게시판</a></li>
+          </ul>
+        </div>
+        
+        <div class="bg-white rounded shadow-sm p-2">
+          <div class="mb-1 font-bold text-sm border-b pb-1">정산관리</div>
+          <ul class="text-xs space-y-1">
+            <li class="py-0.5 pl-1"><a href="settlement.html" class="block">정산 내역</a></li>
+            <li class="py-0.5 pl-1"><a href="#" class="block">포인트 내역</a></li>
+            <li class="py-0.5 pl-1"><a href="#" class="block">충전 신청</a></li>
+          </ul>
+        </div>
+      </aside>
+      
+      <!-- Main Content Area -->
+      <div class="col-span-10">
+        <div class="title_bar flex justify-between items-center border-b pb-1 mb-2">
+          <h3 class="text-base font-bold"><span>회원정보 수정</span></h3>
+          <p class="time text-xs text-gray-500">2025-05-20 16:26:40</p>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-sm p-2 mb-2">
+      <form id="profile-edit-form">
+        <table class="w-full border-collapse text-xs">
+          <colgroup>
+            <col style="width: 100px;">
+            <col style="width: 250px;">
+            <col style="width: 100px;">
+            <col>
+          </colgroup>
+          <tbody>
+            <!-- 아이디 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50 w-[100px]">아이디</th>
+              <td colspan="3" class="p-1">
+                <p><input name="userid" type="text" value="vip4040" readonly
+                  class="border border-gray-300 rounded p-0.5 bg-gray-100 text-xs"></p>
+              </td>
+            </tr>
+
+            <!-- 비밀번호 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">비밀번호</th>
+              <td class="p-1">
+                <p><input name="password" type="password" 
+                  class="border border-gray-300 rounded p-0.5 text-xs w-full"></p>
+                <p><span class="text-[10px] text-gray-500">비밀번호는 입력하지 않으면 변경되지 않습니다.</span></p>
+              </td>
+
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">비밀번호 확인</th>
+              <td class="p-1">
+                <p><input name="password_confirmation" type="password"
+                  class="border border-gray-300 rounded p-0.5 text-xs w-full"></p>
+              </td>
+            </tr>
+
+            <!-- 화원명 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">
+                화원명 <span class="text-red-500">*</span>
+              </th>
+              <td class="p-1">
+                <p><input name="office_name" type="text" value="화환앤플라워"
+                  class="border border-gray-300 rounded p-0.5 text-xs w-full"></p>
+              </td>
+
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">
+                대표자명 <span class="text-red-500">*</span>
+              </th>
+              <td class="p-1">
+                <p><input name="name" type="text" value="노광택"
+                  class="border border-gray-300 rounded p-0.5 text-xs w-full"></p>
+              </td>
+            </tr>
+
+            <!-- 게시판 닉네임 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">
+                게시판 닉네임 <span class="text-red-500">*</span>
+              </th>
+              <td colspan="3" class="p-1">
+                <p><input name="nick_name" type="text" value="춘천화환앤플라워"
+                  class="border border-gray-300 rounded p-0.5 text-xs w-full"></p>
+              </td>
+            </tr>
+
+            <!-- 기본배송지 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">기본배송지</th>
+              <td colspan="3" class="p-1">
+                <p><input name="short_address" type="text" value="강원도 춘천시" readonly
+                  class="border border-gray-300 rounded p-0.5 text-xs w-[280px] bg-gray-100"></p>
+              </td>
+            </tr>
+
+            <!-- 배송지역정보 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">배송지역정보</th>
+              <td class="p-1">
+                <p>
+                  <a href="#" class="inline-block px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs">배송지역 수정</a>
+                </p>
+              </td>
+
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">상품설정</th>
+              <td class="p-1">
+                <p>
+                  <a href="#" class="inline-block px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs">상품설정</a>
+                </p>
+              </td>
+            </tr>
+
+            <!-- 화원 실제주소 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">
+                화원 실제주소 <span class="text-red-500">*</span>
+              </th>
+              <td colspan="3" class="p-1">
+                <p class="flex items-center space-x-1">
+                  <input name="zipcode" type="text" value="24210" class="border border-gray-300 rounded p-0.5 text-xs w-[70px]">
+                  <button type="button" class="px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded text-xs">주소검색</button>
+                </p>
+                <p class="mt-0.5"><input name="address" type="text" value="강원 춘천시 동면 장학리 260-2   1층"
+                  class="border border-gray-300 rounded p-0.5 text-xs w-full"></p>
+              </td>
+            </tr>
+
+            <!-- 대표전화 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">
+                대표전화 <span class="text-red-500">*</span>
+              </th>
+              <td class="p-1">
+                <p><input name="tel" type="text" value="010-5174-0942"
+                  class="border border-gray-300 rounded p-0.5 text-xs w-full"></p>
+              </td>
+              
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">
+                팩스번호 <span class="text-red-500">*</span>
+              </th>
+              <td class="p-1">
+                <p><input name="fax" type="text" value="033-254-9471"
+                  class="border border-gray-300 rounded p-0.5 text-xs w-full"></p>
+              </td>
+            </tr>
+
+            <!-- 대표휴대폰 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">
+                대표휴대폰 <span class="text-red-500">*</span>
+              </th>
+              <td class="p-1">
+                <p><input name="phone1" type="text" value="010-5174-0942"
+                  class="border border-gray-300 rounded p-0.5 text-xs w-full"></p>
+              </td>
+              
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">예비휴대폰</th>
+              <td class="p-1">
+                <p><input name="phone2" type="text" value=""
+                  class="border border-gray-300 rounded p-0.5 text-xs w-full"></p>
+              </td>
+            </tr>
+
+            <!-- 홈페이지 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">홈페이지</th>
+              <td colspan="3" class="p-1">
+                <p><input name="website" type="text" value="http://"
+                  class="border border-gray-300 rounded p-0.5 text-xs w-[180px]"></p>
+              </td>
+            </tr>
+
+            <!-- 계좌번호 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">
+                계좌번호 <span class="text-red-500">*</span>
+              </th>
+              <td colspan="3" class="p-1">
+                <p class="flex items-center space-x-1">
+                  <input name="acc_bank1" type="text" value="농협" placeholder="은행" readonly
+                    class="border border-gray-300 rounded p-0.5 text-xs w-[60px] bg-gray-100">
+                  <input name="acc_number1" type="text" value="352-1961-156673" placeholder="계좌번호" readonly
+                    class="border border-gray-300 rounded p-0.5 text-xs w-[130px] bg-gray-100">
+                  <input name="acc_name1" type="text" value="노광택" placeholder="예금주" readonly
+                    class="border border-gray-300 rounded p-0.5 text-xs w-[80px] bg-gray-100">
+                </p>
+              </td>
+            </tr>
+
+            <!-- 가상계좌 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">가상계좌</th>
+              <td colspan="3" class="p-1">
+                <p class="flex items-center space-x-1">
+                  <input name="virtual_bank" type="text" value="농협중앙회" placeholder="은행" readonly
+                    class="border border-gray-300 rounded p-0.5 text-xs w-[60px] bg-gray-100">
+                  <input name="virtual_number" type="text" value="79012933698557" placeholder="계좌번호" readonly
+                    class="border border-gray-300 rounded p-0.5 text-xs w-[130px] bg-gray-100">
+                  <input name="virtual_name" type="text" value="노광택" placeholder="예금주" readonly
+                    class="border border-gray-300 rounded p-0.5 text-xs w-[80px] bg-gray-100">
+                  <button type="button" class="px-1 py-0.5 bg-amber-200 text-white rounded text-xs">신청</button>
+                </p>
+                <p class="text-[10px] text-gray-600">충전은 가상계좌로 입금하시면 자동 충전됩니다.</p>
+                <p class="text-[10px] text-blue-600">마지막 충전 일시는 2025-04-28 12:29 입니다.</p>
+              </td>
+            </tr>
+            
+            <!-- 팩스설정 - 추가된 섹션 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">팩스설정</th>
+              <td class="p-1">
+                <p>
+                  <a href="#" class="inline-block px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs">팩스설정</a>
+                </p>
+              </td>
+              
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">원화가격 견적도구</th>
+              <td class="p-1">
+                <p>
+                  <a href="#" class="inline-block px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs">원화가격견적</a>
+                </p>
+              </td>
+            </tr>
+
+            <!-- 사업자 번호 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">
+                사업자 번호 <span class="text-red-500">*</span>
+              </th>
+              <td colspan="3" class="p-1">
+                <p class="flex items-center space-x-1">
+                  <input name="br_number" type="text" value="345-92-01528"
+                    class="border border-gray-300 rounded p-0.5 text-xs w-[120px]">
+                  <button type="button" class="px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded text-xs">상단내용 복사</button>
+                </p>
+              </td>
+            </tr>
+
+            <!-- 법인명 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">
+                법인명 <span class="text-red-500">*</span>
+              </th>
+              <td class="p-1">
+                <p><input name="br_company_name" type="text" value="화환앤플라워"
+                  class="border border-gray-300 rounded p-0.5 text-xs w-full"></p>
+              </td>
+              
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">
+                대표자성함 <span class="text-red-500">*</span>
+              </th>
+              <td class="p-1">
+                <p><input name="br_representative" type="text" value="노광택"
+                  class="border border-gray-300 rounded p-0.5 text-xs w-full"></p>
+              </td>
+            </tr>
+
+            <!-- 업태 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">
+                업태 <span class="text-red-500">*</span>
+              </th>
+              <td class="p-1">
+                <p><input name="br_type" type="text" value="도소매"
+                  class="border border-gray-300 rounded p-0.5 text-xs w-full"></p>
+              </td>
+              
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">
+                종목 <span class="text-red-500">*</span>
+              </th>
+              <td class="p-1">
+                <p><input name="br_item" type="text" value="생화"
+                  class="border border-gray-300 rounded p-0.5 text-xs w-full"></p>
+              </td>
+            </tr>
+
+            <!-- 사업장 주소 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">
+                사업장 주소 <span class="text-red-500">*</span>
+              </th>
+              <td colspan="3" class="p-1">
+                <p><input name="br_address" type="text" value="강원 춘천시 동면 춘천로 527-60   1층"
+                  class="border border-gray-300 rounded p-0.5 text-xs w-full"></p>
+              </td>
+            </tr>
+
+            <!-- 사업자 등록증 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">사업자 등록증</th>
+              <td colspan="3" class="p-1">
+                <p class="flex items-center space-x-1">
+                  <span class="text-xs">화환앤플라워 사업자.jpg</span>
+                  <a href="#" class="inline-block px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded text-xs">다운로드</a>
+                  <a href="#" class="inline-block px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded text-xs">이미지 보기</a>
+                </p>
+              </td>
+            </tr>
+            
+            <!-- 품목 취급 설정 - 추가된 섹션 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">절화 취급</th>
+              <td class="p-1">
+                <div class="flex items-start">
+                  <div class="flex items-center h-4">
+                    <input id="flower-handling" name="flower-handling" type="checkbox" value="1" checked
+                      class="h-3 w-3 border-gray-300 rounded">
+                  </div>
+                  <div class="ml-1 text-xs">
+                    <label for="flower-handling" class="font-medium text-gray-700">절화 취급</label>
+                  </div>
+                </div>
+              </td>
+              
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">관엽 취급</th>
+              <td class="p-1">
+                <div class="flex items-start">
+                  <div class="flex items-center h-4">
+                    <input id="green-handling" name="green-handling" type="checkbox" value="1" checked
+                      class="h-3 w-3 border-gray-300 rounded">
+                  </div>
+                  <div class="ml-1 text-xs">
+                    <label for="green-handling" class="font-medium text-gray-700">관엽 취급</label>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- 분재 취급 설정 - 추가된 섹션 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">분재 취급</th>
+              <td class="p-1">
+                <div class="flex items-start">
+                  <div class="flex items-center h-4">
+                    <input id="bonsai-handling" name="bonsai-handling" type="checkbox" value="1" 
+                      class="h-3 w-3 border-gray-300 rounded">
+                  </div>
+                  <div class="ml-1 text-xs">
+                    <label for="bonsai-handling" class="font-medium text-gray-700">분재 취급</label>
+                  </div>
+                </div>
+              </td>
+              
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50"></th>
+              <td class="p-1"></td>
+            </tr>
+
+            <!-- 야간 배송 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">야간 배송</th>
+              <td colspan="3" class="p-1">
+                <div class="flex items-start">
+                  <div class="flex items-center h-4">
+                    <input id="night-delivery" name="night-delivery" type="checkbox" value="1"
+                      class="h-3 w-3 border-gray-300 rounded">
+                  </div>
+                  <div class="ml-1 text-xs">
+                    <label for="night-delivery" class="font-medium text-gray-700">야간 배송 가능</label>
+                    <p class="text-[10px] text-gray-500">야간배송 시간은 오후 8시~12시입니다.</p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 영업시간 -->
+            <tr class="border-b">
+              <th class="p-1 text-left font-medium text-gray-700 bg-gray-50">영업시간</th>
+              <td colspan="3" class="p-1">
+                <textarea id="business-hours" name="business-hours" rows="1"
+                  class="border border-gray-300 rounded p-0.5 text-xs w-full"
+                  placeholder="영업시간을 입력하세요">평일 9:00-18:00, 토요일 9:00-15:00, 일요일 휴무</textarea>
+                <p class="text-[10px] text-gray-500">다른 에이전트가 확인할 수 있습니다.</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- 저장 버튼 -->
+        <div class="mt-3 flex justify-center">
+          <button type="submit" class="px-5 py-1 bg-amber-200 text-black rounded text-xs font-medium">저장하기</button>
+          <button type="button" class="ml-2 px-5 py-1 bg-gray-200 text-gray-700 rounded text-xs font-medium">취소</button>
+        </div>
+      </form>
+    </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-100 text-gray-600 text-center p-2 mt-3 text-xs">
+    <p>© 2025 신사 플라워. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // 폼 제출 처리
+    document.getElementById('profile-edit-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('회원 정보가 저장되었습니다.');
+    });
+  </script>
+</body>
+</html>

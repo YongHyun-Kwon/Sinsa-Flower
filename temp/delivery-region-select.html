@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>배달지역 선택</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    
+    /* 시/도 및 구/군 스타일 */
+    .sido span, .gugun span {
+      display: inline-block;
+      padding: 6px 10px;
+      margin: 3px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 13px;
+      background: #f8f8f8;
+    }
+    
+    .sido span:hover, .gugun span:hover {
+      background: #f0f0f0;
+    }
+    
+    .sido span.active, .gugun span.active {
+      background-color: rgb(251,229,187);
+      border-color: rgb(251,191,87);
+      font-weight: bold;
+    }
+    
+    /* 가격 표시 스타일 */
+    .price-tag {
+      font-size: 11px;
+      color: #ff6b00;
+      font-weight: bold;
+      display: inline-block;
+      float: right;
+      margin-left: 4px;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Header -->
+  <header class="bg-white shadow p-2 flex justify-between items-center">
+    <div class="flex items-center">
+      <a href="index.html"><img src="images/flower-bear-logo.png" alt="신사 플라워 로고" class="h-12 mr-2"><span style="color: rgb(251,229,187);" class="text-xl font-bold">신사 플라워</span></a>
+    </div>
+    <nav class="space-x-4">
+      <a href="order-form.html" class="text-sm hover:underline">발주</a>
+      <a href="orders.html" class="text-sm hover:underline">주문확인</a>
+    </nav>
+    <div class="text-sm space-x-2">
+      <a href="login.html" class="hover:underline text-red-500">로그아웃</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto mt-6 px-4 sm:px-6">
+    <div class="bg-white p-4 rounded shadow">
+      <h1 class="text-xl font-bold mb-4 border-b pb-2">배달지역 선택</h1>
+      
+      <div class="clear_both">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- 왼쪽 패널: 시/도 선택 -->
+          <div class="sido border rounded p-3">
+            <p class="font-bold mb-2 text-sm">1. 시/도 선택</p>
+            <div class="flex flex-wrap">
+              <span class="js-area-sido-click" data-sidogugun="서울특별시 강남구" data-sido="서울특별시" data-gugun="강남구">서울</span>
+              <span class="js-area-sido-click" data-sidogugun="강원도 강릉시" data-sido="강원도" data-gugun="강릉시">강원</span>
+              <span class="js-area-sido-click" data-sidogugun="경기도 가평군" data-sido="경기도" data-gugun="가평군">경기</span>
+              <span class="js-area-sido-click" data-sidogugun="경상남도 거제시" data-sido="경상남도" data-gugun="거제시">경남</span>
+              <span class="js-area-sido-click" data-sidogugun="경상북도 경산시" data-sido="경상북도" data-gugun="경산시">경북</span>
+              <span class="js-area-sido-click active" data-sidogugun="광주광역시 광산구" data-sido="광주광역시" data-gugun="광산구">광주</span>
+              <span class="js-area-sido-click" data-sidogugun="대구광역시 군위군" data-sido="대구광역시" data-gugun="군위군">대구</span>
+              <span class="js-area-sido-click" data-sidogugun="대전광역시 대덕구" data-sido="대전광역시" data-gugun="대덕구">대전</span>
+              <span class="js-area-sido-click" data-sidogugun="부산광역시 강서구" data-sido="부산광역시" data-gugun="강서구">부산</span>
+              <span class="js-area-gugun-click" data-sidogugun="세종특별자치시" data-sido="세종특별자치시" data-gugun="" title="화환 최저 단가: 45,000원" data-area-price="45000">세종<div class="price-tag">45</div></span>
+              <span class="js-area-sido-click" data-sidogugun="울산광역시 남구" data-sido="울산광역시" data-gugun="남구">울산</span>
+              <span class="js-area-sido-click" data-sidogugun="인천광역시 강화군" data-sido="인천광역시" data-gugun="강화군">인천</span>
+              <span class="js-area-sido-click" data-sidogugun="전라남도 강진군" data-sido="전라남도" data-gugun="강진군">전남</span>
+              <span class="js-area-sido-click" data-sidogugun="전라북도 고창군" data-sido="전라북도" data-gugun="고창군">전북</span>
+              <span class="js-area-sido-click" data-sidogugun="제주특별자치도 남제주군" data-sido="제주특별자치도" data-gugun="남제주군">제주</span>
+              <span class="js-area-sido-click" data-sidogugun="충청남도 계룡시" data-sido="충청남도" data-gugun="계룡시">충남</span>
+              <span class="js-area-sido-click" data-sidogugun="충청북도 괴산군" data-sido="충청북도" data-gugun="괴산군">충북</span>
+            </div>
+          </div>
+          
+          <!-- 가운데 화살표 영역 -->
+          <div class="flex justify-center items-center">
+            <div class="hidden md:block">
+              <img src="https://www.468.co.kr/img/area_arrow.png" alt="화살표" class="h-16">
+            </div>
+          </div>
+          
+          <!-- 오른쪽 패널: 구/군 선택 -->
+          <div class="gugun border rounded p-3">
+            <p class="font-bold mb-2 text-sm">2. 구/군 선택</p>
+            <div id="gugun-list" class="flex flex-wrap" style="max-height: 300px; overflow-y: auto;">
+              <span class="js-area-gugun-click active" data-sidogugun="광주광역시 광산구" data-sido="광주광역시" data-gugun="광산구" title="화환 최저 단가: 38,000원" data-area-price="38000">광산구<div class="price-tag">38</div></span>
+              <span class="js-area-gugun-click" data-sidogugun="광주광역시 남구" data-sido="광주광역시" data-gugun="남구" title="화환 최저 단가: 38,000원" data-area-price="38000">남구<div class="price-tag">38</div></span>
+              <span class="js-area-gugun-click" data-sidogugun="광주광역시 동구" data-sido="광주광역시" data-gugun="동구" title="화환 최저 단가: 38,000원" data-area-price="38000">동구<div class="price-tag">38</div></span>
+              <span class="js-area-gugun-click" data-sidogugun="광주광역시 북구" data-sido="광주광역시" data-gugun="북구" title="화환 최저 단가: 38,000원" data-area-price="38000">북구<div class="price-tag">38</div></span>
+              <span class="js-area-gugun-click" data-sidogugun="광주광역시 서구" data-sido="광주광역시" data-gugun="서구" title="화환 최저 단가: 38,000원" data-area-price="38000">서구<div class="price-tag">38</div></span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 선택한 지역 정보 및 버튼 -->
+        <div class="mt-6 border-t pt-4 flex justify-between items-center">
+          <div>
+            <span class="font-bold">선택한 지역:</span> 
+            <span id="selected-region" class="ml-2">광주광역시 광산구</span>
+            <span id="selected-price" class="text-red-500 font-bold ml-2">최저가 38,000원</span>
+          </div>
+          <div>
+            <button id="cancel-btn" class="bg-gray-200 text-gray-700 px-4 py-2 rounded mr-2">취소</button>
+            <button id="confirm-btn" class="bg-amber-200 text-white px-4 py-2 rounded">확인</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-6 text-center text-xs text-gray-500 p-2">
+    &copy; 2025 신사 플라워. All rights reserved.
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 시/도 및 구/군 데이터
+      const regionData = {
+        '서울특별시': [
+          {name: '강남구', price: 38000},
+          {name: '강동구', price: 38000},
+          {name: '강북구', price: 38000},
+          {name: '강서구', price: 38000},
+          {name: '관악구', price: 38000},
+          {name: '광진구', price: 38000},
+          {name: '구로구', price: 38000},
+          {name: '금천구', price: 38000},
+          {name: '노원구', price: 38000},
+          {name: '도봉구', price: 38000},
+          {name: '동대문구', price: 38000},
+          {name: '동작구', price: 38000},
+          {name: '마포구', price: 38000},
+          {name: '서대문구', price: 38000},
+          {name: '서초구', price: 38000},
+          {name: '성동구', price: 38000},
+          {name: '성북구', price: 38000},
+          {name: '송파구', price: 38000},
+          {name: '양천구', price: 38000},
+          {name: '영등포구', price: 38000},
+          {name: '용산구', price: 38000},
+          {name: '은평구', price: 38000},
+          {name: '종로구', price: 38000},
+          {name: '중구', price: 38000},
+          {name: '중랑구', price: 38000}
+        ],
+        '강원도': [
+          {name: '강릉시', price: 50000},
+          {name: '고성군', price: 50000},
+          {name: '동해시', price: 55000},
+          {name: '삼척시', price: 55000},
+          {name: '속초시', price: 50000},
+          {name: '양구군', price: 70000},
+          {name: '양양군', price: 50000},
+          {name: '영월군', price: 60000},
+          {name: '원주시', price: 55000},
+          {name: '인제군', price: 70000},
+          {name: '정선군', price: 70000},
+          {name: '철원군', price: 65000},
+          {name: '춘천시', price: 47000},
+          {name: '태백시', price: 70000},
+          {name: '평창군', price: 70000},
+          {name: '홍천군', price: 50000},
+          {name: '화천군', price: 60000},
+          {name: '횡성군', price: 70000}
+        ],
+        '광주광역시': [
+          {name: '광산구', price: 38000},
+          {name: '남구', price: 38000},
+          {name: '동구', price: 38000},
+          {name: '북구', price: 38000},
+          {name: '서구', price: 38000}
+        ],
+        '경기도': [
+          {name: '가평군', price: 50000},
+          {name: '고양시', price: 38000},
+          {name: '과천시', price: 38000},
+          {name: '광명시', price: 38000},
+          {name: '광주시', price: 40000},
+          {name: '구리시', price: 38000},
+          {name: '군포시', price: 38000},
+          {name: '김포시', price: 40000},
+          {name: '남양주시', price: 38000},
+          {name: '동두천시', price: 40000},
+          {name: '부천시', price: 38000},
+          {name: '성남시', price: 38000},
+          {name: '수원시', price: 40000},
+          {name: '시흥시', price: 38000},
+          {name: '안산시', price: 38000},
+          {name: '안성시', price: 40000},
+          {name: '안양시', price: 38000},
+          {name: '양주시', price: 40000},
+          {name: '양평군', price: 40000},
+          {name: '여주시', price: 45000},
+          {name: '연천군', price: 70000},
+          {name: '오산시', price: 40000},
+          {name: '용인시', price: 40000},
+          {name: '의왕시', price: 38000},
+          {name: '의정부시', price: 38000},
+          {name: '이천시', price: 45000},
+          {name: '파주시', price: 40000},
+          {name: '평택시', price: 40000},
+          {name: '포천시', price: 40000},
+          {name: '하남시', price: 38000},
+          {name: '화성시', price: 40000}
+        ]
+      };
+      
+      // 시/도 선택 이벤트
+      const sidoButtons = document.querySelectorAll('.js-area-sido-click');
+      sidoButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // 시/도 버튼 활성화 처리
+          sidoButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          // 선택된 시/도 정보 가져오기
+          const sido = this.getAttribute('data-sido');
+          
+          // 구/군 목록 업데이트
+          updateGugunList(sido);
+          
+          // 선택된 지역 표시 업데이트
+          const gugun = regionData[sido] && regionData[sido][0] ? regionData[sido][0].name : '';
+          const price = regionData[sido] && regionData[sido][0] ? regionData[sido][0].price : 0;
+          updateSelectedRegion(sido, gugun, price);
+        });
+      });
+      
+      // 구/군 선택 이벤트
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('js-area-gugun-click') || e.target.parentElement.classList.contains('js-area-gugun-click')) {
+          const target = e.target.classList.contains('js-area-gugun-click') ? e.target : e.target.parentElement;
+          
+          // 구/군 버튼 활성화 처리
+          document.querySelectorAll('.js-area-gugun-click').forEach(btn => btn.classList.remove('active'));
+          target.classList.add('active');
+          
+          // 선택된 구/군 정보 가져오기
+          const sido = target.getAttribute('data-sido');
+          const gugun = target.getAttribute('data-gugun');
+          const price = parseInt(target.getAttribute('data-area-price'));
+          
+          // 선택된 지역 표시 업데이트
+          updateSelectedRegion(sido, gugun, price);
+        }
+      });
+      
+      // 구/군 목록 업데이트 함수
+      function updateGugunList(sido) {
+        const gugunList = document.getElementById('gugun-list');
+        gugunList.innerHTML = '';
+        
+        if (regionData[sido]) {
+          regionData[sido].forEach(item => {
+            const span = document.createElement('span');
+            span.className = 'js-area-gugun-click';
+            span.setAttribute('data-sidogugun', `${sido} ${item.name}`);
+            span.setAttribute('data-sido', sido);
+            span.setAttribute('data-gugun', item.name);
+            span.setAttribute('title', `화환 최저 단가: ${formatPrice(item.price)}원`);
+            span.setAttribute('data-area-price', item.price);
+            
+            // 구/군명과 가격 표시
+            span.innerHTML = `${item.name}<div class="price-tag">${Math.floor(item.price/1000)}</div>`;
+            
+            gugunList.appendChild(span);
+          });
+        }
+      }
+      
+      // 선택된 지역 표시 업데이트 함수
+      function updateSelectedRegion(sido, gugun, price) {
+        const selectedRegion = document.getElementById('selected-region');
+        const selectedPrice = document.getElementById('selected-price');
+        
+        if (sido === '세종특별자치시') {
+          selectedRegion.textContent = sido;
+        } else {
+          selectedRegion.textContent = `${sido} ${gugun}`;
+        }
+        
+        selectedPrice.textContent = `최저가 ${formatPrice(price)}원`;
+      }
+      
+      // 가격 포맷 함수
+      function formatPrice(price) {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+      
+      // 확인 버튼 이벤트
+      document.getElementById('confirm-btn').addEventListener('click', function() {
+        const selectedRegion = document.getElementById('selected-region').textContent;
+        const selectedPrice = document.getElementById('selected-price').textContent;
+        
+        // 부모 창으로 선택된 값 전달 (order-form.html에서 사용)
+        if (window.opener) {
+          window.opener.setDeliveryRegion(selectedRegion, selectedPrice);
+          window.close();
+        } else {
+          alert(`선택된 지역: ${selectedRegion}\n${selectedPrice}`);
+        }
+      });
+      
+      // 취소 버튼 이벤트
+      document.getElementById('cancel-btn').addEventListener('click', function() {
+        if (window.opener) {
+          window.close();
+        } else {
+          // 테스트 환경에서는 이전 페이지로 이동
+          window.history.back();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

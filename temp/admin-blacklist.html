@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>신사 플라워 - 블랙리스트 관리</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+  </style>
+  <script src="js/error-handler.js" defer></script>
+  <script src="js/admin-common.js" defer></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Header -->
+  <header class="bg-white shadow p-2 flex justify-between items-center">
+    <div class="flex items-center">
+      <a href="index.html">
+      <img src="images/flower-bear-logo.png" alt="신사 플라워 로고" class="h-12 mr-2">
+      <span style="color: rgb(251,229,187);" class="text-xl font-bold">신사 플라워</span></a>
+    </div>
+    <nav class="space-x-4">
+      <a href="admin-member-approval.html" class="text-sm hover:underline">회원승인</a>
+      <a href="admin-blacklist.html" class="text-sm hover:underline font-semibold">블랙리스트</a>
+      <a href="admin-orders.html" class="text-sm hover:underline">주문관리</a>
+    </nav>
+    <div class="text-sm space-x-2">
+      <a href="edit-profile.html" class="hover:underline">회원 정보 수정</a>
+      <a href="login.html" class="hover:underline text-red-500">로그아웃</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto mt-6 px-4 sm:px-6 grid grid-cols-1 md:grid-cols-12 gap-6">
+    <!-- Sidebar -->
+    <aside class="md:col-span-3 space-y-6">
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="font-bold text-lg">관리자님</h2>
+        <p class="text-sm text-gray-600">신사 플라워 어드민</p>
+      </div>
+      
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-semibold text-md mb-2">관리자 메뉴</h3>
+        <ul class="space-y-1 text-sm">
+          <li><a href="admin-member-approval.html" class="hover:underline">회원가입 승인</a></li>
+          <li><a href="admin-blacklist.html" class="font-semibold text-amber-800 hover:underline">블랙리스트 관리</a></li>
+          <li><a href="admin-orders.html" class="hover:underline">주문 관리</a></li>
+          <li><a href="admin-settlement.html" class="hover:underline">정산 관리</a></li>
+          <li><a href="admin-notice.html" class="hover:underline">공지사항 관리</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Panel -->
+    <section class="md:col-span-9 space-y-4">
+      <div class="flex justify-between items-center">
+        <h1 class="text-xl font-bold">블랙리스트 관리</h1>
+        <button class="bg-red-500 text-white px-3 py-1 rounded text-sm flex items-center gap-1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+          블랙리스트 추가
+        </button>
+      </div>
+      
+      <div class="bg-white p-4 rounded shadow">
+        <!-- 필터 옵션 -->
+        <div class="mb-4 bg-gray-50 p-4 rounded border">
+          <div class="flex flex-wrap items-center gap-2 mb-3">
+            <select class="border border-gray-300 px-2 py-1 rounded" data-table="blacklist-table" data-filter="reason">
+              <option value="all">모든 등록 사유</option>
+              <option value="미결제">미결제</option>
+              <option value="주문취소">주문취소 다수</option>
+              <option value="불량행위">불량행위</option>
+              <option value="기타">기타</option>
+            </select>
+            
+            <select class="border border-gray-300 px-2 py-1 rounded ml-2" data-table="blacklist-table" data-filter="type">
+              <option value="all">모든 회원 유형</option>
+              <option value="화원">화원</option>
+              <option value="납품업체">납품업체</option>
+              <option value="도매상">도매상</option>
+            </select>
+            
+            <button class="bg-amber-200 text-gray-800 px-3 py-1 rounded" onclick="applyFilters('blacklist-table')">필터 적용</button>
+          </div>
+          
+          <div class="flex flex-wrap items-center gap-2">
+            <select class="border border-gray-300 px-2 py-1 rounded">
+              <option>1. 회원명</option>
+              <option>2. 상호</option>
+              <option>3. 연락처</option>
+              <option>4. 사업자번호</option>
+              <option>5. 주소</option>
+            </select>
+            <input type="text" data-search="blacklist-table" placeholder="검색어 입력" class="border border-gray-300 px-2 py-1 rounded flex-grow" />
+            <button class="bg-blue-500 text-white px-4 py-1 rounded" onclick="searchTable('blacklist-table', document.querySelector('[data-search=\'blacklist-table\']'))">검색</button>
+            <button class="bg-gray-300 px-3 py-1 rounded" data-reset="blacklist-table">초기화</button>
+            <button class="bg-green-500 text-white px-3 py-1 rounded flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              엑셀다운로드
+            </button>
+          </div>
+          <!-- 필터 상태 표시 -->
+          <div class="mt-2 text-sm text-gray-500">
+            <span id="blacklist-table-filter-status">전체 5건 표시</span>
+          </div>
+        </div>
+
+        <!-- 블랙리스트 테이블 -->
+        <div class="overflow-x-auto">
+          <table id="blacklist-table" class="table-auto w-full border text-sm bg-white shadow-sm">
+            <thead class="bg-gray-200 text-gray-700 text-center">
+              <tr>
+                <th class="border px-2 py-1">No</th>
+                <th class="border px-2 py-1">회원명</th>
+                <th class="border px-2 py-1">상호명</th>
+                <th class="border px-2 py-1">연락처</th>
+                <th class="border px-2 py-1">회원유형</th>
+                <th class="border px-2 py-1">등록일</th>
+                <th class="border px-2 py-1">등록사유</th>
+                <th class="border px-2 py-1">관리</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <!-- 샘플 데이터 -->
+              <tr class="hover:bg-gray-50">
+                <td class="border px-2 py-1">5</td>
+                <td class="border px-2 py-1">강블랙</td>
+                <td class="border px-2 py-1">꽃길만걷자</td>
+                <td class="border px-2 py-1">010-1111-2222</td>
+                <td class="border px-2 py-1" data-filter="type">화원</td>
+                <td class="border px-2 py-1">2025-05-10</td>
+                <td class="border px-2 py-1" data-filter="reason">미결제</td>
+                <td class="border px-2 py-1">
+                  <button class="bg-blue-500 text-white px-2 py-0.5 rounded text-xs mb-1">상세보기</button>
+                  <button class="bg-red-500 text-white px-2 py-0.5 rounded text-xs">해제</button>
+                </td>
+              </tr>
+              <!-- 샘플 데이터 -->
+              <tr class="hover:bg-gray-50">
+                <td class="border px-2 py-1">4</td>
+                <td class="border px-2 py-1">우블랙</td>
+                <td class="border px-2 py-1">꽃도매센터</td>
+                <td class="border px-2 py-1">010-2222-3333</td>
+                <td class="border px-2 py-1" data-filter="type">도매상</td>
+                <td class="border px-2 py-1">2025-05-08</td>
+                <td class="border px-2 py-1" data-filter="reason">주문취소</td>
+                <td class="border px-2 py-1">
+                  <button class="bg-blue-500 text-white px-2 py-0.5 rounded text-xs mb-1">상세보기</button>
+                  <button class="bg-red-500 text-white px-2 py-0.5 rounded text-xs">해제</button>
+                </td>
+              </tr>
+              <!-- 샘플 데이터 -->
+              <tr class="hover:bg-gray-50">
+                <td class="border px-2 py-1">3</td>
+                <td class="border px-2 py-1">이블랙</td>
+                <td class="border px-2 py-1">화원나라</td>
+                <td class="border px-2 py-1">010-3333-4444</td>
+                <td class="border px-2 py-1" data-filter="type">화원</td>
+                <td class="border px-2 py-1">2025-05-05</td>
+                <td class="border px-2 py-1" data-filter="reason">불량행위</td>
+                <td class="border px-2 py-1">
+                  <button class="bg-blue-500 text-white px-2 py-0.5 rounded text-xs mb-1">상세보기</button>
+                  <button class="bg-red-500 text-white px-2 py-0.5 rounded text-xs">해제</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- 페이지네이션 -->
+        <div class="mt-4 flex justify-center">
+          <div class="flex space-x-1">
+            <button class="px-3 py-1 bg-gray-200 rounded">이전</button>
+            <button class="px-3 py-1 bg-amber-200 rounded">1</button>
+            <button class="px-3 py-1 bg-gray-200 rounded">다음</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Footer -->
+  <footer class="mt-8 bg-white shadow p-4 text-center text-sm text-gray-600">
+    <p>© 2025 신사 플라워 (Sinsa Flower). All rights reserved.</p>
+  </footer>
+
+  <script>
+    // 특정 필터 적용 함수
+    function applyFilters(tableId) {
+      const filterSelects = document.querySelectorAll(`[data-table="${tableId}"]`);
+      filterSelects.forEach(select => {
+        const filterKey = select.dataset.filter;
+        const filterValue = select.value;
+        filterTable(tableId, filterKey, filterValue);
+      });
+    }
+  </script>
+</body>
+</html>

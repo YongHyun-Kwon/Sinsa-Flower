@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>신사 플라워 - 관리자 로그</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .nav-item.active {
+      background-color: rgb(251,229,187);
+      color: white;
+    }
+    .nav-item:hover:not(.active) {
+      background-color: #f3f4f6;
+    }
+    .log-level-info {
+      background-color: #dbeafe;
+      color: #1e40af;
+    }
+    .log-level-warning {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    .log-level-error {
+      background-color: #fee2e2;
+      color: #b91c1c;
+    }
+    .log-level-debug {
+      background-color: #e0e7ff;
+      color: #3730a3;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Header -->
+  <header class="bg-white shadow p-2 flex justify-between items-center">
+    <div class="flex items-center">
+      <a href="admin-dashboard.html">
+        <img src="/images/sinsa-flower-logo-nobg.png" alt="신사 플라워 로고" class="h-12 mr-2">
+        <span style="color: rgb(251,229,187);" class="text-xl font-bold">신사 플라워</span>
+      </a>
+    </div>
+    <div class="flex items-center">
+      <span class="mr-4 text-sm font-medium text-gray-700">관리자님 (admin@sinsaflower.com)</span>
+      <div class="text-sm space-x-2">
+        <a href="login.html" class="hover:underline text-red-500">로그아웃</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto mt-6 mb-12 px-4 sm:px-6">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold">시스템 로그</h1>
+      <div class="flex items-center">
+        <a href="admin-dashboard.html" class="px-3 py-1 bg-gray-200 text-gray-700 text-sm rounded-md hover:bg-gray-300 transition-colors">
+          대시보드로 돌아가기
+        </a>
+      </div>
+    </div>
+    
+    <!-- Log Filter Controls -->
+    <div class="bg-white p-4 rounded-lg shadow mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div>
+          <label for="log-level" class="block text-sm font-medium text-gray-700 mb-1">로그 레벨</label>
+          <select id="log-level" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+            <option value="all">전체</option>
+            <option value="info">INFO</option>
+            <option value="warning">WARNING</option>
+            <option value="error">ERROR</option>
+            <option value="debug">DEBUG</option>
+          </select>
+        </div>
+        <div>
+          <label for="log-category" class="block text-sm font-medium text-gray-700 mb-1">카테고리</label>
+          <select id="log-category" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+            <option value="all">전체</option>
+            <option value="system">시스템</option>
+            <option value="security">보안</option>
+            <option value="user">사용자</option>
+            <option value="order">주문</option>
+            <option value="payment">결제</option>
+          </select>
+        </div>
+        <div>
+          <label for="date-range" class="block text-sm font-medium text-gray-700 mb-1">날짜 범위</label>
+          <div class="flex">
+            <input type="date" id="date-from" class="w-full border border-gray-300 rounded-l-md px-3 py-2 text-sm" value="2025-05-10">
+            <input type="date" id="date-to" class="w-full border border-gray-300 rounded-r-md px-3 py-2 text-sm" value="2025-05-20">
+          </div>
+        </div>
+        <div>
+          <label for="search-keyword" class="block text-sm font-medium text-gray-700 mb-1">키워드 검색</label>
+          <div class="flex">
+            <input type="text" id="search-keyword" class="flex-1 border border-gray-300 rounded-l-md px-3 py-2 text-sm" placeholder="검색어 입력">
+            <button class="bg-amber-200 text-white px-3 py-2 rounded-r-md hover:bg-amber-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Log Table -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                시간
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                레벨
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                카테고리
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                메시지
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                IP 주소
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                사용자
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <!-- 로그 항목 -->
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                2025-05-20 15:32:45
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 py-1 text-xs font-semibold rounded-full log-level-error">
+                  ERROR
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                보안
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500 max-w-md truncate">
+                로그인 시도 실패: 아이디 또는 비밀번호가 일치하지 않습니다. (5회 연속 실패)
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                211.234.56.78
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                unknown
+              </td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                2025-05-20 15:30:12
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 py-1 text-xs font-semibold rounded-full log-level-info">
+                  INFO
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                사용자
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500 max-w-md truncate">
+                관리자 로그인 성공
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                123.45.67.89
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                admin
+              </td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                2025-05-20 14:45:30
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 py-1 text-xs font-semibold rounded-full log-level-warning">
+                  WARNING
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                시스템
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500 max-w-md truncate">
+                서버 로드가 비정상적으로 높습니다. CPU 사용률: 85%
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                -
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                system
+              </td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                2025-05-20 14:22:15
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 py-1 text-xs font-semibold rounded-full log-level-info">
+                  INFO
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                주문
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500 max-w-md truncate">
+                새로운 주문이 생성되었습니다. 주문번호: ORD-20250520-1234
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                143.56.78.90
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                flowers123
+              </td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                2025-05-20 14:20:05
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 py-1 text-xs font-semibold rounded-full log-level-debug">
+                  DEBUG
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                결제
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500 max-w-md truncate">
+                PG사 API 응답: {"status": "success", "transaction_id": "TX-12345678", "amount": 55000}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                143.56.78.90
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                flowers123
+              </td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                2025-05-20 13:45:12
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 py-1 text-xs font-semibold rounded-full log-level-error">
+                  ERROR
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                결제
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500 max-w-md truncate">
+                결제 처리 중 오류 발생: 잔액 부족. 주문번호: ORD-20250520-1233
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                211.34.56.12
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                rosegarden
+              </td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                2025-05-20 13:30:45
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 py-1 text-xs font-semibold rounded-full log-level-info">
+                  INFO
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                사용자
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500 max-w-md truncate">
+                회원 가입 요청: 푸른들플라워 (ID: blueflower)
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                165.87.45.32
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                blueflower
+              </td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                2025-05-20 12:15:33
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 py-1 text-xs font-semibold rounded-full log-level-warning">
+                  WARNING
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                보안
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500 max-w-md truncate">
+                비정상적인 접근 시도 감지: /admin/config.php (404 응답)
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                89.123.45.67
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                unknown
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Pagination -->
+      <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+          <div>
+            <p class="text-sm text-gray-700">
+              <span class="font-medium">총 85개</span> 로그 중 <span class="font-medium">1</span>부터 <span class="font-medium">8</span>까지 표시
+            </p>
+          </div>
+          <div>
+            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+              <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <span class="sr-only">이전</span>
+                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+              </a>
+              <a href="#" aria-current="page" class="z-10 bg-amber-200 border-amber-200 text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                1
+              </a>
+              <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                2
+              </a>
+              <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                3
+              </a>
+              <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                ...
+              </span>
+              <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                11
+              </a>
+              <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <span class="sr-only">다음</span>
+                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Export Buttons -->
+    <div class="mt-6 flex justify-end space-x-4">
+      <button class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-medium flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+        Excel 다운로드
+      </button>
+      <button class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm font-medium flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+        PDF 다운로드
+      </button>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white py-4 text-center text-xs text-gray-500">
+    &copy; 2025 신사 플라워. All rights reserved.
+  </footer>
+  
+  <!-- 공통 자바스크립트 -->
+  <script src="/js/common.js"></script>
+  <script src="/js/error-handler.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 로그 필터링 기능
+      const filterByLevel = (level) => {
+        console.log(`로그 레벨 필터: ${level}`);
+        // 여기에 필터링 로직을 구현
+      };
+      
+      const filterByCategory = (category) => {
+        console.log(`카테고리 필터: ${category}`);
+        // 여기에 필터링 로직을 구현
+      };
+      
+      const searchKeyword = (keyword) => {
+        console.log(`키워드 검색: ${keyword}`);
+        // 여기에 검색 로직을 구현
+      };
+      
+      // 이벤트 리스너 등록
+      document.getElementById('log-level').addEventListener('change', function() {
+        filterByLevel(this.value);
+      });
+      
+      document.getElementById('log-category').addEventListener('change', function() {
+        filterByCategory(this.value);
+      });
+      
+      document.getElementById('search-keyword').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          searchKeyword(this.value);
+        }
+      });
+      
+      // 날짜 범위 기본값 설정
+      const today = new Date();
+      const tenDaysAgo = new Date();
+      tenDaysAgo.setDate(today.getDate() - 10);
+      
+      document.getElementById('date-from').valueAsDate = tenDaysAgo;
+      document.getElementById('date-to').valueAsDate = today;
+    });
+  </script>
+</body>
+</html>

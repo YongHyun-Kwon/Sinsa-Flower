@@ -1,0 +1,338 @@
+.member-search-container {
+  padding: 20px;
+  max-width: 1600px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.search-header h2 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.view-toggle {
+  display: flex;
+  background: #f3f4f6;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.view-toggle button {
+  padding: 10px 20px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.view-toggle button.active {
+  background: #3b82f6;
+  color: white;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+}
+
+.view-toggle button:hover:not(.active) {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.map-view {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.map-container {
+  position: relative;
+  flex: 2;
+  min-height: 700px;
+  background: #f8fafc;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.korea-map {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.korea-map image {
+  width: 100%;
+  height: 100%;
+}
+
+.region-labels {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.region-labels .label {
+  position: absolute;
+  background: rgba(59, 130, 246, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+  transform: translate(-50%, -50%);
+  min-width: 60px;
+  text-align: center;
+}
+
+.region-labels .label:hover {
+  background: rgba(29, 78, 216, 0.9);
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.search-info {
+  flex: 1;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 20px;
+  height: fit-content;
+  max-height: 700px;
+  overflow-y: auto;
+}
+
+.province-info {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.province-info h3 {
+  margin: 0 0 10px 0;
+  color: #1f2937;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.reset-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.reset-btn:hover {
+  background: #dc2626;
+}
+
+.city-list h4 {
+  margin: 0 0 15px 0;
+  color: #1f2937;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.city-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.city-btn {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.city-btn:hover {
+  background: #f3f4f6;
+  border-color: #3b82f6;
+}
+
+.city-btn.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.members-section {
+  margin-top: 30px;
+}
+
+.members-header {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.members-header h3 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 20px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.member-count {
+  color: #6b7280;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.member-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+}
+
+.member-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.member-info {
+  margin-bottom: 15px;
+}
+
+.member-info h4 {
+  margin: 0 0 10px 0;
+  color: #1f2937;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.member-info p {
+  margin: 5px 0;
+  color: #4b5563;
+  font-size: 14px;
+}
+
+.member-code {
+  color: #6b7280 !important;
+  font-family: 'Courier New', monospace;
+}
+
+.representative {
+  font-weight: 500;
+}
+
+.contact {
+  font-family: 'Courier New', monospace;
+}
+
+.address {
+  color: #059669 !important;
+  font-weight: 500;
+}
+
+.order-btn {
+  width: 100%;
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.order-btn:hover {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+}
+
+.no-members {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6b7280;
+  font-size: 16px;
+  background: #f9fafb;
+  border-radius: 12px;
+  border: 2px dashed #d1d5db;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1200px) {
+  .map-view {
+    flex-direction: column;
+  }
+  
+  .map-container {
+    min-height: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .member-search-container {
+    padding: 15px;
+  }
+  
+  .search-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .members-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .city-buttons {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .region-labels .label {
+    font-size: 12px;
+    padding: 6px 10px;
+    min-width: 50px;
+  }
+} 

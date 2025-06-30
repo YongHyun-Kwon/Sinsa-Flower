@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>신사 플라워 - 회원가입</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <style>
+    body { 
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #f9fafb;
+    }
+    .btn-primary {
+      background-color: rgb(251,229,187);
+      color: white;
+    }
+    .btn-primary:hover {
+      background-color: rgb(235,215,175);
+    }
+    .step-active {
+      background-color: rgb(251,229,187);
+      color: white;
+    }
+    .step-inactive {
+      background-color: #e5e7eb;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="bg-white shadow p-2 flex justify-between items-center">
+    <div class="flex items-center">
+      <a href="index.html"><img src="sinsa-flower-logo-nobg.png" alt="신사 플라워 로고" class="h-12 mr-2"><span style="color: rgb(251,229,187);" class="text-xl font-bold">신사 플라워</span></a>
+    </div>
+    <div class="text-sm space-x-4">
+      <a href="login.html" class="text-sm hover:underline">로그인</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto mt-8 px-4 pb-12 max-w-4xl">
+    <h1 class="text-3xl font-bold text-center mb-8">회원가입</h1>
+    
+    <!-- 가입 단계 -->
+    <div class="flex mb-8 justify-center">
+      <div class="flex items-center">
+        <div class="w-8 h-8 flex items-center justify-center rounded-full step-active">1</div>
+        <div class="text-sm ml-2">약관동의</div>
+      </div>
+      <div class="w-16 h-1 mx-2 bg-gray-200 self-center"></div>
+      <div class="flex items-center">
+        <div class="w-8 h-8 flex items-center justify-center rounded-full step-inactive">2</div>
+        <div class="text-sm ml-2">정보입력</div>
+      </div>
+      <div class="w-16 h-1 mx-2 bg-gray-200 self-center"></div>
+      <div class="flex items-center">
+        <div class="w-8 h-8 flex items-center justify-center rounded-full step-inactive">3</div>
+        <div class="text-sm ml-2">가입완료</div>
+      </div>
+    </div>
+    
+    <!-- Step 1: 약관동의 -->
+    <div id="step1" class="bg-white rounded-lg shadow-md p-6 mb-8">
+      <h2 class="text-xl font-semibold mb-4">이용약관 동의</h2>
+      
+      <div class="mb-6">
+        <div class="border rounded-md p-4 mb-2">
+          <div class="flex items-center justify-between mb-2">
+            <label for="terms-all" class="font-medium flex items-center">
+              <input type="checkbox" id="terms-all" class="mr-2 h-4 w-4 text-amber-200 focus:ring-amber-200 border-gray-300 rounded">
+              전체 약관에 동의합니다
+            </label>
+          </div>
+          <div class="border-t pt-2 pl-6 text-sm text-gray-600">
+            선택 항목에 동의하지 않으셔도 서비스 이용이 가능합니다.
+          </div>
+        </div>
+        
+        <!-- 이용약관 -->
+        <div class="mb-4">
+          <div class="flex items-center justify-between mb-2">
+            <label for="terms-1" class="text-sm flex items-center">
+              <input type="checkbox" id="terms-1" class="mr-2 h-4 w-4 text-amber-200 focus:ring-amber-200 border-gray-300 rounded">
+              <span class="text-red-500 mr-1">*</span> 서비스 이용약관 동의 (필수)
+            </label>
+            <button type="button" class="text-sm text-gray-500 hover:underline" onclick="toggleTerms('terms-text-1')">자세히</button>
+          </div>
+          <div id="terms-text-1" class="bg-gray-50 p-4 border rounded-md h-32 overflow-y-auto text-sm text-gray-600 hidden">
+            <p class="mb-2 font-semibold">제1장 총칙</p>
+            <p>제1조 (목적)</p>
+            <p>이 약관은 신사 플라워(이하 "회사"라 함)가 제공하는 서비스(이하 "서비스"라 함)의 이용과 관련하여 회사와 이용자 간의 권리, 의무 및 책임사항 등을 규정함을 목적으로 합니다.</p>
+            <p>제2조 (약관의 효력 및 변경)</p>
+            <p>① 이 약관은 서비스를 통하여 이를 공지하거나 전자우편, 기타의 방법으로 이용자에게 통지함으로써 효력이 발생합니다.</p>
+            <p>② 회사는 필요하다고 인정되는 경우 이 약관을 변경할 수 있으며, 약관이 변경된 경우에는 지체 없이 제1항과 같은 방법으로 공지 또는 통지합니다.</p>
+            <p>③ 이용자는 변경된 약관에 동의하지 않을 경우 서비스 이용을 중단하고 이용계약을 해지할 수 있으며, 변경된 약관의 효력 발생일 이후에도 서비스를 계속 이용할 경우 약관의 변경사항에 동의한 것으로 간주됩니다.</p>
+          </div>
+        </div>
+        
+        <!-- 개인정보 수집 이용 -->
+        <div class="mb-4">
+          <div class="flex items-center justify-between mb-2">
+            <label for="terms-2" class="text-sm flex items-center">
+              <input type="checkbox" id="terms-2" class="mr-2 h-4 w-4 text-amber-200 focus:ring-amber-200 border-gray-300 rounded">
+              <span class="text-red-500 mr-1">*</span> 개인정보 수집 및 이용 동의 (필수)
+            </label>
+            <button type="button" class="text-sm text-gray-500 hover:underline" onclick="toggleTerms('terms-text-2')">자세히</button>
+          </div>
+          <div id="terms-text-2" class="bg-gray-50 p-4 border rounded-md h-32 overflow-y-auto text-sm text-gray-600 hidden">
+            <p class="mb-2 font-semibold">개인정보 수집 및 이용 안내</p>
+            <p>① 수집하는 개인정보 항목: 아이디, 이름(상호명), 비밀번호, 연락처, 주소, 사업자등록번호, 계좌정보</p>
+            <p>② 수집 및 이용 목적: 회원제 서비스 제공, 서비스 이용 및 상담, 거래 관리</p>
+            <p>③ 보유 및 이용기간: 회원 탈퇴 시까지 (단, 관계 법령에 따라 필요한 경우 해당 법령에서 정한 기간 동안 보존)</p>
+            <p>* 개인정보 수집 및 이용에 대한 동의를 거부할 권리가 있으나, 동의를 거부할 경우 회원 가입이 제한됩니다.</p>
+          </div>
+        </div>
+        
+        <!-- 마케팅 정보 수신 동의 -->
+        <div class="mb-4">
+          <div class="flex items-center justify-between mb-2">
+            <label for="terms-3" class="text-sm flex items-center">
+              <input type="checkbox" id="terms-3" class="mr-2 h-4 w-4 text-amber-200 focus:ring-amber-200 border-gray-300 rounded">
+              마케팅 정보 수신 동의 (선택)
+            </label>
+            <button type="button" class="text-sm text-gray-500 hover:underline" onclick="toggleTerms('terms-text-3')">자세히</button>
+          </div>
+          <div id="terms-text-3" class="bg-gray-50 p-4 border rounded-md h-32 overflow-y-auto text-sm text-gray-600 hidden">
+            <p class="mb-2 font-semibold">마케팅 정보 수신 안내</p>
+            <p>① 수집 항목: 휴대전화번호, 이메일</p>
+            <p>② 이용 목적: 신규 서비스 안내, 이벤트 및 혜택 정보 제공</p>
+            <p>③ 보유 및 이용기간: 회원 탈퇴 시 또는 동의 철회 시까지</p>
+            <p>* 마케팅 정보 수신은 선택사항이며, 동의하지 않아도 서비스 이용에 제한이 없습니다.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex justify-center">
+        <button type="button" id="next-step1" class="btn-primary px-6 py-2 rounded-md font-medium" onclick="nextStep(1)">다음</button>
+      </div>
+    </div>
+    
+    <!-- Step 2: 정보입력 -->
+    <div id="step2" class="bg-white rounded-lg shadow-md p-6 mb-8 hidden">
+      <h2 class="text-xl font-semibold mb-6">회원 정보 입력</h2>
+      
+      <form id="registration-form" class="space-y-6">
+        <!-- 기본 정보 -->
+        <div class="border-b pb-6">
+          <h3 class="text-lg font-medium mb-4">기본 정보</h3>
+          
+          <div class="grid grid-cols-1 gap-y-6">
+            <!-- 아이디 -->
+            <div>
+              <label for="user-id" class="block text-sm font-medium text-gray-700 mb-1">
+                아이디 <span class="text-red-500">*</span>
+              </label>
+              <div class="flex">
+                <input type="text" id="user-id" name="user-id" required
+                  class="flex-1 appearance-none rounded-md relative block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                  placeholder="6~20자의 영문, 숫자 조합" />
+                <button type="button" class="ml-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                  중복확인
+                </button>
+              </div>
+            </div>
+            
+            <!-- 게시판 닉네임 -->
+            <div>
+              <label for="nickname" class="block text-sm font-medium text-gray-700 mb-1">
+                게시판 닉네임 <span class="text-red-500">*</span>
+              </label>
+              <div class="flex">
+                <input type="text" id="nickname" name="nickname" required
+                  class="flex-1 appearance-none rounded-md relative block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                  placeholder="게시판에서 사용할 닉네임" />
+                <button type="button" class="ml-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                  중복확인
+                </button>
+              </div>
+            </div>
+            
+            <!-- 이름(상호) -->
+            <div>
+              <label for="company-name" class="block text-sm font-medium text-gray-700 mb-1">
+                이름(상호) <span class="text-red-500">*</span>
+              </label>
+              <input type="text" id="company-name" name="company-name" required
+                class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                placeholder="상호명을 입력하세요" />
+            </div>
+            
+            <!-- 비밀번호 -->
+            <div>
+              <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+                비밀번호 <span class="text-red-500">*</span>
+              </label>
+              <input type="password" id="password" name="password" required
+                class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                placeholder="8~16자의 영문, 숫자, 특수문자 조합" />
+              <p class="mt-1 text-xs text-gray-500">8~16자의 영문, 숫자, 특수문자 조합으로 입력해주세요.</p>
+            </div>
+            
+            <!-- 비밀번호 확인 -->
+            <div>
+              <label for="password-confirm" class="block text-sm font-medium text-gray-700 mb-1">
+                비밀번호 확인 <span class="text-red-500">*</span>
+              </label>
+              <input type="password" id="password-confirm" name="password-confirm" required
+                class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                placeholder="비밀번호를 다시 입력하세요" />
+            </div>
+            
+            <!-- 휴대전화번호 -->
+            <div>
+              <label for="mobile" class="block text-sm font-medium text-gray-700 mb-1">
+                휴대전화번호 <span class="text-red-500">*</span>
+              </label>
+              <div class="flex">
+                <input type="tel" id="mobile" name="mobile" required
+                  class="flex-1 appearance-none rounded-md relative block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                  placeholder="휴대전화번호를 입력하세요 (- 제외)" />
+                <button type="button" class="ml-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                  인증
+                </button>
+              </div>
+            </div>
+            
+            <!-- 팩스 -->
+            <div>
+              <label for="fax" class="block text-sm font-medium text-gray-700 mb-1">
+                팩스
+              </label>
+              <input type="text" id="fax" name="fax"
+                class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                placeholder="팩스번호를 입력하세요 (- 제외)" />
+            </div>
+            
+            <!-- 활동지역 -->
+            <div>
+              <label for="activity-region" class="block text-sm font-medium text-gray-700 mb-1">
+                활동지역 <span class="text-red-500">*</span>
+              </label>
+              <div class="flex">
+                <input type="text" id="activity-region" name="activity-region" required readonly
+                  class="flex-1 appearance-none rounded-md relative block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                  placeholder="활동지역을 선택하세요" />
+                <button type="button" class="ml-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                  지역검색
+                </button>
+              </div>
+            </div>
+            
+            <!-- 배송지역설정 -->
+            <div>
+              <label for="delivery-region" class="block text-sm font-medium text-gray-700 mb-1">
+                배송가능지역 <span class="text-red-500">*</span>
+              </label>
+              <div class="flex">
+                <input type="text" id="delivery-region" name="delivery-region" required readonly
+                  class="flex-1 appearance-none rounded-md relative block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                  placeholder="배송가능지역을 선택하세요" />
+                <button type="button" class="ml-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                  배송가능지역
+                </button>
+              </div>
+            </div>
+            
+            <!-- 화원실제주소 -->
+            <div>
+              <label for="shop-address" class="block text-sm font-medium text-gray-700 mb-1">
+                화원실제주소 <span class="text-red-500">*</span>
+              </label>
+              <div class="grid grid-cols-1 gap-y-2">
+                <div class="flex">
+                  <input type="text" id="shop-zipcode" name="shop-zipcode" required readonly
+                    class="w-32 appearance-none rounded-md relative block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                    placeholder="우편번호" />
+                  <button type="button" class="ml-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                    주소검색
+                  </button>
+                </div>
+                <input type="text" id="shop-address1" name="shop-address1" required readonly
+                  class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                  placeholder="기본주소" />
+                <input type="text" id="shop-address2" name="shop-address2"
+                  class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                  placeholder="상세주소를 입력하세요" />
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 사업자 정보 -->
+        <div class="border-b pb-6">
+          <h3 class="text-lg font-medium mb-4">사업자 정보</h3>
+          
+          <div class="grid grid-cols-1 gap-y-6">
+            <!-- 사업자번호 -->
+            <div>
+              <label for="business-number" class="block text-sm font-medium text-gray-700 mb-1">
+                사업자번호 <span class="text-red-500">*</span> <span class="text-gray-500 text-xs">(계산서 발급용)</span>
+              </label>
+              <input type="text" id="business-number" name="business-number" required
+                class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                placeholder="사업자번호를 입력하세요 (- 제외)" />
+            </div>
+            
+            <!-- 법인명 -->
+            <div>
+              <label for="company-legal-name" class="block text-sm font-medium text-gray-700 mb-1">
+                법인명
+              </label>
+              <input type="text" id="company-legal-name" name="company-legal-name"
+                class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                placeholder="법인명을 입력하세요" />
+            </div>
+            
+            <!-- 대표자 성함 -->
+            <div>
+              <label for="representative-name" class="block text-sm font-medium text-gray-700 mb-1">
+                대표자 성함 <span class="text-red-500">*</span>
+              </label>
+              <input type="text" id="representative-name" name="representative-name" required
+                class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                placeholder="대표자 성함을 입력하세요" />
+            </div>
+            
+            <!-- 업태 -->
+            <div>
+              <label for="business-type" class="block text-sm font-medium text-gray-700 mb-1">
+                업태 <span class="text-red-500">*</span>
+              </label>
+              <input type="text" id="business-type" name="business-type" required
+                class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                placeholder="업태를 입력하세요" />
+            </div>
+            
+            <!-- 종목 -->
+            <div>
+              <label for="business-category" class="block text-sm font-medium text-gray-700 mb-1">
+                종목 <span class="text-red-500">*</span>
+              </label>
+              <input type="text" id="business-category" name="business-category" required
+                class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                placeholder="종목을 입력하세요" />
+            </div>
+            
+            <!-- 사업장주소 -->
+            <div>
+              <label for="business-address" class="block text-sm font-medium text-gray-700 mb-1">
+                사업장주소 <span class="text-red-500">*</span>
+              </label>
+              <div class="grid grid-cols-1 gap-y-2">
+                <div class="flex">
+                  <input type="text" id="business-zipcode" name="business-zipcode" required readonly
+                    class="w-32 appearance-none rounded-md relative block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                    placeholder="우편번호" />
+                  <button type="button" class="ml-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                    주소검색
+                  </button>
+                </div>
+                <input type="text" id="business-address1" name="business-address1" required readonly
+                  class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                  placeholder="기본주소" />
+                <input type="text" id="business-address2" name="business-address2"
+                  class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                  placeholder="상세주소를 입력하세요" />
+              </div>
+            </div>
+            
+            <!-- 사업자등록증 -->
+            <div>
+              <label for="business-certificate" class="block text-sm font-medium text-gray-700 mb-1">
+                사업자등록증 <span class="text-red-500">*</span>
+              </label>
+              <div class="flex items-center">
+                <input type="text" id="business-certificate-display" name="business-certificate-display" readonly
+                  class="flex-1 appearance-none rounded-md relative block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                  placeholder="사업자등록증 파일을 선택하세요" />
+                <label for="business-certificate" class="ml-2 cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                  파일선택
+                </label>
+                <input type="file" id="business-certificate" name="business-certificate" required class="hidden" />
+              </div>
+              <p class="mt-1 text-xs text-gray-500">JPG, PNG, PDF 파일 (최대 5MB)</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 계좌 정보 -->
+        <div>
+          <h3 class="text-lg font-medium mb-4">정산 계좌 정보</h3>
+          
+          <div class="grid grid-cols-1 gap-y-6">
+            <!-- 계좌번호 -->
+            <div>
+              <label for="bank-account" class="block text-sm font-medium text-gray-700 mb-1">
+                계좌번호 <span class="text-red-500">*</span>
+              </label>
+              <div class="flex space-x-2">
+                <select id="bank-name" name="bank-name" required
+                  class="w-32 appearance-none rounded-md relative block px-3 py-2 border border-gray-300 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm">
+                  <option value="" disabled selected>은행</option>
+                  <option value="KB">국민은행</option>
+                  <option value="SH">신한은행</option>
+                  <option value="WR">우리은행</option>
+                  <option value="NH">농협은행</option>
+                  <option value="KE">하나은행</option>
+                  <option value="SC">SC제일은행</option>
+                  <option value="IBK">기업은행</option>
+                </select>
+                <input type="text" id="bank-account-number" name="bank-account-number" required
+                  class="flex-1 appearance-none rounded-md relative block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                  placeholder="계좌번호 (- 제외)" />
+              </div>
+            </div>
+            
+            <!-- 통장 사본 -->
+            <div>
+              <label for="bank-certificate" class="block text-sm font-medium text-gray-700 mb-1">
+                통장 사본 <span class="text-red-500">*</span>
+              </label>
+              <div class="flex items-center">
+                <input type="text" id="bank-certificate-display" name="bank-certificate-display" readonly
+                  class="flex-1 appearance-none rounded-md relative block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-200 focus:border-amber-200 sm:text-sm"
+                  placeholder="통장 사본 파일을 선택하세요" />
+                <label for="bank-certificate" class="ml-2 cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                  파일선택
+                </label>
+                <input type="file" id="bank-certificate" name="bank-certificate" required class="hidden" />
+              </div>
+              <p class="mt-1 text-xs text-gray-500">JPG, PNG, PDF 파일 (최대 5MB)</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex justify-between pt-4">
+          <button type="button" onclick="prevStep(2)" class="px-6 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-200">
+            이전
+          </button>
+          <button type="button" onclick="submitRegistration()" class="btn-primary px-6 py-2 rounded-md font-medium">
+            가입하기
+          </button>
+        </div>
+      </form>
+    </div>
+    
+    <!-- Step 3: 가입완료 -->
+    <div id="step3" class="bg-white rounded-lg shadow-md p-6 mb-8 hidden">
+      <div class="text-center py-8">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 mx-auto text-green-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <h2 class="text-2xl font-bold mb-4">회원가입이 완료되었습니다!</h2>
+        <p class="text-gray-600 mb-8">신사 플라워의 회원이 되신 것을 환영합니다.<br>로그인 후 서비스를 이용하실 수 있습니다.</p>
+        <div class="flex justify-center">
+          <a href="login.html" class="btn-primary px-6 py-2 rounded-md font-medium">로그인하기</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-xs text-gray-500 p-4 border-t">
+    &copy; 2025 신사 플라워. All rights reserved.
+  </footer>
+
+  <script>
+    // 약관 펼치기/접기
+    function toggleTerms(id) {
+      const element = document.getElementById(id);
+      if (element.classList.contains('hidden')) {
+        element.classList.remove('hidden');
+      } else {
+        element.classList.add('hidden');
+      }
+    }
+    
+    // 전체 약관 동의
+    document.getElementById('terms-all').addEventListener('change', function() {
+      const isChecked = this.checked;
+      document.getElementById('terms-1').checked = isChecked;
+      document.getElementById('terms-2').checked = isChecked;
+      document.getElementById('terms-3').checked = isChecked;
+    });
+    
+    // 개별 약관 체크 시 전체 약관 동의 업데이트
+    function updateAllTerms() {
+      const terms1 = document.getElementById('terms-1').checked;
+      const terms2 = document.getElementById('terms-2').checked;
+      const terms3 = document.getElementById('terms-3').checked;
+      
+      document.getElementById('terms-all').checked = terms1 && terms2 && terms3;
+    }
+    
+    document.getElementById('terms-1').addEventListener('change', updateAllTerms);
+    document.getElementById('terms-2').addEventListener('change', updateAllTerms);
+    document.getElementById('terms-3').addEventListener('change', updateAllTerms);
+    
+    // 파일 선택 시 파일명 표시
+    document.getElementById('business-certificate').addEventListener('change', function() {
+      const fileName = this.files[0]?.name || '파일을 선택하세요';
+      document.getElementById('business-certificate-display').value = fileName;
+    });
+    
+    document.getElementById('bank-certificate').addEventListener('change', function() {
+      const fileName = this.files[0]?.name || '파일을 선택하세요';
+      document.getElementById('bank-certificate-display').value = fileName;
+    });
+    
+    // 단계 전환 함수
+    function nextStep(currentStep) {
+      if (currentStep === 1) {
+        // 필수 약관 체크 확인
+        const terms1 = document.getElementById('terms-1').checked;
+        const terms2 = document.getElementById('terms-2').checked;
+        
+        if (!terms1 || !terms2) {
+          alert('필수 약관에 동의해주세요.');
+          return;
+        }
+        
+        // 스텝 변경
+        document.getElementById('step1').classList.add('hidden');
+        document.getElementById('step2').classList.remove('hidden');
+        
+        // 단계 표시 업데이트
+        updateStepIndicator(2);
+      }
+    }
+    
+    function prevStep(currentStep) {
+      if (currentStep === 2) {
+        document.getElementById('step2').classList.add('hidden');
+        document.getElementById('step1').classList.remove('hidden');
+        
+        updateStepIndicator(1);
+      }
+    }
+    
+    function updateStepIndicator(activeStep) {
+      const stepIndicators = document.querySelectorAll('.w-8.h-8');
+      
+      stepIndicators.forEach((indicator, index) => {
+        if (index + 1 === activeStep) {
+          indicator.classList.remove('step-inactive');
+          indicator.classList.add('step-active');
+        } else if (index + 1 < activeStep) {
+          indicator.classList.remove('step-inactive');
+          indicator.classList.add('step-active');
+        } else {
+          indicator.classList.remove('step-active');
+          indicator.classList.add('step-inactive');
+        }
+      });
+    }
+    
+    function submitRegistration() {
+      // 여기에 폼 유효성 검사 추가
+      
+      // 성공 시 다음 단계로
+      document.getElementById('step2').classList.add('hidden');
+      document.getElementById('step3').classList.remove('hidden');
+      
+      updateStepIndicator(3);
+      
+      // 실제 서비스에서는 여기에 폼 제출 코드가 들어갈 수 있습니다.
+    }
+  </script>
+</body>
+</html>

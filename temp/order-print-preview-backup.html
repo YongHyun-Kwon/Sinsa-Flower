@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>신사 플라워 - 주문서 미리보기</title>
+  <style>
+    @media print {
+      .no-print, .no-print * {
+        display: none !important;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .order-section {
+        margin: 0;
+        padding: 0;
+        height: auto;
+        max-height: 400px;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      .print-container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+      }
+      .cut-line {
+        display: none !important;
+      }
+    }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    .print-container {
+      max-width: 800px;
+      margin: 0 auto;
+      border: 1px solid #ddd;
+      padding: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background: white;
+    }
+    .order-section {
+      margin-bottom: 5px;
+      page-break-after: auto;
+      /* 인쇄 시 한 페이지에 맞도록 세부 조정 */
+      height: 410px;
+      overflow: hidden;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 8px;
+    }
+    table.grid {
+      border: 1px solid #000;
+    }
+    table.grid th, table.grid td {
+      border: 1px solid #000;
+      padding: 2px;
+      font-size: 10px;
+    }
+    table.no_border, table.no_border td {
+      border: none;
+    }
+    .right {
+      text-align: right;
+    }
+    h3 {
+      margin: 0;
+    }
+    .cut-line {
+      text-align: center;
+      line-height: 20px;
+      font-size: 10px;
+      border-top: 1px dashed #999;
+      border-bottom: 1px dashed #999;
+      margin: 5px 0;
+    }
+    .button-container {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .button {
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      margin: 0 5px;
+    }
+    .blue2_button_70 {
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="print-container">
+    <!-- 첫 번째 영수증 (상단 부분) -->
+    <div class="order-section">
+      <table>
+        <tr>
+          <td>NO: <span id="order-no-1">OR-2025052001</span></td>
+          <td class="right">주문일시: <span id="order-date-1">2025-05-20 13:24:38</span></td>
+        </tr>
+      </table>
+
+      <table class="grid">
+        <tr>
+          <td colspan="5">
+            <table class="no_border">
+              <tr>
+                <td style="width: 33.33333%; line-height: 1.0em;"><img src="/images/sinsa-flower-logo-nobg.png" width="150" alt="신사 플라워 로고"></td>
+                <td style="width: 33.33333%; line-height: 1.0em; text-align: center;"><h3 style="font-size:30px;color:#000;font-weight:bold;vertical-align:middle;letter-spacing:4px;">주 문 서</h3></td>
+                <td style="width: 33.33333%; line-height: 1.0em; font-size:14px;font-weight:bold;" class="right">[직접발주]&nbsp;&nbsp;&nbsp;</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <th style="width: 100px;" rowspan="2">발주화원</th>
+          <td rowspan="2"><span id="order-shop-1">화환앤플라워</span></td>
+          <th style="width: 100px;">전화</th>
+          <td style="width: 120px;"><span id="order-shop-tel-1">1800-0468</span></td>
+          <td style="width: 120px;" rowspan="6"></td>
+        </tr>
+        <tr>
+          <th>휴대폰</th>
+          <td><span id="order-shop-mobile-1">010-1234-5678</span></td>
+        </tr>
+        <tr>
+          <th rowspan="2">수주화원</th>
+          <td rowspan="2"><span id="receive-shop-1">미소플라워</span></td>
+          <th>전화</th>
+          <td><span id="receive-shop-tel-1">02-123-4567</span></td>
+        </tr>
+        <tr>
+          <th>휴대폰</th>
+          <td><span id="receive-shop-mobile-1">010-9876-5432</span></td>
+        </tr>
+        <tr>
+          <th rowspan="2">상품명</th>
+          <td rowspan="2"><span id="product-name-1">관엽식물</span></td>
+          <th>원청액</th>
+          <td><span id="original-price-1">55,000</span> 원</td>
+        </tr>
+        <tr>
+          <th>송금액</th>
+          <td><span id="payment-price-1">55,000</span> 원</td>
+        </tr>
+        <tr>
+          <th>배달일시</th>
+          <td colspan="4">
+            <span id="delivery-date-1">2025-05-20</span>
+            <span id="delivery-hour-1">8시</span>
+            <span id="delivery-minute-1">10분</span>
+            <span id="delivery-type-1">행사</span>
+            <img src="/images/fax_dicaon.png" alt="" border="0" align="absmiddle">
+          </td>
+        </tr>
+        <tr>
+          <th>배달장소</th>
+          <td colspan="4">
+            <p id="delivery-address-1">서울시 강남구 테헤란로 123 5층 대회의실</p>
+          </td>
+        </tr>
+        <tr>
+          <th rowspan="2">받는분</th>
+          <td rowspan="2"><span id="receiver-name-1">홍길동</span></td>
+          <th>전화</th>
+          <td colspan="2"><span id="receiver-tel-1">02-987-6543</span></td>
+        </tr>
+        <tr>
+          <th>휴대폰</th>
+          <td colspan="2"><span id="receiver-mobile-1">010-1111-2222</span></td>
+        </tr>
+        <tr>
+          <th>요청 사항</th>
+          <td colspan="4"><span id="order-notes-1">깨끗한 식물로 준비해 주세요.</span></td>
+        </tr>
+        <tr>
+          <th>리본</th>
+          <td colspan="4">
+            <span id="ribbon-text-1">축결혼</span>
+          </td>
+        </tr>
+        <tr>
+          <th>보내는 분</th>
+          <td colspan="4">
+            <span id="sender-name-1">김철수</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="cut-line no-print">
+      ------------------ 절 ------------------ 취 ----------------- 선 ------------------
+    </div>
+
+    <!-- 두 번째 영수증 (하단 부분) -->
+    <div class="order-section">
+      <table>
+        <tr>
+          <td>NO: <span id="order-no-2">OR-2025052001</span></td>
+          <td class="right">주문일시: <span id="order-date-2">2025-05-20 13:24:38</span></td>
+        </tr>
+      </table>
+
+      <table class="grid">
+        <tr>
+          <td colspan="6">
+            <table class="no_border">
+              <tr>
+                <td style="width: 33.33333%; line-height: 1.0em;"><img src="/images/sinsa-flower-logo-nobg.png" width="150" alt="신사 플라워 로고"></td>
+                <td style="width: 33.33333%; line-height: 1.0em; text-align: center;"><h3 style="font-size:30px;color:#000;font-weight:bold;vertical-align:middle;letter-spacing:4px;">주 문 서</h3></td>
+                <td style="width: 33.33333%; line-height: 1.0em; font-size:14px;font-weight:bold;" class="right">[직접발주]&nbsp;&nbsp;&nbsp;</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <th style="" rowspan="2">발주화원</th>
+          <td rowspan="2" colspan="3"><span id="order-shop-2">화환앤플라워</span></td>
+          <th style="">전화</th>
+          <td style=""><span id="order-shop-tel-2">1800-0468</span></td>
+        </tr>
+        <tr>
+          <th>휴대폰</th>
+          <td><span id="order-shop-mobile-2">010-1234-5678</span></td>
+        </tr>
+        <tr>
+          <th rowspan="2">수주화원</th>
+          <td rowspan="2" colspan="3"><span id="receive-shop-2">미소플라워</span></td>
+          <th>전화</th>
+          <td><span id="receive-shop-tel-2">02-123-4567</span></td>
+        </tr>
+        <tr>
+          <th>휴대폰</th>
+          <td><span id="receive-shop-mobile-2">010-9876-5432</span></td>
+        </tr>
+        <tr>
+          <th>상품명</th>
+          <td colspan="3"><span id="product-name-2">관엽식물</span></td>
+          <th>수량</th>
+          <td><span id="product-quantity-2">1</span></td>
+        </tr>
+        <tr>
+          <th>배달일시</th>
+          <td colspan="5">
+            <span id="delivery-date-2">2025-05-20</span>
+            <span id="delivery-hour-2">8시</span>
+            <span id="delivery-minute-2">10분</span>
+            <span id="delivery-type-2">행사</span>
+            <img src="/images/fax_dicaon.png" alt="" border="0" align="absmiddle">
+          </td>
+        </tr>
+        <tr>
+          <th>배달장소</th>
+          <td colspan="5">
+            <p id="delivery-address-2">서울시 강남구 테헤란로 123 5층 대회의실</p>
+          </td>
+        </tr>
+        <tr>
+          <th rowspan="2">받는분</th>
+          <td rowspan="2" colspan="3"><span id="receiver-name-2">홍길동</span></td>
+          <th>전화</th>
+          <td><span id="receiver-tel-2">02-987-6543</span></td>
+        </tr>
+        <tr>
+          <th>휴대폰</th>
+          <td><span id="receiver-mobile-2">010-1111-2222</span></td>
+        </tr>
+        <tr>
+          <th>리본</th>
+          <td colspan="5">
+            <span id="ribbon-text-2">축결혼</span>
+          </td>
+        </tr>
+        <tr>
+          <th>보내는 분</th>
+          <td colspan="5"><span id="sender-name-2">김철수</span></td>
+        </tr>
+        <tr>
+          <th style="width: 100px;">인수하신분</th>
+          <td>&nbsp;</td>
+          <th style="width: 100px;">관계</th>
+          <td style="width: 130px;">&nbsp;</td>
+          <th style="width: 100px;">인수시간</th>
+          <td style="width: 130px;">&nbsp;</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="button-container no-print">
+      <button type="button" onclick="window.print()" class="button blue2_button_70" style="cursor: pointer;">인 쇄 하 기</button>
+      <button type="button" onclick="window.close()" class="button blue2_button_70" style="cursor: pointer;">닫 기</button>
+      <button type="button" onclick="submitOrder()" class="button blue2_button_70" style="cursor: pointer;">발 주 하 기</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // URL 파라미터에서 주문 데이터 가져오기
+      const urlParams = new URLSearchParams(window.location.search);
+      const orderData = {};
+      
+      for (const [key, value] of urlParams.entries()) {
+        orderData[key] = decodeURIComponent(value);
+      }
+      
+      // 데이터를 양식에 채우기
+      if (Object.keys(orderData).length > 0) {
+        fillOrderData(orderData);
+      } else {
+        // 샘플 데이터 (URL 파라미터가 없을 경우)
+        // 실제 구현에서는 폼 데이터를 가져와서 사용
+      }
+    });
+    
+    function fillOrderData(data) {
+      // 첫 번째 영수증 데이터 채우기
+      document.getElementById('order-date-1').textContent = data.orderDate || '2025-05-20 13:24:38';
+      document.getElementById('order-shop-1').textContent = data.shopName || '화환앤플라워';
+      document.getElementById('order-shop-tel-1').textContent = data.shopTel || '1800-0468';
+      document.getElementById('order-shop-mobile-1').textContent = data.shopMobile || '010-1234-5678';
+      document.getElementById('receive-shop-1').textContent = data.receiveShop || '미소플라워';
+      document.getElementById('receive-shop-tel-1').textContent = data.receiveShopTel || '02-123-4567';
+      document.getElementById('receive-shop-mobile-1').textContent = data.receiveShopMobile || '010-9876-5432';
+      document.getElementById('product-name-1').textContent = data.productName || '관엽식물';
+      document.getElementById('original-price-1').textContent = data.originalPrice || '55,000';
+      document.getElementById('payment-price-1').textContent = data.paymentPrice || '55,000';
+      document.getElementById('delivery-date-1').textContent = data.deliveryDate || '2025-05-20';
+      document.getElementById('delivery-hour-1').textContent = data.deliveryHour || '8시';
+      document.getElementById('delivery-minute-1').textContent = data.deliveryMinute || '10분';
+      document.getElementById('delivery-type-1').textContent = data.deliveryType || '행사';
+      document.getElementById('delivery-address-1').textContent = data.deliveryAddress || '서울시 강남구 테헤란로 123 5층 대회의실';
+      document.getElementById('receiver-name-1').textContent = data.receiverName || '홍길동';
+      document.getElementById('receiver-tel-1').textContent = data.receiverTel || '02-987-6543';
+      document.getElementById('receiver-mobile-1').textContent = data.receiverMobile || '010-1111-2222';
+      document.getElementById('order-notes-1').textContent = data.orderNotes || '깨끗한 식물로 준비해 주세요.';
+      document.getElementById('ribbon-text-1').textContent = data.ribbonText || '축결혼';
+      document.getElementById('sender-name-1').textContent = data.senderName || '김철수';
+      
+      // 두 번째 영수증 데이터 채우기 (동일한 데이터 사용)
+      document.getElementById('order-date-2').textContent = data.orderDate || '2025-05-20 13:24:38';
+      document.getElementById('order-shop-2').textContent = data.shopName || '화환앤플라워';
+      document.getElementById('order-shop-tel-2').textContent = data.shopTel || '1800-0468';
+      document.getElementById('order-shop-mobile-2').textContent = data.shopMobile || '010-1234-5678';
+      document.getElementById('receive-shop-2').textContent = data.receiveShop || '미소플라워';
+      document.getElementById('receive-shop-tel-2').textContent = data.receiveShopTel || '02-123-4567';
+      document.getElementById('receive-shop-mobile-2').textContent = data.receiveShopMobile || '010-9876-5432';
+      document.getElementById('product-name-2').textContent = data.productName || '관엽식물';
+      document.getElementById('product-quantity-2').textContent = data.productQuantity || '1';
+      document.getElementById('delivery-date-2').textContent = data.deliveryDate || '2025-05-20';
+      document.getElementById('delivery-hour-2').textContent = data.deliveryHour || '8시';
+      document.getElementById('delivery-minute-2').textContent = data.deliveryMinute || '10분';
+      document.getElementById('delivery-type-2').textContent = data.deliveryType || '행사';
+      document.getElementById('delivery-address-2').textContent = data.deliveryAddress || '서울시 강남구 테헤란로 123 5층 대회의실';
+      document.getElementById('receiver-name-2').textContent = data.receiverName || '홍길동';
+      document.getElementById('receiver-tel-2').textContent = data.receiverTel || '02-987-6543';
+      document.getElementById('receiver-mobile-2').textContent = data.receiverMobile || '010-1111-2222';
+      document.getElementById('ribbon-text-2').textContent = data.ribbonText || '축결혼';
+      document.getElementById('sender-name-2').textContent = data.senderName || '김철수';
+    }
+    
+    function submitOrder() {
+      // 발주하기 기능 구현
+      if (window.opener && typeof window.opener.submitOrder === 'function') {
+        window.opener.submitOrder();
+      }
+      window.close();
+    }
+  </script>
+</body>
+</html>

@@ -148,6 +148,19 @@ public class User implements UserDetails {
     @Column(length = 255)
     private String bankAccountCopy;
 
+    // 지역별 검색을 위한 필드들 추가
+    @Column(length = 20)
+    private String businessProvince; // 사업장 광역시도 (예: 서울특별시, 경기도)
+    
+    @Column(length = 20)  
+    private String businessCity; // 사업장 시군구 (예: 강남구, 분당구)
+    
+    @Column(length = 20)
+    private String actualProvince; // 실제 주소 광역시도
+    
+    @Column(length = 20)
+    private String actualCity; // 실제 주소 시군구
+
     // 공통 필드
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt; // created_at
