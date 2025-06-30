@@ -36,4 +36,6 @@ public class PointUserController {
     public List<PointLedgerDto> getHistory(@AuthenticationPrincipal User user) {
         return pointUserService.getHistory(user);
     }
+
+    //@TODO 사용, 취소
 }

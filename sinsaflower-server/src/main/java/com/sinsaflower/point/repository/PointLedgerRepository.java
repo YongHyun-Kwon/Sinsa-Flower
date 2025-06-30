@@ -15,5 +15,7 @@ public interface PointLedgerRepository extends JpaRepository<PointLedger, Long> 
     @Query("SELECT COALESCE(SUM(pl.amount), 0) FROM PointLedger pl WHERE pl.user = :user")
     int getAvailablePoint(@Param("user") User user);
     List<PointLedger> findByUserOrderByCreatedAtDesc(User user);
-
+    List<PointLedger> findByTransactionIdAndType(String transactionId, PointLedger.Type type);
+    boolean existsByTransactionId(String transactionKey);
+    boolean existsByTransactionIdAndType(String transactionId, PointLedger.Type type);
 }

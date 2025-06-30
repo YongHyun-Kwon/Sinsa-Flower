@@ -1,6 +1,5 @@
 package com.sinsaflower.point.service;
 
-import com.sinsaflower.domain.user.User;
 import com.sinsaflower.point.domain.PointChargeRequest;
 import com.sinsaflower.point.domain.PointLedger;
 import com.sinsaflower.point.domain.SourceType;
@@ -32,9 +31,9 @@ public class PointAdminService {
         PointChargeRequest request = pointRequestChargeRepository.findById(id).orElseThrow();
         request.confirm();
 
-        PointLedger ledger = PointLedger.charge(request.getUser(), request.getRequestedAmount(), "충전 요청 승인");
-        ledger.setSourceType(SourceType.CHARGE_REQUEST);
-        pointLedgerRepository.save(ledger);
+//        PointLedger ledger = PointLedger.earn(request.getUser(), request.getRequestedAmount(), "충전 요청 승인");
+//        ledger.setSourceType(SourceType.CHARGE_REQUEST);
+//        pointLedgerRepository.save(ledger);
     }
 
     @Transactional
